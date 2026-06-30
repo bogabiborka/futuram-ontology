@@ -1,0 +1,383 @@
+@prefix ceonp: <http://w3id.org/CEON/ontology/product/> .
+@prefix ceonpo: <http://w3id.org/CEON/ontology/processODP/> .
+@prefix ceonq: <http://w3id.org/CEON/ontology/quantity/> .
+@prefix ceonr: <http://w3id.org/CEON/ontology/resourceODP/> .
+@prefix dqv: <http://www.w3.org/ns/dqv#> .
+@prefix futuram: <https://www.purl.org/futuram#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix qudt: <http://qudt.org/schema/qudt/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix unit: <http://qudt.org/vocab/unit/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+futuram:BetaDistributionShape a sh:NodeShape ;
+    rdfs:label "Beta distribution parameter shape"@en ;
+    sh:property [ sh:datatype xsd:double ;
+            sh:maxCount 1 ;
+            sh:message "A BetaDistribution requires exactly one positive futuram:alpha." ;
+            sh:minCount 1 ;
+            sh:minExclusive 0.0 ;
+            sh:path futuram:alpha ;
+            sh:severity sh:Violation ],
+        [ sh:datatype xsd:double ;
+            sh:maxCount 1 ;
+            sh:message "A BetaDistribution requires exactly one positive futuram:beta." ;
+            sh:minCount 1 ;
+            sh:minExclusive 0.0 ;
+            sh:path futuram:beta ;
+            sh:severity sh:Violation ] ;
+    sh:targetClass futuram:BetaDistribution .
+
+futuram:ClassCompositionLevelAdjacencyShape a sh:NodeShape ;
+    rdfs:label "Class composition is strict one-step-down (no level skips in the class view)"@en ;
+    sh:severity sh:Violation ;
+    sh:sparql [ a sh:SPARQLConstraint ;
+            sh:message "Level skip in the CLASS view: a futuram:hasComposition edge connects classes more than one level apart (e.g. Product→Element or Product→Material or Component→Element). The class composition must be clean Product→Component→Material→Element, one step at a time; coarse content must route through the unknownComponent/unknownMaterial filler chain (complete-chains.rq) and lift one step at a time (infer-class-composition.rq)." ;
+            sh:select """
+            PREFIX futuram: <https://www.purl.org/futuram#>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT DISTINCT $this WHERE {
+                $this futuram:hasComposition ?part .
+                {
+                    # Product → Element (skips Component + Material)
+                    $this rdfs:subClassOf* futuram:Product .
+                    ?part rdfs:subClassOf* futuram:Element .
+                }
+                UNION
+                {
+                    # Product → Material (skips Component)
+                    $this rdfs:subClassOf* futuram:Product .
+                    ?part rdfs:subClassOf* futuram:Material .
+                }
+                UNION
+                {
+                    # Component → Element (skips Material)
+                    $this rdfs:subClassOf* futuram:Component .
+                    ?part rdfs:subClassOf* futuram:Element .
+                }
+            }
+        """ ] ;
+    sh:targetSubjectsOf futuram:hasComposition .
+
+futuram:CompositionStatementShape a sh:NodeShape ;
+    rdfs:label "Composition statement shape"@en ;
+    sh:message "A CompositionStatement must state its validity period (futuram:hasValidityPeriod, or at least futuram:validFrom)." ;
+    sh:or ( [ sh:property [ sh:minCount 1 ;
+                        sh:path futuram:hasValidityPeriod ] ] [ sh:property [ sh:minCount 1 ;
+                        sh:path futuram:validFrom ] ] ) ;
+    sh:property [ sh:class futuram:PartRelation ;
+            sh:message "A CompositionStatement must group at least one futuram:hasPartRelation (a futuram:PartRelation per constituent)." ;
+            sh:minCount 1 ;
+            sh:path futuram:hasPartRelation ;
+            sh:severity sh:Violation ],
+        [ sh:datatype xsd:date ;
+            sh:maxCount 1 ;
+            sh:message "futuram:validFrom must be a single xsd:date." ;
+            sh:path futuram:validFrom ;
+            sh:severity sh:Violation ],
+        [ sh:datatype xsd:date ;
+            sh:maxCount 1 ;
+            sh:message "futuram:validUntil must be a single xsd:date." ;
+            sh:path futuram:validUntil ;
+            sh:severity sh:Violation ],
+        [ sh:class prov:Entity ;
+            sh:message "A CompositionStatement must record at least one prov:hadPrimarySource (a prov:Entity / futuram:Source)." ;
+            sh:minCount 1 ;
+            sh:path prov:hadPrimarySource ;
+            sh:severity sh:Violation ],
+        [ sh:class prov:Agent ;
+            sh:message "A CompositionStatement must record at least one prov:wasAttributedTo agent (who asserted it)." ;
+            sh:minCount 1 ;
+            sh:path prov:wasAttributedTo ;
+            sh:severity sh:Violation ],
+        [ sh:class dqv:QualityMeasurement ;
+            sh:message "dqv:hasQualityMeasurement must point at a dqv:QualityMeasurement." ;
+            sh:path dqv:hasQualityMeasurement ;
+            sh:severity sh:Violation ],
+        [ sh:class ceonr:Constituent ;
+            sh:maxCount 1 ;
+            sh:message "A CompositionStatement must have exactly one ceon:compositionOf (the whole individual it is the composition of)." ;
+            sh:minCount 1 ;
+            sh:node futuram:NotAClassShape ;
+            sh:path ceonp:compositionOf ;
+            sh:severity sh:Violation ],
+        [ sh:class time:Interval ;
+            sh:maxCount 1 ;
+            sh:message "futuram:hasValidityPeriod must be a single W3C time:Interval." ;
+            sh:path futuram:hasValidityPeriod ;
+            sh:severity sh:Violation ] ;
+    sh:severity sh:Violation ;
+    sh:targetClass futuram:CompositionStatement .
+
+futuram:GammaDistributionShape a sh:NodeShape ;
+    rdfs:label "Gamma distribution parameter shape"@en ;
+    sh:property [ sh:datatype xsd:double ;
+            sh:maxCount 1 ;
+            sh:message "A GammaDistribution requires exactly one positive futuram:shapeParam (k)." ;
+            sh:minCount 1 ;
+            sh:minExclusive 0.0 ;
+            sh:path futuram:shapeParam ;
+            sh:severity sh:Violation ],
+        [ sh:datatype xsd:double ;
+            sh:maxCount 1 ;
+            sh:message "A GammaDistribution requires exactly one positive futuram:scaleParam (theta)." ;
+            sh:minCount 1 ;
+            sh:minExclusive 0.0 ;
+            sh:path futuram:scaleParam ;
+            sh:severity sh:Violation ] ;
+    sh:targetClass futuram:GammaDistribution .
+
+futuram:LogNormalDistributionShape a sh:NodeShape ;
+    rdfs:label "Log-normal distribution parameter shape"@en ;
+    sh:property [ sh:datatype xsd:double ;
+            sh:maxCount 1 ;
+            sh:message "A LogNormalDistribution requires exactly one positive futuram:logStdDev (the median is the interval's best value)." ;
+            sh:minCount 1 ;
+            sh:minExclusive 0.0 ;
+            sh:path futuram:logStdDev ;
+            sh:severity sh:Violation ] ;
+    sh:targetClass futuram:LogNormalDistribution .
+
+futuram:NormalDistributionShape a sh:NodeShape ;
+    rdfs:label "Normal distribution parameter shape"@en ;
+    sh:property [ sh:datatype xsd:double ;
+            sh:maxCount 1 ;
+            sh:message "A NormalDistribution requires exactly one positive futuram:stdDev (the mean is the interval's best value)." ;
+            sh:minCount 1 ;
+            sh:minExclusive 0.0 ;
+            sh:path futuram:stdDev ;
+            sh:severity sh:Violation ] ;
+    sh:targetClass futuram:NormalDistribution .
+
+futuram:PartRelationShape a sh:NodeShape ;
+    rdfs:label "Part relation shape"@en ;
+    sh:property [ sh:class ceonr:Constituent ;
+            sh:maxCount 1 ;
+            sh:message "A PartRelation must refer to exactly one part (an individual ceon:Constituent) via futuram:refersTo." ;
+            sh:minCount 1 ;
+            sh:node futuram:NotAClassShape ;
+            sh:path futuram:refersTo ;
+            sh:severity sh:Violation ],
+        [ sh:class ceonq:QuantityInterval ;
+            sh:maxCount 1 ;
+            sh:message "A PartRelation must have exactly one futuram:hasQuantity (a ceon:QuantityInterval)." ;
+            sh:minCount 1 ;
+            sh:path futuram:hasQuantity ;
+            sh:severity sh:Violation ],
+        [ sh:in ( unit:KiloGM-PER-KiloGM unit:GM-PER-KiloGM ) ;
+            sh:message "A PartRelation must express the part per 1 kg of the whole: every quantity endpoint must use a mass-fraction unit." ;
+            sh:path ( futuram:hasQuantity [ sh:alternativePath ( futuram:hasBestValue ceonq:hasMinimalValueIncludedOfInterval ceonq:hasMaximalValueIncludedOfInterval ) ] qudt:unit ) ;
+            sh:severity sh:Violation ],
+        [ sh:class ceonpo:Process ;
+            sh:message "A PartRelation must have at least one futuram:hasProduction pointing at a ceon:Process." ;
+            sh:minCount 1 ;
+            sh:path futuram:hasProduction ;
+            sh:severity sh:Violation ],
+        [ sh:class dqv:QualityMeasurement ;
+            sh:message "dqv:hasQualityMeasurement must point at a dqv:QualityMeasurement." ;
+            sh:path dqv:hasQualityMeasurement ;
+            sh:severity sh:Violation ] ,
+        # ALL SIX data-quality dimensions must be measured: the rectangular
+        # uncertainty rule (weighted sum + bands) is defined over the complete vector
+        # (Validity, Accuracy, Consistency, Integrity, Timeliness, Completeness); a
+        # partial DQ assessment would band to the wrong limit. One quality measurement
+        # per dimension's futuram:<Dim>Score metric is required.
+        [ sh:path dqv:hasQualityMeasurement ;
+            sh:qualifiedMinCount 1 ;
+            sh:message "A PartRelation must measure Validity (futuram:ValidityScore)." ;
+            sh:qualifiedValueShape [ sh:property [ sh:path dqv:isMeasurementOf ; sh:hasValue futuram:ValidityScore ] ] ;
+            sh:severity sh:Violation ] ,
+        [ sh:path dqv:hasQualityMeasurement ;
+            sh:qualifiedMinCount 1 ;
+            sh:message "A PartRelation must measure Accuracy (futuram:AccuracyScore)." ;
+            sh:qualifiedValueShape [ sh:property [ sh:path dqv:isMeasurementOf ; sh:hasValue futuram:AccuracyScore ] ] ;
+            sh:severity sh:Violation ] ,
+        [ sh:path dqv:hasQualityMeasurement ;
+            sh:qualifiedMinCount 1 ;
+            sh:message "A PartRelation must measure Consistency (futuram:ConsistencyScore)." ;
+            sh:qualifiedValueShape [ sh:property [ sh:path dqv:isMeasurementOf ; sh:hasValue futuram:ConsistencyScore ] ] ;
+            sh:severity sh:Violation ] ,
+        [ sh:path dqv:hasQualityMeasurement ;
+            sh:qualifiedMinCount 1 ;
+            sh:message "A PartRelation must measure Integrity (futuram:IntegrityScore)." ;
+            sh:qualifiedValueShape [ sh:property [ sh:path dqv:isMeasurementOf ; sh:hasValue futuram:IntegrityScore ] ] ;
+            sh:severity sh:Violation ] ,
+        [ sh:path dqv:hasQualityMeasurement ;
+            sh:qualifiedMinCount 1 ;
+            sh:message "A PartRelation must measure Timeliness (futuram:TimelinessScore)." ;
+            sh:qualifiedValueShape [ sh:property [ sh:path dqv:isMeasurementOf ; sh:hasValue futuram:TimelinessScore ] ] ;
+            sh:severity sh:Violation ] ,
+        [ sh:path dqv:hasQualityMeasurement ;
+            sh:qualifiedMinCount 1 ;
+            sh:message "A PartRelation must measure Completeness (futuram:CompletenessScore)." ;
+            sh:qualifiedValueShape [ sh:property [ sh:path dqv:isMeasurementOf ; sh:hasValue futuram:CompletenessScore ] ] ;
+            sh:severity sh:Violation ] ;
+    sh:targetClass futuram:PartRelation .
+
+futuram:QualityMeasurementShape a sh:NodeShape ;
+    rdfs:label "Quality measurement shape"@en ;
+    sh:property [ sh:datatype xsd:double ;
+            sh:maxCount 1 ;
+            sh:maxInclusive 3.0 ;
+            sh:message "A FutuRaM quality measurement value must be a single xsd:double on the 0–3 scale." ;
+            sh:minCount 1 ;
+            sh:minInclusive 0.0 ;
+            sh:path dqv:value ;
+            sh:severity sh:Violation ],
+        [ sh:class dqv:Metric ;
+            sh:maxCount 1 ;
+            sh:message "A quality measurement must be dqv:isMeasurementOf exactly one dqv:Metric." ;
+            sh:minCount 1 ;
+            sh:path dqv:isMeasurementOf ;
+            sh:severity sh:Violation ] ;
+    sh:targetClass dqv:QualityMeasurement .
+
+futuram:QuantityIntervalShape a sh:NodeShape ;
+    rdfs:label "Quantity interval shape"@en ;
+    sh:property [ sh:class qudt:QuantityValue ;
+            sh:maxCount 1 ;
+            sh:message "A ceon:QuantityInterval must carry exactly one futuram:hasBestValue (the central best estimate, a qudt:QuantityValue)." ;
+            sh:minCount 1 ;
+            sh:path futuram:hasBestValue ;
+            sh:severity sh:Violation ],
+        [ sh:class qudt:QuantityValue ;
+            sh:maxCount 1 ;
+            sh:path ceonq:hasMinimalValueIncludedOfInterval ;
+            sh:severity sh:Violation ],
+        [ sh:class qudt:QuantityValue ;
+            sh:maxCount 1 ;
+            sh:path ceonq:hasMaximalValueIncludedOfInterval ;
+            sh:severity sh:Violation ],
+        [ sh:class futuram:Distribution ;
+            sh:maxCount 1 ;
+            sh:message "A ceon:QuantityInterval must have exactly one futuram:hasDistribution (a futuram:Distribution, e.g. futuram:TriangularDistribution); the min/max spread stays optional." ;
+            sh:minCount 1 ;
+            sh:path futuram:hasDistribution ;
+            sh:severity sh:Violation ] ;
+    sh:targetClass ceonq:QuantityInterval .
+
+futuram:QuantityValueShape a sh:NodeShape ;
+    rdfs:label "QUDT quantity value shape"@en ;
+    sh:property [ sh:datatype xsd:double ;
+            sh:maxCount 1 ;
+            sh:message "A qudt:QuantityValue must have exactly one xsd:double qudt:numericValue." ;
+            sh:minCount 1 ;
+            sh:path qudt:numericValue ;
+            sh:severity sh:Violation ],
+        [ sh:in ( unit:KiloGM unit:KiloGM-PER-KiloGM unit:GM-PER-KiloGM ) ;
+            sh:maxCount 1 ;
+            sh:message "A qudt:unit must be unit:KiloGM (absolute mass, itemMass only), unit:KiloGM-PER-KiloGM (kg/kg), or unit:GM-PER-KiloGM (g/kg). No other unit is allowed." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:path qudt:unit ;
+            sh:severity sh:Violation ] ;
+    sh:targetClass qudt:QuantityValue .
+
+futuram:StatementPartShape a sh:NodeShape ;
+    rdfs:label "Statement part (object) shape"@en ;
+    sh:class ceonr:Constituent ;
+    sh:message "An instance used as a statementPart must be an individual ceon:Constituent, not a class." ;
+    sh:node futuram:NotAClassShape ;
+    sh:targetObjectsOf futuram:refersTo .
+
+futuram:StatementWholeShape a sh:NodeShape ;
+    rdfs:label "Statement whole (object) shape"@en ;
+    sh:class ceonr:Constituent ;
+    sh:message "An Element is a leaf and must never be the futuram:statementWhole of a composition statement (only ever a statementPart).",
+        "An instance used as a statementWhole must be an individual ceon:Constituent, not a class." ;
+    sh:node futuram:NotAClassShape ;
+    sh:not [ sh:class futuram:Element ] ;
+    sh:property [ sh:message "Mass is not conserved: the parts of this whole necessarily weigh more than the whole itself (overshoot)." ;
+            sh:not [ sh:hasValue false ] ;
+            sh:path futuram:massConserved ;
+            sh:severity sh:Violation ] ;
+    sh:targetObjectsOf ceonp:compositionOf .
+
+futuram:TriangularDistributionShape a sh:NodeShape ;
+    rdfs:label "Triangular distribution parameter shape"@en ;
+    sh:property [ sh:datatype xsd:double ;
+            sh:maxCount 1 ;
+            sh:message "A TriangularDistribution requires exactly one futuram:lowerBound (xsd:double)." ;
+            sh:minCount 1 ;
+            sh:path futuram:lowerBound ;
+            sh:severity sh:Violation ],
+        [ sh:datatype xsd:double ;
+            sh:maxCount 1 ;
+            sh:message "A TriangularDistribution requires exactly one futuram:upperBound (xsd:double)." ;
+            sh:minCount 1 ;
+            sh:path futuram:upperBound ;
+            sh:severity sh:Violation ] ;
+    sh:targetClass futuram:TriangularDistribution .
+
+futuram:UniformDistributionShape a sh:NodeShape ;
+    rdfs:label "Uniform distribution parameter shape"@en ;
+    sh:property [ sh:datatype xsd:double ;
+            sh:maxCount 1 ;
+            sh:message "A UniformDistribution requires exactly one futuram:lowerBound (xsd:double)." ;
+            sh:minCount 1 ;
+            sh:path futuram:lowerBound ;
+            sh:severity sh:Violation ],
+        [ sh:datatype xsd:double ;
+            sh:maxCount 1 ;
+            sh:message "A UniformDistribution requires exactly one futuram:upperBound (xsd:double)." ;
+            sh:minCount 1 ;
+            sh:path futuram:upperBound ;
+            sh:severity sh:Violation ] ;
+    sh:targetClass futuram:UniformDistribution .
+
+futuram:RectangularDistributionShape a sh:NodeShape ;
+    rdfs:label "Rectangular distribution parameter shape"@en ;
+    rdfs:comment "A RectangularDistribution must declare HOW its half-width is set: either a futuram:uncertaintyLimitStrategy (the usual case — the limit is derived from the statement's DQ scores by the strategy) OR a directly-asserted futuram:uncertaintyLimit. At most one numeric limit; the strategy is an IRI."@en ;
+    sh:or (
+        [ sh:property [ sh:path futuram:uncertaintyLimitStrategy ; sh:minCount 1 ] ]
+        [ sh:property [ sh:path futuram:uncertaintyLimit ; sh:minCount 1 ] ]
+    ) ;
+    sh:property [ sh:datatype xsd:double ;
+            sh:maxCount 1 ;
+            sh:message "A RectangularDistribution carries at most one futuram:uncertaintyLimit (xsd:double); normally none — the half-width is derived from the DQ scores by futuram:uncertaintyLimitStrategy." ;
+            sh:path futuram:uncertaintyLimit ;
+            sh:severity sh:Violation ] ;
+    sh:targetClass futuram:RectangularDistribution .
+
+futuram:ValidityIntervalShape a sh:NodeShape ;
+    rdfs:label "Validity interval shape"@en ;
+    sh:message "A validity time:Interval should carry at least one of time:hasBeginning or time:hasEnd." ;
+    sh:or ( [ sh:property [ sh:minCount 1 ;
+                        sh:path time:hasBeginning ] ] [ sh:property [ sh:minCount 1 ;
+                        sh:path time:hasEnd ] ] ) ;
+    sh:property [ sh:class time:Instant ;
+            sh:maxCount 1 ;
+            sh:path time:hasBeginning ;
+            sh:severity sh:Violation ],
+        [ sh:class time:Instant ;
+            sh:maxCount 1 ;
+            sh:path time:hasEnd ;
+            sh:severity sh:Violation ] ;
+    sh:severity sh:Warning ;
+    sh:targetClass time:Interval .
+
+futuram:WeibullDistributionShape a sh:NodeShape ;
+    rdfs:label "Weibull distribution parameter shape"@en ;
+    sh:property [ sh:datatype xsd:double ;
+            sh:maxCount 1 ;
+            sh:message "A WeibullDistribution requires exactly one positive futuram:shapeParam (k)." ;
+            sh:minCount 1 ;
+            sh:minExclusive 0.0 ;
+            sh:path futuram:shapeParam ;
+            sh:severity sh:Violation ],
+        [ sh:datatype xsd:double ;
+            sh:maxCount 1 ;
+            sh:message "A WeibullDistribution requires exactly one positive futuram:scaleParam (lambda)." ;
+            sh:minCount 1 ;
+            sh:minExclusive 0.0 ;
+            sh:path futuram:scaleParam ;
+            sh:severity sh:Violation ] ;
+    sh:targetClass futuram:WeibullDistribution .
+
+futuram:NotAClassShape a sh:NodeShape ;
+    sh:not [ sh:class owl:Class ] .
+

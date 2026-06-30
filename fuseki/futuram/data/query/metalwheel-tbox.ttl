@@ -1,0 +1,165 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://purl.org/metalwheel#> a owl:Ontology .
+
+<https://purl.org/metalwheel#AgileBaseMetalProcessing> a owl:Class ;
+    rdfs:label "AgileBaseMetalProcessing" ;
+    rdfs:subClassOf <https://purl.org/metalwheel#Fraction> .
+
+<https://purl.org/metalwheel#Compound> a owl:Class ;
+    rdfs:label "Compound" ;
+    rdfs:subClassOf <https://purl.org/metalwheel#Type> .
+
+<https://purl.org/metalwheel#CompoundsPrimarilyToDustSlimeSpeiss_HydrometallurgyAndRefiningRoute> a owl:Class ;
+    rdfs:label "CompoundsPrimarilyToDustSlimeSpeiss_HydrometallurgyAndRefiningRoute" ;
+    rdfs:subClassOf <https://purl.org/metalwheel#Fraction> .
+
+<https://purl.org/metalwheel#DissolvesPrimarilyInBaseMetalIfMetallic> a owl:Class ;
+    rdfs:label "DissolvesPrimarilyInBaseMetalIfMetallic" ;
+    rdfs:subClassOf <https://purl.org/metalwheel#Fraction> .
+
+<https://purl.org/metalwheel#ElectrolysisRemeltRefine> a owl:Class ;
+    rdfs:label "electrolysis; remelt; refine" ;
+    rdfs:subClassOf <https://purl.org/metalwheel#RecoveryProcess> .
+
+<https://purl.org/metalwheel#Element> a owl:Class ;
+    rdfs:label "Element" ;
+    rdfs:subClassOf <https://purl.org/metalwheel#Type> .
+
+<https://purl.org/metalwheel#HydroAndPyrometallurgy> a owl:Class ;
+    rdfs:label "hydro- and pyrometallurgy" ;
+    rdfs:subClassOf <https://purl.org/metalwheel#RecoveryProcess> .
+
+<https://purl.org/metalwheel#HydrometallurgyBatteryRecycling> a owl:Class ;
+    rdfs:label "hydrometallurgy; battery recycling" ;
+    rdfs:subClassOf <https://purl.org/metalwheel#RecoveryProcess> .
+
+<https://purl.org/metalwheel#MainlyLostElement> a owl:Class ;
+    rdfs:label "MainlyLostElement" ;
+    rdfs:subClassOf <https://purl.org/metalwheel#ExpectedRecoveryEffectiveness> ;
+    owl:equivalentClass [ a owl:Restriction ;
+            owl:hasValue 0.0 ;
+            owl:onProperty <https://purl.org/metalwheel#Efficiency> ] .
+
+<https://purl.org/metalwheel#PrimarilyLostToBenign> a owl:Class ;
+    rdfs:label "PrimarilyLostToBenign" ;
+    rdfs:subClassOf <https://purl.org/metalwheel#Fraction> .
+
+<https://purl.org/metalwheel#PyroHydroClMetallurgyRemeltFeTiAlloy> a owl:Class ;
+    rdfs:label "pyro-; hydro-; Cl-metallurgy; remelt; Fe-Ti alloy" ;
+    rdfs:subClassOf <https://purl.org/metalwheel#RecoveryProcess> .
+
+<https://purl.org/metalwheel#RLESmeltFumeRefine> a owl:Class ;
+    rdfs:label "roast-leach electrowinning (RLE); smelt;fume;refine" ;
+    rdfs:subClassOf <https://purl.org/metalwheel#RecoveryProcess> .
+
+<https://purl.org/metalwheel#RecoveredInAlloyCompoundOrLost> a owl:Class ;
+    rdfs:label "RecoveredInAlloyCompoundOrLost" ;
+    rdfs:subClassOf <https://purl.org/metalwheel#ExpectedRecoveryEffectiveness> ;
+    owl:equivalentClass [ a owl:Restriction ;
+            owl:allValuesFrom [ a rdfs:Datatype ;
+                    owl:onDatatype xsd:decimal ;
+                    owl:withRestrictions [ rdf:first [ rdf:rest [ rdf:rest () ;
+                                            xsd:maxInclusive 0.6 ] ;
+                                    xsd:minInclusive 0.3 ] ] ] ;
+            owl:onProperty <https://purl.org/metalwheel#Efficiency> ] .
+
+<https://purl.org/metalwheel#SmeltFumeRefine> a owl:Class ;
+    rdfs:label "smelt; fume; refine" ;
+    rdfs:subClassOf <https://purl.org/metalwheel#RecoveryProcess> .
+
+<https://purl.org/metalwheel#SmeltRefine> a owl:Class ;
+    rdfs:label "smelt; refine" ;
+    rdfs:subClassOf <https://purl.org/metalwheel#RecoveryProcess> .
+
+<https://purl.org/metalwheel#StainlessSteelAndFerroalloys> a owl:Class ;
+    rdfs:label "stainless steel and ferroalloys" ;
+    rdfs:subClassOf <https://purl.org/metalwheel#RecoveryProcess> .
+
+<https://purl.org/metalwheel#SteelBasicOxygenFurnaceAndElectricArcFurnace> a owl:Class ;
+    rdfs:label "steel (basic oxygen furnace and electric arc furnace)" ;
+    rdfs:subClassOf <https://purl.org/metalwheel#RecoveryProcess> .
+
+<https://purl.org/metalwheel#TargetedElement> owl:sameAs <https://purl.org/metalwheel#MainlyRecoveredElement> .
+
+<https://purl.org/metalwheel#TransformationInducedPlasticitySteelAusteniticFerroalloys> a owl:Class ;
+    rdfs:label "transformation-Induced Plasticity steel; austenitic; ferroalloys" ;
+    rdfs:subClassOf <https://purl.org/metalwheel#RecoveryProcess> .
+
+<https://purl.org/metalwheel#foundIn> a owl:ObjectProperty ;
+    rdfs:label "foundIn" ;
+    rdfs:domain <https://purl.org/metalwheel#RecoveryInformation> ;
+    rdfs:range <https://purl.org/metalwheel#Fraction> .
+
+<https://purl.org/metalwheel#hasBaseMetal> a owl:ObjectProperty ;
+    rdfs:label "hasBaseMetal" ;
+    rdfs:domain <https://purl.org/metalwheel#RecoveryInformation> ;
+    rdfs:range <https://purl.org/metalwheel#BaseMetal> .
+
+<https://purl.org/metalwheel#hasElementOrCompound> a owl:ObjectProperty ;
+    rdfs:label "hasElementOrCompound" ;
+    rdfs:domain <https://purl.org/metalwheel#Dataentry> ;
+    rdfs:range <https://purl.org/metalwheel#ElementOrCompound> .
+
+<https://purl.org/metalwheel#hasExpectedRecoveryEffectiveness> a owl:ObjectProperty ;
+    rdfs:label "hasExpectedRecoveryEffectiveness" ;
+    rdfs:domain <https://purl.org/metalwheel#RecoveryInformation> ;
+    rdfs:range <https://purl.org/metalwheel#ExpectedRecoveryEffectiveness> .
+
+<https://purl.org/metalwheel#hasRecoveryInformation> a owl:ObjectProperty ;
+    rdfs:label "hasRecoveryInformation" ;
+    rdfs:domain <https://purl.org/metalwheel#ElementOrCompound> ;
+    rdfs:range <https://purl.org/metalwheel#RecoveryInformation> .
+
+<https://purl.org/metalwheel#hasRecoveryProcess> a owl:ObjectProperty ;
+    rdfs:label "hasRecoveryProcess" ;
+    rdfs:domain <https://purl.org/metalwheel#RecoveryInformation> ;
+    rdfs:range <https://purl.org/metalwheel#RecoveryProcess> .
+
+<https://purl.org/metalwheel#hasType> a owl:ObjectProperty ;
+    rdfs:label "hasType" ;
+    rdfs:domain <https://purl.org/metalwheel#ElementOrCompound> ;
+    rdfs:range <https://purl.org/metalwheel#Type> .
+
+<https://purl.org/metalwheel#BaseMetal> a owl:Class ;
+    rdfs:label "BaseMetal" .
+
+<https://purl.org/metalwheel#Dataentry> a owl:Class ;
+    rdfs:label "Dataentry" .
+
+<https://purl.org/metalwheel#MainlyRecoveredElement> a owl:Class ;
+    rdfs:label "MainlyRecoveredElement" ;
+    rdfs:subClassOf <https://purl.org/metalwheel#ExpectedRecoveryEffectiveness> ;
+    owl:equivalentClass [ a owl:Restriction ;
+            owl:allValuesFrom [ a rdfs:Datatype ;
+                    owl:onDatatype xsd:decimal ;
+                    owl:withRestrictions [ rdf:first [ rdf:rest [ rdf:rest () ;
+                                            xsd:maxInclusive 0.9 ] ;
+                                    xsd:minInclusive 0.7 ] ] ] ;
+            owl:onProperty <https://purl.org/metalwheel#Efficiency> ] .
+
+<https://purl.org/metalwheel#Efficiency> a owl:DatatypeProperty ;
+    rdfs:domain <https://purl.org/metalwheel#ExpectedRecoveryEffectiveness> ;
+    rdfs:range xsd:decimal .
+
+<https://purl.org/metalwheel#ElementOrCompound> a owl:Class ;
+    rdfs:label "ElementOrCompound" .
+
+<https://purl.org/metalwheel#Type> a owl:Class ;
+    rdfs:label "Type" .
+
+<https://purl.org/metalwheel#ExpectedRecoveryEffectiveness> a owl:Class ;
+    rdfs:label "ExpectedRecoveryEffectiveness" .
+
+<https://purl.org/metalwheel#Fraction> a owl:Class ;
+    rdfs:label "Fraction" .
+
+<https://purl.org/metalwheel#RecoveryInformation> a owl:Class ;
+    rdfs:label "RecoveryInformation" .
+
+<https://purl.org/metalwheel#RecoveryProcess> a owl:Class ;
+    rdfs:label "RecoveryProcess" .
+

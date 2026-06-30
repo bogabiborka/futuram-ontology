@@ -1,0 +1,105 @@
+@prefix chebi: <http://purl.obolibrary.org/obo/CHEBI_> .
+@prefix criticality: <http://purl.org/futuram/criticality#> .
+
+chebi:18291 criticality:remark criticality:CRITICAL_AND_STRATEGIC_2024 .
+
+chebi:25107 criticality:remark criticality:CRITICAL_AND_STRATEGIC_2024 .
+
+chebi:27560 criticality:remark criticality:CRITICAL_AND_STRATEGIC_2024 .
+
+chebi:27563 criticality:remark criticality:CRITICAL_2024 .
+
+chebi:27573 criticality:remark criticality:CRITICAL_AND_STRATEGIC_2024 .
+
+chebi:27638 criticality:remark criticality:CRITICAL_AND_STRATEGIC_2024 .
+
+chebi:27698 criticality:remark criticality:CRITICAL_2024 .
+
+chebi:27998 criticality:remark criticality:CRITICAL_AND_STRATEGIC_2024 .
+
+chebi:28112 criticality:remark criticality:CRITICAL_AND_STRATEGIC_2024 .
+
+chebi:28659 criticality:remark criticality:CRITICAL_2024 .
+
+chebi:28694 criticality:remark criticality:CRITICAL_AND_STRATEGIC_2024 .
+
+chebi:28984 criticality:remark criticality:CRITICAL_AND_STRATEGIC_2024 .
+
+chebi:30145 criticality:remark criticality:CRITICAL_AND_STRATEGIC_2024 .
+
+chebi:30217 criticality:remark criticality:CRITICAL_2024 .
+
+chebi:30441 criticality:remark criticality:CRITICAL_AND_STRATEGIC_2024 .
+
+chebi:30501 criticality:remark criticality:CRITICAL_2024 .
+
+chebi:30513 criticality:remark criticality:CRITICAL_2024 .
+
+chebi:30682 criticality:remark criticality:CRITICAL_AND_STRATEGIC_2024 .
+
+chebi:30687 criticality:remark criticality:CRITICAL_AND_STRATEGIC_2024 .
+
+chebi:32999 criticality:remark criticality:CRITICAL_2024 .
+
+chebi:33301 criticality:remark criticality:CRITICAL_AND_STRATEGIC_2024 .
+
+chebi:33324 criticality:remark criticality:CRITICAL_2024 .
+
+chebi:33330 criticality:remark criticality:CRITICAL_2024 .
+
+chebi:33331 criticality:remark criticality:CRITICAL_2024 .
+
+chebi:33336 criticality:remark criticality:CRITICAL_2024 .
+
+chebi:33341 criticality:remark criticality:CRITICAL_AND_STRATEGIC_2024 .
+
+chebi:33343 criticality:remark criticality:CRITICAL_2024 .
+
+chebi:33344 criticality:remark criticality:CRITICAL_2024 .
+
+chebi:33348 criticality:remark criticality:CRITICAL_2024 .
+
+chebi:33359 criticality:remark criticality:CRITICAL_AND_STRATEGIC_2024 .
+
+chebi:33363 criticality:remark criticality:CRITICAL_AND_STRATEGIC_2024 .
+
+chebi:33364 criticality:remark criticality:CRITICAL_AND_STRATEGIC_2024 .
+
+chebi:33369 criticality:remark criticality:CRITICAL_AND_STRATEGIC_2024 .
+
+chebi:33372 criticality:remark criticality:CRITICAL_AND_STRATEGIC_2024 .
+
+chebi:33374 criticality:remark criticality:CRITICAL_AND_STRATEGIC_2024 .
+
+chebi:33375 criticality:remark criticality:CRITICAL_AND_STRATEGIC_2024 .
+
+chebi:33376 criticality:remark criticality:CRITICAL_AND_STRATEGIC_2024 .
+
+chebi:33377 criticality:remark criticality:CRITICAL_AND_STRATEGIC_2024 .
+
+chebi:33379 criticality:remark criticality:CRITICAL_2024 .
+
+chebi:33380 criticality:remark criticality:CRITICAL_2024 .
+
+chebi:33381 criticality:remark criticality:CRITICAL_2024 .
+
+chebi:33382 criticality:remark criticality:CRITICAL_2024 .
+
+chebi:49631 criticality:remark criticality:CRITICAL_AND_STRATEGIC_2024 .
+
+chebi:49648 criticality:remark criticality:CRITICAL_2024 .
+
+chebi:49666 criticality:remark criticality:CRITICAL_AND_STRATEGIC_2024 .
+
+chebi:49828 criticality:remark criticality:CRITICAL_AND_STRATEGIC_2024 .
+
+criticality:STRATEGIC_2024 criticality:importance criticality:STRATEGIC ;
+    criticality:year "2024" .
+
+criticality:CRITICAL_2024 criticality:importance criticality:CRITICAL ;
+    criticality:year "2024" .
+
+criticality:CRITICAL_AND_STRATEGIC_2024 criticality:importance criticality:CRITICAL,
+        criticality:STRATEGIC ;
+    criticality:year "2024" .
+

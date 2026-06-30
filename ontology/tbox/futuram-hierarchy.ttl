@@ -1,0 +1,2204 @@
+@prefix futuram: <https://www.purl.org/futuram#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+futuram:1xx.xAlAlloy a owl:Class ;
+    rdfs:label "futuram-1xx.xAlAlloy" ;
+    rdfs:subClassOf futuram:castAlAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:4xx.xAlAlloy a owl:Class ;
+    rdfs:label "futuram-4xx.xAlAlloy" ;
+    rdfs:subClassOf futuram:castAlAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:4xxxAlAlloy a owl:Class ;
+    rdfs:label "futuram-4xxxAlAlloy" ;
+    rdfs:subClassOf futuram:wroughtAlAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:5xx.xAlAlloy a owl:Class ;
+    rdfs:label "futuram-5xx.xAlAlloy" ;
+    rdfs:subClassOf futuram:castAlAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:6xx.xAlAlloy a owl:Class ;
+    rdfs:label "futuram-6xx.xAlAlloy" ;
+    rdfs:subClassOf futuram:castAlAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:7xx.xAlAlloy a owl:Class ;
+    rdfs:label "futuram-7xx.xAlAlloy" ;
+    rdfs:subClassOf futuram:castAlAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:8xx.xAlAlloy a owl:Class ;
+    rdfs:label "futuram-8xx.xAlAlloy" ;
+    rdfs:subClassOf futuram:castAlAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:925Ag a owl:Class ;
+    rdfs:label "futuram-925Ag" ;
+    rdfs:subClassOf futuram:AgAndAgAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:999Ag3 a owl:Class ;
+    rdfs:label "futuram-999Ag" ;
+    rdfs:subClassOf futuram:AgAndAgAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:9xx.xAlAlloy a owl:Class ;
+    rdfs:label "futuram-9xx.xAlAlloy" ;
+    rdfs:subClassOf futuram:castAlAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:ABSESPhousing a owl:Class ;
+    rdfs:label "futuram-ABSESPhousing" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:AHSS a owl:Class ;
+    rdfs:label "futuram-AHSS" ;
+    rdfs:subClassOf futuram:alloySteel,
+        futuram:lowCarbonSteel ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:Actinium a owl:Class ;
+    rdfs:label "futuram-Actinium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:AgCuAlloys a owl:Class ;
+    rdfs:label "futuram-AgCuAlloys" ;
+    rdfs:subClassOf futuram:AgAndAgAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:AgNiAlloys a owl:Class ;
+    rdfs:label "futuram-AgNiAlloys" ;
+    rdfs:subClassOf futuram:AgAndAgAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:AlAlloy1100 a owl:Class ;
+    rdfs:label "futuram-AlAlloy1100" ;
+    rdfs:subClassOf futuram:1xxxAlAlloy ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:AlAlloy2011 a owl:Class ;
+    rdfs:label "futuram-AlAlloy2011" ;
+    rdfs:subClassOf futuram:2xxxAlAlloy ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:AlAlloy2017 a owl:Class ;
+    rdfs:label "futuram-AlAlloy2017" ;
+    rdfs:subClassOf futuram:2xxxAlAlloy ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:AlAlloy2024 a owl:Class ;
+    rdfs:label "futuram-AlAlloy2024" ;
+    rdfs:subClassOf futuram:2xxxAlAlloy ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:AlAlloy2036 a owl:Class ;
+    rdfs:label "futuram-AlAlloy2036" ;
+    rdfs:subClassOf futuram:2xxxAlAlloy ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:AlAlloy204 a owl:Class ;
+    rdfs:label "futuram-AlAlloy204" ;
+    rdfs:subClassOf futuram:2xx.xAlAlloy ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:AlAlloy230 a owl:Class ;
+    rdfs:label "futuram-AlAlloy230" ;
+    rdfs:subClassOf futuram:2xx.xAlAlloy ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:AlAlloy231 a owl:Class ;
+    rdfs:label "futuram-AlAlloy231" ;
+    rdfs:subClassOf futuram:2xx.xAlAlloy ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:AlAlloy242 a owl:Class ;
+    rdfs:label "futuram-AlAlloy242" ;
+    rdfs:subClassOf futuram:2xx.xAlAlloy ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:AlAlloy3003 a owl:Class ;
+    rdfs:label "futuram-AlAlloy3003" ;
+    rdfs:subClassOf futuram:3xxxAlAlloy ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:AlAlloy3004 a owl:Class ;
+    rdfs:label "futuram-AlAlloy3004" ;
+    rdfs:subClassOf futuram:3xxxAlAlloy ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:AlAlloy314 a owl:Class ;
+    rdfs:label "futuram-AlAlloy314" ;
+    rdfs:subClassOf futuram:3xx.xAlAlloy ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:AlAlloy380 a owl:Class ;
+    rdfs:label "futuram-AlAlloy380" ;
+    rdfs:subClassOf futuram:3xx.xAlAlloy ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:AlAlloy5005 a owl:Class ;
+    rdfs:label "futuram-AlAlloy5005" ;
+    rdfs:subClassOf futuram:5xxxAlAlloy ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:AlAlloy5182 a owl:Class ;
+    rdfs:label "futuram-AlAlloy5182" ;
+    rdfs:subClassOf futuram:5xxxAlAlloy ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:AlAlloy5754a a owl:Class ;
+    rdfs:label "futuram-AlAlloy5754a" ;
+    rdfs:subClassOf futuram:5xxxAlAlloy ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:AlAlloy6005 a owl:Class ;
+    rdfs:label "futuram-AlAlloy6005" ;
+    rdfs:subClassOf futuram:6xxxAlAlloy ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:AlAlloy6009 a owl:Class ;
+    rdfs:label "futuram-AlAlloy6009" ;
+    rdfs:subClassOf futuram:6xxxAlAlloy ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:AlAlloy6060 a owl:Class ;
+    rdfs:label "futuram-AlAlloy6060" ;
+    rdfs:subClassOf futuram:6xxxAlAlloy ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:AlAlloy6061 a owl:Class ;
+    rdfs:label "futuram-AlAlloy6061" ;
+    rdfs:subClassOf futuram:6xxxAlAlloy ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:AlAlloy7075 a owl:Class ;
+    rdfs:label "futuram-AlAlloy7075" ;
+    rdfs:subClassOf futuram:7xxxAlAlloy ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:AlAlloy8001 a owl:Class ;
+    rdfs:label "futuram-AlAlloy8001" ;
+    rdfs:subClassOf futuram:8xxxAlAlloy ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:AlAlloy8090 a owl:Class ;
+    rdfs:label "futuram-AlAlloy8090" ;
+    rdfs:subClassOf futuram:8xxxAlAlloy ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:AlAlloyThixo a owl:Class ;
+    rdfs:label "futuram-AlAlloyThixo" ;
+    rdfs:subClassOf futuram:2xxxAlAlloy ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:Aluminium a owl:Class ;
+    rdfs:label "futuram-Aluminium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Antimony a owl:Class ;
+    rdfs:label "futuram-Antimony" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Astatine a owl:Class ;
+    rdfs:label "futuram-Astatine" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:BMS a owl:Class ;
+    rdfs:label "futuram-BMS" ;
+    rdfs:subClassOf futuram:PlaceholderMaterials ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:Barium a owl:Class ;
+    rdfs:label "futuram-Barium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Beryllium a owl:Class ;
+    rdfs:label "Beryllium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Bismuth a owl:Class ;
+    rdfs:label "futuram-Bismuth" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Boron a owl:Class ;
+    rdfs:label "futuram-Boron" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:C200Brasses a owl:Class ;
+    rdfs:label "futuram-C200Brasses" ;
+    rdfs:subClassOf futuram:brasses ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:C300Brasses a owl:Class ;
+    rdfs:label "futuram-C300Brasses" ;
+    rdfs:subClassOf futuram:brasses ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:C400Brasses a owl:Class ;
+    rdfs:label "futuram-C400Brasses" ;
+    rdfs:subClassOf futuram:brasses ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:C500Bronzes a owl:Class ;
+    rdfs:label "futuram-C500Bronzes" ;
+    rdfs:subClassOf futuram:bronzes ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:C600Bronzes a owl:Class ;
+    rdfs:label "futuram-C600Bronzes" ;
+    rdfs:subClassOf futuram:bronzes ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:C700NickelSilvers a owl:Class ;
+    rdfs:label "futuram-C700NickelSilvers" ;
+    rdfs:subClassOf futuram:otherCuAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:CGlassFiberGeneric a owl:Class ;
+    rdfs:label "futuram-CGlassFiberGeneric" ;
+    rdfs:subClassOf futuram:glassFiberUndefined ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:CRTglass a owl:Class ;
+    rdfs:label "futuram-CRTglass" ;
+    rdfs:subClassOf futuram:leadGlass ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:Cadmium a owl:Class ;
+    rdfs:label "futuram-Cadmium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Calcium a owl:Class ;
+    rdfs:label "futuram-Calcium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Carbon a owl:Class ;
+    rdfs:label "futuram-Carbon" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Cerium a owl:Class ;
+    rdfs:label "futuram-Cerium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Chlorine a owl:Class ;
+    rdfs:label "futuram-Chlorine" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Chromium a owl:Class ;
+    rdfs:label "futuram-Chromium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:CoAndCoAlloys a owl:Class ;
+    rdfs:label "futuram:CoAndCoAlloys" ;
+    rdfs:subClassOf futuram:nonCuAndAlAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:Cobalt a owl:Class ;
+    rdfs:label "Cobalt" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Copper a owl:Class ;
+    rdfs:label "futuram-Copper" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Dysprosium a owl:Class ;
+    rdfs:label "futuram-Dysprosium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:EESystem a owl:Class ;
+    rdfs:label "futuram-EESystem" ;
+    rdfs:subClassOf futuram:PlaceholderMaterials ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:EGlassFiberGeneric a owl:Class ;
+    rdfs:label "futuram-EGlassFiberGeneric" ;
+    rdfs:subClassOf futuram:glassFiberUndefined ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:Fluorine a owl:Class ;
+    rdfs:label "futuram-Fluorine" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Gallium a owl:Class ;
+    rdfs:label "futuram-Gallium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Germanium a owl:Class ;
+    rdfs:label "futuram-Germanium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Gold a owl:Class ;
+    rdfs:label "futuram-Gold" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:HSS a owl:Class ;
+    rdfs:label "futuram-HSS" ;
+    rdfs:subClassOf futuram:alloySteel,
+        futuram:lowCarbonSteel ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:HVPS a owl:Class ;
+    rdfs:label "futuram-HVPS" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:Hafnium a owl:Class ;
+    rdfs:label "futuram-Hafnium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Hassium a owl:Class ;
+    rdfs:label "futuram-Hassium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Helium a owl:Class ;
+    rdfs:label "futuram-Helium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:HfAndHfAlloys a owl:Class ;
+    rdfs:label "futuram:HfAndHfAlloys" ;
+    rdfs:subClassOf futuram:nonCuAndAlAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:Hydrogen a owl:Class ;
+    rdfs:label "futuram-Hydrogen" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Indium a owl:Class ;
+    rdfs:label "futuram-Indium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Iridium a owl:Class ;
+    rdfs:label "futuram-Iridium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Iron a owl:Class ;
+    rdfs:label "futuram-Iron" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Krypton a owl:Class ;
+    rdfs:label "futuram-Krypton" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:LVPS a owl:Class ;
+    rdfs:label "futuram-LVPS" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:Lanthanum a owl:Class ;
+    rdfs:label "futuram-Lanthanum" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Lawrencium a owl:Class ;
+    rdfs:label "futuram-Lawrencium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Lead a owl:Class ;
+    rdfs:label "futuram-Lead" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Lithium a owl:Class ;
+    rdfs:label "futuram-Lithium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Lutetium a owl:Class ;
+    rdfs:label "futuram-Lutetium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Magnesium a owl:Class ;
+    rdfs:label "futuram-Magnesium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Manganese a owl:Class ;
+    rdfs:label "futuram-Manganese" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Mercury a owl:Class ;
+    rdfs:label "futuram-Mercury" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:MgAndMgAlloys a owl:Class ;
+    rdfs:label "futuram:MgAndMgAlloys" ;
+    rdfs:subClassOf futuram:nonCuAndAlAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:Molybdenum a owl:Class ;
+    rdfs:label "futuram-Molybdenum" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Neodymium a owl:Class ;
+    rdfs:label "futuram-Neodymium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Neon a owl:Class ;
+    rdfs:label "futuram-Neon" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:NiAndNiAlloys a owl:Class ;
+    rdfs:label "futuram:NiAndNiAlloys" ;
+    rdfs:subClassOf futuram:nonCuAndAlAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:Nickel a owl:Class ;
+    rdfs:label "Nickel" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Niobium a owl:Class ;
+    rdfs:label "futuram-Niobium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Nitrogen a owl:Class ;
+    rdfs:label "futuram-Nitrogen" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Osmium a owl:Class ;
+    rdfs:label "futuram-Osmium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Oxygen a owl:Class ;
+    rdfs:label "futuram-Oxygen" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:PCA a owl:Class ;
+    rdfs:label "futuram-PCA" ;
+    rdfs:subClassOf futuram:additives ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:PCBelectronics a owl:Class ;
+    rdfs:label "futuram-PCBelectronics" ;
+    rdfs:subClassOf futuram:Material,
+        futuram:PlaceholderMaterials ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:Palladium a owl:Class ;
+    rdfs:label "futuram-Palladium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Phosphorus a owl:Class ;
+    rdfs:label "futuram-Phosphorus" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Platinum a owl:Class ;
+    rdfs:label "futuram-Platinum" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Plutonium a owl:Class ;
+    rdfs:label "futuram-Plutonium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Polonium a owl:Class ;
+    rdfs:label "futuram-Polonium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Potassium a owl:Class ;
+    rdfs:label "futuram-Potassium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Praseodymium a owl:Class ;
+    rdfs:label "futuram-Praseodymium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Product2010 a owl:Class ;
+    rdfs:label "futuram-Product2010" ;
+    rdfs:subClassOf futuram:Product ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:Product2011 a owl:Class ;
+    rdfs:label "futuram-Product2011" ;
+    rdfs:subClassOf futuram:Product ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:Radium a owl:Class ;
+    rdfs:label "futuram-Radium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Rhenium a owl:Class ;
+    rdfs:label "futuram-Rhenium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Rhodium a owl:Class ;
+    rdfs:label "futuram-Rhodium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Rubidium a owl:Class ;
+    rdfs:label "futuram-Rubidium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Ruthenium a owl:Class ;
+    rdfs:label "futuram-Ruthenium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Scandium a owl:Class ;
+    rdfs:label "Scandium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Selenium a owl:Class ;
+    rdfs:label "futuram-Selenium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:SiSemiconductor a owl:Class ;
+    rdfs:label "futuram-SiSemiconductor" ;
+    rdfs:subClassOf futuram:PlaceholderMaterials ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:Silicon a owl:Class ;
+    rdfs:label "futuram-Silicon" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Silver a owl:Class ;
+    rdfs:label "futuram-Silver" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Strontium a owl:Class ;
+    rdfs:label "futuram-Strontium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Sulfur a owl:Class ;
+    rdfs:label "futuram-Sulfur" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:TaAndTaAlloys a owl:Class ;
+    rdfs:label "futuram:TaAndTaAlloys" ;
+    rdfs:subClassOf futuram:nonCuAndAlAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:Tantalum a owl:Class ;
+    rdfs:label "futuram-Tantalum" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Tellurium a owl:Class ;
+    rdfs:label "futuram-Tellurium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Tennessine a owl:Class ;
+    rdfs:label "futuram-Tennessine" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Terbium a owl:Class ;
+    rdfs:label "futuram-Terbium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Thallium a owl:Class ;
+    rdfs:label "futuram-Thallium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Thorium a owl:Class ;
+    rdfs:label "futuram-Thorium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Thulium a owl:Class ;
+    rdfs:label "futuram-Thulium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:TiAndTiAlloys a owl:Class ;
+    rdfs:label "futuram:TiAndTiAlloys" ;
+    rdfs:subClassOf futuram:nonCuAndAlAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:Tin a owl:Class ;
+    rdfs:label "futuram-Tin" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Titanium a owl:Class ;
+    rdfs:label "futuram-Titanium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Tungsten a owl:Class ;
+    rdfs:label "futuram-Tungsten" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:UHSS a owl:Class ;
+    rdfs:label "futuram-UHSS" ;
+    rdfs:subClassOf futuram:alloySteel,
+        futuram:lowCarbonSteel ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:V0301030105 a owl:Class ;
+    rdfs:label "Car - Executive/Large Car - Battery Electric - Electric - (e.g., Tesla Model S, BMW i5, Mercedes EQE)" ;
+    rdfs:subClassOf futuram:elvBEV ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:Vanadium a owl:Class ;
+    rdfs:label "futuram-Vanadium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:WAndWAlloys a owl:Class ;
+    rdfs:label "futuram:WAndWAlloys" ;
+    rdfs:subClassOf futuram:nonCuAndAlAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:Xenon a owl:Class ;
+    rdfs:label "futuram-Xenon" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Ytterbium a owl:Class ;
+    rdfs:label "futuram-Ytterbium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Yttrium a owl:Class ;
+    rdfs:label "futuram-Yttrium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Zinc a owl:Class ;
+    rdfs:label "futuram-Zinc" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:Zirconium a owl:Class ;
+    rdfs:label "futuram-Zirconium" ;
+    rdfs:subClassOf futuram:Element .
+
+futuram:ZnAndZnAlloys a owl:Class ;
+    rdfs:label "futuram:ZnAndZnAlloys" ;
+    rdfs:subClassOf futuram:nonCuAndAlAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:accessoryBrackets a owl:Class ;
+    rdfs:label "futuram-accessoryBrackets" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:actuator a owl:Class ;
+    rdfs:label "futuram-actuator" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:adjustmentMotorHousings a owl:Class ;
+    rdfs:label "futuram-adjustmentMotorHousings" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:aggregateBinderMixedMaterials a owl:Class ;
+    rdfs:label "futuram-aggregateBinderMixedMaterials" ;
+    rdfs:subClassOf futuram:otherAndMixedMaterials ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:aggregates a owl:Class ;
+    rdfs:label "futuram-aggregates" ;
+    rdfs:subClassOf futuram:constructionMinerals ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:airbagCanisters a owl:Class ;
+    rdfs:label "futuram-airbagCanisters" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:alloyFeAlCu2 a owl:Class ;
+    rdfs:label "futuram-alloyFeAlCu2" ;
+    rdfs:subClassOf futuram:ferrousMetals ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:alloySteelUnspecified a owl:Class ;
+    rdfs:label "futuram-alloySteelUnspecified" ;
+    rdfs:subClassOf futuram:alloySteel ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:alternatorCase a owl:Class ;
+    rdfs:label "futuram-alternatorCase" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:alumina96Percent a owl:Class ;
+    rdfs:label "futuram-alumina96Percent" ;
+    rdfs:subClassOf futuram:additives ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:aluminaBeta a owl:Class ;
+    rdfs:label "futuram-aluminaBeta" ;
+    rdfs:subClassOf futuram:additives ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:aluminumBronze a owl:Class ;
+    rdfs:label "futuram-aluminumBronze" ;
+    rdfs:subClassOf futuram:bronzes ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:asbestos a owl:Class ;
+    rdfs:label "futuram-asbestos" ;
+    rdfs:subClassOf futuram:constructionMinerals ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:audio a owl:Class ;
+    rdfs:label "futuram-audio" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:austeniticStainlessSteel a owl:Class ;
+    rdfs:label "futuram-austeniticStainlessSteel" ;
+    rdfs:subClassOf futuram:stainlessSteel ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:automaticCVTcases a owl:Class ;
+    rdfs:label "futuram-automaticCVTcases" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:bariumSulfate a owl:Class ;
+    rdfs:label "futuram-bariumSulfate" ;
+    rdfs:subClassOf futuram:additives ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:batteryMaterials a owl:Class ;
+    rdfs:label "futuram-batteryMaterials" ;
+    rdfs:subClassOf futuram:Material ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:bedPlates a owl:Class ;
+    rdfs:label "futuram-bedPlates" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:biodegradablePlastics a owl:Class ;
+    rdfs:label "futuram-biodegradablePlastics" ;
+    rdfs:subClassOf futuram:plastics ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:bitumen a owl:Class ;
+    rdfs:label "futuram-bitumen" ;
+    rdfs:subClassOf futuram:Organics ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:block a owl:Class ;
+    rdfs:label "futuram-block" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:bodySidePanels a owl:Class ;
+    rdfs:label "futuram-bodySidePanels" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:brackets a owl:Class ;
+    rdfs:label "futuram-brackets" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:brakeBoosterVacuumParts a owl:Class ;
+    rdfs:label "futuram-brakeBoosterVacuumParts" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:brakeCalipers a owl:Class ;
+    rdfs:label "futuram-brakeCalipers" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:bricksUndefined a owl:Class ;
+    rdfs:label "futuram-bricksUndefined" ;
+    rdfs:subClassOf futuram:constructionMinerals ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:brominatedPlastics a owl:Class ;
+    rdfs:label "futuram-brominatedPlastics" ;
+    rdfs:subClassOf futuram:plastics ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:bushings a owl:Class ;
+    rdfs:label "futuram-bushings" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:calciumFluoride a owl:Class ;
+    rdfs:label "futuram-calciumFluoride" ;
+    rdfs:subClassOf futuram:additives ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:carbonFiber a owl:Class ;
+    rdfs:label "futuram-carbonFiber" ;
+    rdfs:subClassOf futuram:carbon ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:castIron a owl:Class ;
+    rdfs:label "futuram-castIron" ;
+    rdfs:subClassOf futuram:ferrousMetals,
+        futuram:ironWroughtAndCast ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:catalystsMaterialDiesel a owl:Class ;
+    rdfs:label "futuram-catalystsMaterialDiesel" ;
+    rdfs:subClassOf futuram:catalystsMaterial ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:catalystsMaterialGasoline a owl:Class ;
+    rdfs:label "futuram-catalystsMaterialGasoline" ;
+    rdfs:subClassOf futuram:catalystsMaterial ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:catridgeBrass a owl:Class ;
+    rdfs:label "futuram-catridgeBrass" ;
+    rdfs:subClassOf futuram:brasses ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:cement a owl:Class ;
+    rdfs:label "futuram-cement" ;
+    rdfs:subClassOf futuram:constructionMinerals ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:clay a owl:Class ;
+    rdfs:label "futuram-clay" ;
+    rdfs:subClassOf futuram:constructionMinerals ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:clayCeramics a owl:Class ;
+    rdfs:label "futuram-clayCeramics" ;
+    rdfs:subClassOf futuram:glassAndCeramics ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:climateSystem a owl:Class ;
+    rdfs:label "futuram-climateSystem" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:columnHousings a owl:Class ;
+    rdfs:label "futuram-columnHousings" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:compressorHousing a owl:Class ;
+    rdfs:label "futuram-compressorHousing" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:computerSensorHousings a owl:Class ;
+    rdfs:label "futuram-computerSensorHousings" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:condensers a owl:Class ;
+    rdfs:label "futuram-condensers" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:connectionHardware a owl:Class ;
+    rdfs:label "futuram-connectionHardware" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:controlArmsLinks a owl:Class ;
+    rdfs:label "futuram-controlArmsLinks" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:controlDevices a owl:Class ;
+    rdfs:label "futuram-controlDevices" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:coolant_refrigerant a owl:Class ;
+    rdfs:label "futuram-coolant_refrigerant" ;
+    rdfs:subClassOf futuram:fluids ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:crashManagementSystem a owl:Class ;
+    rdfs:label "futuram-crashManagementSystem" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:crossMembers a owl:Class ;
+    rdfs:label "futuram-crossMembers" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:cupronickel a owl:Class ;
+    rdfs:label "futuram-cupronickel" ;
+    rdfs:subClassOf futuram:otherCuAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:cylinderHeads a owl:Class ;
+    rdfs:label "futuram-cylinderHeads" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:decorativeTrim a owl:Class ;
+    rdfs:label "futuram-decorativeTrim" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:diamond a owl:Class ;
+    rdfs:label "futuram-diamond" ;
+    rdfs:subClassOf futuram:carbon ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:differentialCarriers a owl:Class ;
+    rdfs:label "futuram-differentialCarriers" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:doorBeams a owl:Class ;
+    rdfs:label "futuram-doorBeams" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:doorSillsRockers a owl:Class ;
+    rdfs:label "futuram-doorSillsRockers" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:doorsBootHood a owl:Class ;
+    rdfs:label "futuram-doorsBootHood" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:driveShaft a owl:Class ;
+    rdfs:label "futuram-driveShaft" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:driverControls a owl:Class ;
+    rdfs:label "futuram-driverControls" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:duplexStainlessSteel a owl:Class ;
+    rdfs:label "futuram-duplexStainlessSteel" ;
+    rdfs:subClassOf futuram:stainlessSteel ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:elastomers a owl:Class ;
+    rdfs:label "futuram-elastomers" ;
+    rdfs:subClassOf futuram:plastics ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:electricBrakeBoosters a owl:Class ;
+    rdfs:label "futuram-electricBrakeBoosters" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:electricalDistributionSystem a owl:Class ;
+    rdfs:label "futuram-electricalDistributionSystem" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:elvBIW a owl:Class ;
+    rdfs:label "Body-in-white (BIW)" ;
+    rdfs:comment "Structural body shell of the vehicle before painting, comprising pressed steel or aluminium panels welded together." ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:elvBMS a owl:Class ;
+    rdfs:label "Battery management system (BMS)" ;
+    rdfs:comment "Electronic system managing charging, discharging, and safety of the traction battery." ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:elvBrakes a owl:Class ;
+    rdfs:label "Brakes" ;
+    rdfs:comment "Brake system components including discs, drums, calipers, pads, and ABS/ESP actuators." ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:elvCar a owl:Class ;
+    rdfs:label "Car body and interior" ;
+    rdfs:comment "General car body structure and interior trim components." ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:elvCatalyst a owl:Class ;
+    rdfs:label "Catalyst" ;
+    rdfs:comment "Catalytic material used in exhaust after-treatment or fuel cells." ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:elvChassis a owl:Class ;
+    rdfs:label "Chassis" ;
+    rdfs:comment "Load-bearing underbody frame and suspension mounting structure of the vehicle." ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:elvClosures a owl:Class ;
+    rdfs:label "Closures" ;
+    rdfs:comment "Doors, bonnet (hood), boot lid, and other opening panels of the vehicle body." ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:elvComponents a owl:Class ;
+    rdfs:label "General ELV components" ;
+    rdfs:comment "Miscellaneous end-of-life vehicle components not classified elsewhere." ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:elvDepollutionComponentsRest a owl:Class ;
+    rdfs:label "Depollution components (remainder)" ;
+    rdfs:comment "Remaining depollution components after removal of individually tracked items." ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:elvDiesel a owl:Class ;
+    rdfs:label "Diesel vehicle" ;
+    rdfs:comment "Passenger car powered solely by a diesel internal combustion engine." ;
+    rdfs:subClassOf futuram:Product ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:elvDriveline a owl:Class ;
+    rdfs:label "Driveline" ;
+    rdfs:comment "Power transmission components from gearbox to wheels: driveshafts, differentials, axles." ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:elvEESystem a owl:Class ;
+    rdfs:label "Electrical and electronic system (E/E system)" ;
+    rdfs:comment "Complete vehicle electrical and electronic architecture including wiring, sensors, and control units." ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:elvEVbattery a owl:Class ;
+    rdfs:label "Traction battery (EV battery pack)" ;
+    rdfs:comment "High-voltage lithium-ion battery pack providing energy storage for battery-electric and plug-in hybrid vehicles." ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:elvElectricMotor a owl:Class,
+        futuram:SubComponent ;
+    rdfs:label "Electric motor" ;
+    rdfs:comment "Traction electric motor converting electrical energy to mechanical torque for vehicle propulsion." ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:elvHEV a owl:Class ;
+    rdfs:label "Hybrid electric vehicle (HEV)" ;
+    rdfs:comment "Passenger car combining an internal combustion engine with an electric motor and small battery; cannot be externally charged." ;
+    rdfs:subClassOf futuram:Product ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:elvOther a owl:Class ;
+    rdfs:label "Other vehicle type" ;
+    rdfs:comment "Passenger vehicles not classified under the main drivetrain categories." ;
+    rdfs:subClassOf futuram:Product ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:elvPHEV a owl:Class ;
+    rdfs:label "Plug-in hybrid electric vehicle (PHEV)" ;
+    rdfs:comment "Passenger car with both combustion engine and a larger externally chargeable traction battery." ;
+    rdfs:subClassOf futuram:Product ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:elvPetrol a owl:Class ;
+    rdfs:label "Petrol vehicle" ;
+    rdfs:comment "Passenger car powered solely by a petrol (gasoline) internal combustion engine." ;
+    rdfs:subClassOf futuram:Product ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:elvPowertrain a owl:Class ;
+    rdfs:label "Powertrain" ;
+    rdfs:comment "Engine or motor, transmission, and all components delivering motive power to the wheels." ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:elvSensors a owl:Class ;
+    rdfs:label "Sensors" ;
+    rdfs:comment "Vehicle sensing devices including temperature, pressure, position, speed, and environmental sensors." ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:elvSteering a owl:Class ;
+    rdfs:label "Steering system" ;
+    rdfs:comment "Mechanical and electromechanical steering components including rack, column, and electric power assist unit." ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:elvThermalManagement a owl:Class ;
+    rdfs:label "Thermal management system" ;
+    rdfs:comment "Cooling and heating circuits for engine, battery, cabin, and power electronics including radiators, heat exchangers, and pumps." ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:elvTractionMotorInduction a owl:Class ;
+    rdfs:label "Traction motor — induction (AC)" ;
+    rdfs:comment "Asynchronous induction traction motor used in battery-electric and hybrid vehicles." ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:elvTractionMotorPM a owl:Class ;
+    rdfs:label "Traction motor — permanent magnet (PM)" ;
+    rdfs:comment "Permanent-magnet synchronous traction motor containing rare-earth magnets (e.g. NdFeB)." ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:elvTransmission a owl:Class ;
+    rdfs:label "Transmission / gearbox" ;
+    rdfs:comment "Multi-ratio or single-ratio gearbox transmitting torque from engine or motor to the driveline." ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:elvTrim a owl:Class ;
+    rdfs:label "Interior trim" ;
+    rdfs:comment "Non-structural interior surfaces, seats, carpets, headliner, and decorative panels." ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:elvWheel a owl:Class ;
+    rdfs:label "Wheels and tyres" ;
+    rdfs:comment "Aluminium or steel road wheels and pneumatic tyres." ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:engineCoolingAndAirInduction a owl:Class ;
+    rdfs:label "futuram-engineCoolingAndAirInduction" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:engineSystem a owl:Class ;
+    rdfs:label "futuram-engineSystem" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:evaporators a owl:Class ;
+    rdfs:label "futuram-evaporators" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:extensionCovers a owl:Class ;
+    rdfs:label "futuram-extensionCovers" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:exteriorLighting a owl:Class ;
+    rdfs:label "futuram-exteriorLighting" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:fenders a owl:Class ;
+    rdfs:label "futuram-fenders" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:ferrite a owl:Class ;
+    rdfs:label "futuram-ferrite" ;
+    rdfs:subClassOf futuram:permanentMagneticMaterials ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:ferriticStainlessSteel a owl:Class ;
+    rdfs:label "futuram-ferriticStainlessSteel" ;
+    rdfs:subClassOf futuram:stainlessSteel ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:flameRetardants a owl:Class ;
+    rdfs:label "futuram-flameRetardants" ;
+    rdfs:subClassOf futuram:additives ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:flatGlass a owl:Class ;
+    rdfs:label "futuram-flatGlass" ;
+    rdfs:subClassOf futuram:sodaLimeGlass ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:floorGroup a owl:Class ;
+    rdfs:label "futuram-floorGroup" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:foilPans a owl:Class ;
+    rdfs:label "futuram-foilPans" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:free-cuttingBrass a owl:Class ;
+    rdfs:label "futuram-free-cuttingBrass" ;
+    rdfs:subClassOf futuram:brasses ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:frontCovers a owl:Class ;
+    rdfs:label "futuram-frontCovers" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:frontDoors a owl:Class ;
+    rdfs:label "futuram-frontDoors" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:frontEndStructure a owl:Class ;
+    rdfs:label "futuram-frontEndStructure" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:frontLongitudinals a owl:Class ;
+    rdfs:label "futuram-frontLongitudinals" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:fuelRails a owl:Class ;
+    rdfs:label "futuram-fuelRails" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:galvanizedSteel a owl:Class ;
+    rdfs:label "futuram-galvanizedSteel" ;
+    rdfs:subClassOf futuram:ferrousMetals ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:glassCeramics a owl:Class ;
+    rdfs:label "futuram-glassCeramics" ;
+    rdfs:subClassOf futuram:glassAndCeramics ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:graphite a owl:Class ;
+    rdfs:label "futuram-graphite" ;
+    rdfs:subClassOf futuram:carbon ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:gravel a owl:Class ;
+    rdfs:label "futuram-gravel" ;
+    rdfs:subClassOf futuram:constructionMinerals ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:gypsum a owl:Class ;
+    rdfs:label "futuram-gypsum" ;
+    rdfs:subClassOf futuram:constructionMinerals ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:hard-lead a owl:Class ;
+    rdfs:label "futuram-hard-lead" ;
+    rdfs:subClassOf futuram:PbAndPbAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:headCamCovers a owl:Class ;
+    rdfs:label "futuram-headCamCovers" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:heatShields a owl:Class ;
+    rdfs:label "futuram-heatShields" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:heatSinks a owl:Class ;
+    rdfs:label "futuram-heatSinks" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:heaterCores a owl:Class ;
+    rdfs:label "futuram-heaterCores" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:heatingCooling a owl:Class ;
+    rdfs:label "futuram-heatingCooling" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:highCarbonSteel a owl:Class ;
+    rdfs:label "futuram-highCarbonSteel" ;
+    rdfs:subClassOf futuram:carbonSteel ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:highCuAlloys a owl:Class ;
+    rdfs:label "futuram-highCuAlloys" ;
+    rdfs:subClassOf futuram:CuAndCuAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:hollowGlass a owl:Class ;
+    rdfs:label "futuram-hollowGlass" ;
+    rdfs:subClassOf futuram:sodaLimeGlass ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:hood a owl:Class ;
+    rdfs:label "futuram-hood" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:infotainment a owl:Class ;
+    rdfs:label "futuram-infotainment" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:instrumentPanelStructure a owl:Class ;
+    rdfs:label "futuram-instrumentPanelStructure" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:intakeManifolds a owl:Class ;
+    rdfs:label "futuram-intakeManifolds" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:intercooler a owl:Class ;
+    rdfs:label "futuram-intercooler" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:interiorAndInstrumentPanel a owl:Class ;
+    rdfs:label "futuram-interiorAndInstrumentPanel" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:knuckles a owl:Class ;
+    rdfs:label "futuram-knuckles" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:leadGlassOther a owl:Class ;
+    rdfs:label "futuram-leadGlassOther" ;
+    rdfs:subClassOf futuram:leadGlass ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:lubricant a owl:Class ;
+    rdfs:label "futuram-lubricant" ;
+    rdfs:subClassOf futuram:fluids ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:magnetAlloysNdFeB a owl:Class ;
+    rdfs:label "futuram-magnetAlloysNdFeB" ;
+    rdfs:subClassOf futuram:permanentMagneticMaterials ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:magnetAlloysSmCo a owl:Class ;
+    rdfs:label "futuram-magnetAlloysSmCo" ;
+    rdfs:subClassOf futuram:permanentMagneticMaterials ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:manganeseBronze a owl:Class ;
+    rdfs:label "futuram-manganeseBronze" ;
+    rdfs:subClassOf futuram:bronzes ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:manualClutchHousings a owl:Class ;
+    rdfs:label "futuram-manualClutchHousings" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:manualTransmissionCases a owl:Class ;
+    rdfs:label "futuram-manualTransmissionCases" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:martensiticStainlessSteel a owl:Class ;
+    rdfs:label "futuram-martensiticStainlessSteel" ;
+    rdfs:subClassOf futuram:stainlessSteel ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:masterCylinders a owl:Class ;
+    rdfs:label "futuram-masterCylinders" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:mediumCarbonSteel a owl:Class ;
+    rdfs:label "futuram-mediumCarbonSteel" ;
+    rdfs:subClassOf futuram:carbonSteel ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:metalComposites a owl:Class ;
+    rdfs:label "futuram-metalComposites" ;
+    rdfs:subClassOf futuram:composites ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:mildSteel a owl:Class ;
+    rdfs:label "futuram-mildSteel" ;
+    rdfs:subClassOf futuram:toolSteel ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:mineralWool a owl:Class ;
+    rdfs:label "futuram-mineralWool" ;
+    rdfs:subClassOf futuram:constructionMinerals ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:mounts a owl:Class ;
+    rdfs:label "futuram-mounts" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:muntzMetal a owl:Class ;
+    rdfs:label "futuram-muntzMetal" ;
+    rdfs:subClassOf futuram:brasses ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:naturalStone a owl:Class ;
+    rdfs:label "futuram-naturalStone" ;
+    rdfs:subClassOf futuram:constructionMinerals ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:naturalWood a owl:Class ;
+    rdfs:label "futuram-naturalWood" ;
+    rdfs:subClassOf futuram:wood ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:navalBrass a owl:Class ;
+    rdfs:label "futuram-navalBrass" ;
+    rdfs:subClassOf futuram:brasses ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:oilCoolers a owl:Class ;
+    rdfs:label "futuram-oilCoolers" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:oilFilterAdapters a owl:Class ;
+    rdfs:label "futuram-oilFilterAdapters" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:onBoardCharger a owl:Class ;
+    rdfs:label "futuram-onBoardCharger" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:otherCeramicComposites a owl:Class ;
+    rdfs:label "futuram-otherCeramicComposites" ;
+    rdfs:subClassOf futuram:composites ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:otherFerrousAlloys a owl:Class ;
+    rdfs:label "futuram-otherFerrousAlloys" ;
+    rdfs:subClassOf futuram:ferrousMetals ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:otherGas a owl:Class ;
+    rdfs:label "futuram-otherGas" ;
+    rdfs:subClassOf futuram:fluids ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:otherMetalsAndMetalAlloys a owl:Class ;
+    rdfs:label "futuram:otherMetalsAndMetalAlloys" ;
+    rdfs:subClassOf futuram:nonCuAndAlAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:otherMinerals a owl:Class ;
+    rdfs:label "futuram-otherMinerals" ;
+    rdfs:subClassOf futuram:Minerals ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:otherOil a owl:Class ;
+    rdfs:label "futuram-otherOil" ;
+    rdfs:subClassOf futuram:permanentMagneticMaterials ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:otherOrganics a owl:Class ;
+    rdfs:label "futuram-otherOrganics" ;
+    rdfs:subClassOf futuram:Organics ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:otherPbAlloys a owl:Class ;
+    rdfs:label "futuram-otherPbAlloys" ;
+    rdfs:subClassOf futuram:PbAndPbAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:overheadLuggageRails a owl:Class ;
+    rdfs:label "futuram-overheadLuggageRails" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:paperCarton a owl:Class ;
+    rdfs:label "futuram-paperCarton" ;
+    rdfs:subClassOf futuram:Organics ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:pewter a owl:Class ;
+    rdfs:label "futuram-pewter" ;
+    rdfs:subClassOf futuram:SnAndSnAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:phosphorBronze a owl:Class ;
+    rdfs:label "futuram-phosphorBronze" ;
+    rdfs:subClassOf futuram:bronzes ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:pillars a owl:Class ;
+    rdfs:label "futuram-pillars" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:pistons a owl:Class ;
+    rdfs:label "futuram-pistons" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:plasterboard a owl:Class ;
+    rdfs:label "futuram-plasterboard" ;
+    rdfs:subClassOf futuram:constructionMinerals ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:plasticComposites a owl:Class ;
+    rdfs:label "futuram-plasticComposites" ;
+    rdfs:subClassOf futuram:composites ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:powerElectronics a owl:Class ;
+    rdfs:label "futuram-powerElectronics" ;
+    rdfs:subClassOf futuram:Material,
+        futuram:PlaceholderMaterials ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:preStressedSteel a owl:Class ;
+    rdfs:label "futuram-preStressedSteel" ;
+    rdfs:subClassOf futuram:alloySteel ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:precipitationHardeningStainlessSteel a owl:Class ;
+    rdfs:label "futuram-precipitationHardeningStainlessSteel" ;
+    rdfs:subClassOf futuram:stainlessSteel ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:preservativeTreatedWood a owl:Class ;
+    rdfs:label "futuram-preservativeTreatedWood" ;
+    rdfs:subClassOf futuram:wood ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:pureCu a owl:Class ;
+    rdfs:label "futuram-pureCu" ;
+    rdfs:subClassOf futuram:CuAndCuAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:pure_Cerium a owl:Class ;
+    rdfs:label "futuram-pure_Cerium" ;
+    rdfs:subClassOf futuram:catalystsMaterial ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:pure_Palladium a owl:Class ;
+    rdfs:label "futuram-pure_Palladium" ;
+    rdfs:subClassOf futuram:catalystsMaterial ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:rackPinionHousings a owl:Class ;
+    rdfs:label "futuram-rackPinionHousings" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:radiator a owl:Class ;
+    rdfs:label "futuram-radiator" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:rearDoors a owl:Class ;
+    rdfs:label "futuram-rearDoors" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:rearLongitudinals a owl:Class ;
+    rdfs:label "futuram-rearLongitudinals" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:reinforcedConcrete a owl:Class ;
+    rdfs:label "futuram-reinforcedConcrete" ;
+    rdfs:subClassOf futuram:composites ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:roof a owl:Class ;
+    rdfs:label "futuram-roof" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:roofBows a owl:Class ;
+    rdfs:label "futuram-roofBows" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:rotorHatsBells a owl:Class ;
+    rdfs:label "futuram-rotorHatsBells" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:runningBoards a owl:Class ;
+    rdfs:label "futuram-runningBoards" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:safetyElectronics a owl:Class ;
+    rdfs:label "futuram-safetyElectronics" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:sand a owl:Class ;
+    rdfs:label "futuram-sand" ;
+    rdfs:subClassOf futuram:constructionMinerals ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:seatBeltSpools a owl:Class ;
+    rdfs:label "futuram-seatBeltSpools" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:seatFrames a owl:Class ;
+    rdfs:label "futuram-seatFrames" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:seatMotorHousings a owl:Class ;
+    rdfs:label "futuram-seatMotorHousings" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:seatPans a owl:Class ;
+    rdfs:label "futuram-seatPans" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:seatTracks a owl:Class ;
+    rdfs:label "futuram-seatTracks" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:securityAndBodyElectronics a owl:Class ;
+    rdfs:label "futuram-securityAndBodyElectronics" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:shockTowers a owl:Class ;
+    rdfs:label "futuram-shockTowers" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:solderSnAgCu a owl:Class ;
+    rdfs:label "futuram-solderSnAgCu" ;
+    rdfs:subClassOf futuram:fusibleSnAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:solderSnCu a owl:Class ;
+    rdfs:label "futuram-solderSnCu" ;
+    rdfs:subClassOf futuram:fusibleSnAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:solderSnPb a owl:Class ;
+    rdfs:label "futuram-solderSnPb" ;
+    rdfs:subClassOf futuram:fusibleSnAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:starterMotorHousings a owl:Class ;
+    rdfs:label "futuram-starterMotorHousings" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:steelAlloyKanthal a owl:Class ;
+    rdfs:label "futuram-steelAlloyKanthal" ;
+    rdfs:subClassOf futuram:alloySteel ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:steelAlloyKovar a owl:Class ;
+    rdfs:label "futuram-steelAlloyKovar" ;
+    rdfs:subClassOf futuram:alloySteel ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:subframesCradles a owl:Class ;
+    rdfs:label "futuram-subframesCradles" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:sunroofMotorHousings a owl:Class ;
+    rdfs:label "futuram-sunroofMotorHousings" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:sunroofRails a owl:Class ;
+    rdfs:label "futuram-sunroofRails" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:tailgateTrunk a owl:Class ;
+    rdfs:label "futuram-tailgateTrunk" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:thermoplastics a owl:Class ;
+    rdfs:label "futuram-thermoplastics" ;
+    rdfs:subClassOf futuram:plastics ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:thermosets a owl:Class ;
+    rdfs:label "futuram-thermosets" ;
+    rdfs:subClassOf futuram:plastics ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:thermostatHousings a owl:Class ;
+    rdfs:label "futuram-thermostatHousings" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:tieRodEnds a owl:Class ;
+    rdfs:label "futuram-tieRodEnds" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:timingChainCovers a owl:Class ;
+    rdfs:label "futuram-timingChainCovers" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:titania a owl:Class ;
+    rdfs:label "futuram-titania" ;
+    rdfs:subClassOf futuram:additives ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:tractionMotorInduction a owl:Class ;
+    rdfs:label "futuram-tractionMotorInduction" ;
+    rdfs:subClassOf futuram:PlaceholderMaterials ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:tractionMotorPM a owl:Class ;
+    rdfs:label "futuram-tractionMotorPM" ;
+    rdfs:subClassOf futuram:PlaceholderMaterials ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:transferCases a owl:Class ;
+    rdfs:label "futuram-transferCases" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:transferPlates a owl:Class ;
+    rdfs:label "futuram-transferPlates" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:transmissionMounts a owl:Class ;
+    rdfs:label "futuram-transmissionMounts" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:transmissionValves a owl:Class ;
+    rdfs:label "futuram-transmissionValves" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:treatedWood a owl:Class ;
+    rdfs:label "futuram-treatedWood" ;
+    rdfs:subClassOf futuram:wood ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:truckBedRail a owl:Class ;
+    rdfs:label "futuram-truckBedRail" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:turbochargers a owl:Class ;
+    rdfs:label "futuram-turbochargers" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:universalJointYoke a owl:Class ;
+    rdfs:label "futuram-universalJointYoke" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:valveBodies a owl:Class ;
+    rdfs:label "futuram-valveBodies" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:waterOutletTubes a owl:Class ;
+    rdfs:label "futuram-waterOutletTubes" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:waterPumpHousings a owl:Class ;
+    rdfs:label "futuram-waterPumpHousings" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:wiperArms a owl:Class ;
+    rdfs:label "futuram-wiperArms" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:wiringHarness a owl:Class ;
+    rdfs:label "futuram-wiringHarness" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:wroughtIron a owl:Class ;
+    rdfs:label "futuram-wroughtIron" ;
+    rdfs:subClassOf futuram:ferrousMetals ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:yellowBrass a owl:Class ;
+    rdfs:label "futuram-yellowBrass" ;
+    rdfs:subClassOf futuram:brasses ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:yokes a owl:Class ;
+    rdfs:label "futuram-yokes" ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+<https://www.purl.org/futuram/hierarchy> a owl:Ontology ;
+    rdfs:label "FutuRaM Product / Component / Material / Element hierarchy" ;
+    owl:imports <https://www.purl.org/futuram/composition-statement> .
+
+futuram:1xxxAlAlloy a owl:Class ;
+    rdfs:label "futuram-1xxxAlAlloy" ;
+    rdfs:subClassOf futuram:wroughtAlAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:7xxxAlAlloy a owl:Class ;
+    rdfs:label "futuram-7xxxAlAlloy" ;
+    rdfs:subClassOf futuram:wroughtAlAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:SubSubSubComponent a owl:Class ;
+    rdfs:label "futuram-SubSubSubComponent" ;
+    rdfs:comment "Fourth (deepest) component-granularity level: a Component that is a direct part of a SubSubComponent. Defined (equivalentClass), entailed top-down via isDirectPartOf. Declared for schema stability; UNPOPULATED in the current ELV source data. Disjoint from the other three component layers."@en ;
+    rdfs:subClassOf futuram:Component ;
+    owl:equivalentClass [ a owl:Class ;
+            owl:intersectionOf ( futuram:Component [ a owl:Restriction ;
+                        owl:onProperty futuram:isDirectPartOf ;
+                        owl:someValuesFrom futuram:SubSubComponent ] ) ] ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:elvBEV a owl:Class ;
+    rdfs:label "Battery-electric vehicle (BEV)" ;
+    rdfs:comment "Fully battery-electric passenger car with no combustion engine; propulsion solely from electric motor(s) powered by a traction battery." ;
+    rdfs:subClassOf futuram:Product ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:elvCatalyticConverters a owl:Class,
+        futuram:SubComponent ;
+    rdfs:label "Catalytic converters" ;
+    rdfs:comment "Exhaust after-treatment devices containing platinum-group metals on a ceramic or metallic substrate." ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:elvDepollutionComponents a owl:Class,
+        futuram:MainComponent ;
+    rdfs:label "Depollution components" ;
+    rdfs:comment "Components removed during end-of-life vehicle depollution: fluids, batteries, tyres, catalytic converters." ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy ;
+    futuram:hasDirectPart futuram:elvCatalyticConverters .
+
+futuram:elvEmbeddedElectronicsActuators a owl:Class,
+        futuram:SubComponent ;
+    rdfs:label "Embedded electronics — actuators" ;
+    rdfs:comment "Electromechanical actuators embedded in the vehicle body and chassis systems." ;
+    rdfs:subClassOf futuram:elvEmbeddedElectronics ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:elvEmbeddedElectronicsCables a owl:Class,
+        futuram:SubComponent ;
+    rdfs:label "Embedded electronics — wiring harness / cables" ;
+    rdfs:comment "Copper wiring harnesses and cable assemblies routing power and signals throughout the vehicle." ;
+    rdfs:subClassOf futuram:elvEmbeddedElectronics ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:elvEmbeddedElectronicsControllers a owl:Class,
+        futuram:SubComponent ;
+    rdfs:label "Embedded electronics — electronic control units (ECUs)" ;
+    rdfs:comment "Microcontroller-based units governing engine, transmission, body, and chassis functions." ;
+    rdfs:subClassOf futuram:elvEmbeddedElectronics ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:elvEmbeddedElectronicsHeadlights a owl:Class,
+        futuram:SubComponent ;
+    rdfs:label "Embedded electronics — headlights" ;
+    rdfs:comment "Front lighting assemblies including LED/HID modules and their electronic drivers." ;
+    rdfs:subClassOf futuram:elvEmbeddedElectronics ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:elvGeneralComponents a owl:Class,
+        futuram:MainComponent ;
+    rdfs:label "General components" ;
+    rdfs:comment "Shared structural and mechanical components common across all drivetrain variants." ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:elvPowerElectronics a owl:Class,
+        futuram:SubComponent ;
+    rdfs:label "Power electronics" ;
+    rdfs:comment "Inverters, converters, and on-board chargers managing high-voltage electrical power flow." ;
+    rdfs:subClassOf futuram:elvEmbeddedElectronics ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:extrudedAlAlloys a owl:Class ;
+    rdfs:label "futuram-extrudedAlAlloys" ;
+    rdfs:subClassOf futuram:AlAndAlAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:forgedAlAlloys a owl:Class ;
+    rdfs:label "futuram-forgedAlAlloys" ;
+    rdfs:subClassOf futuram:AlAndAlAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:ironWroughtAndCast a owl:Class ;
+    rdfs:label "futuram-ironWroughtAndCast" ;
+    rdfs:subClassOf futuram:ferrousMetals,
+        futuram:ferrousMetals_materialKeyLevel1 ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:otherAndMixedMaterials a owl:Class ;
+    rdfs:label "futuram-otherAndMixedMaterials" ;
+    rdfs:subClassOf futuram:Material ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:sheetAlAlloys a owl:Class ;
+    rdfs:label "futuram-sheetAlAlloys" ;
+    rdfs:subClassOf futuram:AlAndAlAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:toolSteel a owl:Class ;
+    rdfs:label "futuram-toolSteel" ;
+    rdfs:subClassOf futuram:ferrousMetals,
+        futuram:steelAndSteelAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:3xx.xAlAlloy a owl:Class ;
+    rdfs:label "futuram-3xx.xAlAlloy" ;
+    rdfs:subClassOf futuram:castAlAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:3xxxAlAlloy a owl:Class ;
+    rdfs:label "futuram-3xxxAlAlloy" ;
+    rdfs:subClassOf futuram:wroughtAlAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:8xxxAlAlloy a owl:Class ;
+    rdfs:label "futuram-8xxxAlAlloy" ;
+    rdfs:subClassOf futuram:wroughtAlAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:PbAndPbAlloys a owl:Class ;
+    rdfs:label "futuram:PbAndPbAlloys" ;
+    rdfs:subClassOf futuram:nonCuAndAlAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:SnAndSnAlloys a owl:Class ;
+    rdfs:label "futuram:SnAndSnAlloys" ;
+    rdfs:subClassOf futuram:nonCuAndAlAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:SubSubComponent a owl:Class ;
+    rdfs:label "futuram-SubSubComponent" ;
+    rdfs:comment "Third component-granularity level: a Component that is a direct part of a SubComponent. Defined (equivalentClass), entailed top-down via isDirectPartOf. Declared for schema stability; UNPOPULATED in the current ELV source data, whose component hierarchy is two levels deep (Main/Sub only). Disjoint from the other three component layers."@en ;
+    rdfs:subClassOf futuram:Component ;
+    owl:equivalentClass [ a owl:Class ;
+            owl:intersectionOf ( futuram:Component [ a owl:Restriction ;
+                        owl:onProperty futuram:isDirectPartOf ;
+                        owl:someValuesFrom futuram:SubComponent ] ) ] ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:ferrousMetals_materialKeyLevel1 a owl:Class ;
+    rdfs:label "futuram-ferrousMetals_materialKeyLevel1" ;
+    rdfs:subClassOf futuram:ferrousMetals ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:glassFiberUndefined a owl:Class ;
+    rdfs:label "futuram-glassFiberUndefined" ;
+    rdfs:subClassOf futuram:glass ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:leadGlass a owl:Class ;
+    rdfs:label "futuram-leadGlass" ;
+    rdfs:subClassOf futuram:glass ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:otherCuAlloys a owl:Class ;
+    rdfs:label "futuram-otherCuAlloys" ;
+    rdfs:subClassOf futuram:CuAndCuAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:sodaLimeGlass a owl:Class ;
+    rdfs:label "futuram-sodaLimeGlass" ;
+    rdfs:subClassOf futuram:glass ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:steelAndSteelAlloys a owl:Class ;
+    rdfs:label "futuram-steelAndSteelAlloys" ;
+    rdfs:subClassOf futuram:ferrousMetals,
+        futuram:ferrousMetals_materialKeyLevel1 ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:5xxxAlAlloy a owl:Class ;
+    rdfs:label "futuram-5xxxAlAlloy" ;
+    rdfs:subClassOf futuram:sheetAlAlloys,
+        futuram:wroughtAlAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:carbon a owl:Class ;
+    rdfs:label "futuram-carbon" ;
+    rdfs:subClassOf futuram:Minerals ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:carbonSteel a owl:Class ;
+    rdfs:label "futuram-carbonSteel" ;
+    rdfs:subClassOf futuram:ferrousMetals ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:fluids a owl:Class ;
+    rdfs:label "futuram-fluids" ;
+    rdfs:subClassOf futuram:Material ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:fusibleSnAlloys a owl:Class ;
+    rdfs:label "futuram-fusibleSnAlloys" ;
+    rdfs:subClassOf futuram:SnAndSnAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:glass a owl:Class ;
+    rdfs:label "futuram-glass" ;
+    rdfs:subClassOf futuram:glassAndCeramics ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:glassAndCeramics a owl:Class ;
+    rdfs:label "futuram-glassAndCeramics" ;
+    rdfs:subClassOf futuram:Minerals ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:lowCarbonSteel a owl:Class ;
+    rdfs:label "futuram-lowCarbonSteel" ;
+    rdfs:subClassOf futuram:carbonSteel,
+        futuram:steelAndSteelAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:wood a owl:Class ;
+    rdfs:label "futuram-wood" ;
+    rdfs:subClassOf futuram:Organics ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:2xx.xAlAlloy a owl:Class ;
+    rdfs:label "futuram-2xx.xAlAlloy" ;
+    rdfs:subClassOf futuram:castAlAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:6xxxAlAlloy a owl:Class ;
+    rdfs:label "futuram-6xxxAlAlloy" ;
+    rdfs:subClassOf futuram:extrudedAlAlloys,
+        futuram:wroughtAlAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:AgAndAgAlloys a owl:Class ;
+    rdfs:label "futuram:AgAndAgAlloys" ;
+    rdfs:subClassOf futuram:nonCuAndAlAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:Minerals a owl:Class ;
+    rdfs:label "futuram-Minerals" ;
+    rdfs:subClassOf futuram:Material ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:catalystsMaterial a owl:Class ;
+    rdfs:label "futuram-catalystsMaterial" ;
+    rdfs:subClassOf futuram:Material ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:composites a owl:Class ;
+    rdfs:label "futuram-composites" ;
+    rdfs:subClassOf futuram:Material ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:non-ferrousMetals a owl:Class ;
+    rdfs:label "futuram-non-ferrousMetals" ;
+    rdfs:subClassOf futuram:Material ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:permanentMagneticMaterials a owl:Class ;
+    rdfs:label "futuram-permanentMagneticMaterials" ;
+    rdfs:subClassOf futuram:Material,
+        futuram:non-ferrousMetals ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:2xxxAlAlloy a owl:Class ;
+    rdfs:label "futuram-2xxxAlAlloy" ;
+    rdfs:subClassOf futuram:forgedAlAlloys,
+        futuram:wroughtAlAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:AlAndAlAlloys a owl:Class ;
+    rdfs:label "futuram-AlAndAlAlloys" ;
+    rdfs:subClassOf futuram:non-ferrousMetals ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:CuAndCuAlloys a owl:Class ;
+    rdfs:label "futuram-CuAndCuAlloys" ;
+    rdfs:subClassOf futuram:non-ferrousMetals ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:MainComponent a owl:Class ;
+    rdfs:label "futuram-MainComponent" ;
+    rdfs:comment "Top component-granularity level (componentKeyLevel0 in the source data): a Component that is not a direct part of any other component. The roots of the futuram:hasDirectPart backbone are asserted as MainComponent (the seed of the top-down layering); the lower layers are then entailed via isDirectPartOf. Disjoint from the other three component layers."@en ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:Organics a owl:Class ;
+    rdfs:label "futuram-Organics" ;
+    rdfs:subClassOf futuram:Material ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:bronzes a owl:Class ;
+    rdfs:label "futuram-bronzes" ;
+    rdfs:subClassOf futuram:CuAndCuAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:plastics a owl:Class ;
+    rdfs:label "futuram-plastics" ;
+    rdfs:subClassOf futuram:Organics ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:stainlessSteel a owl:Class ;
+    rdfs:label "futuram-stainlessSteel" ;
+    rdfs:subClassOf futuram:ferrousMetals ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:elvEmbeddedElectronics a owl:Class,
+        futuram:MainComponent ;
+    rdfs:label "Embedded electronics" ;
+    rdfs:comment "Electronic control units, sensors, actuators, wiring harnesses, and headlights integrated throughout the vehicle." ;
+    rdfs:subClassOf futuram:Component ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy ;
+    futuram:hasDirectPart futuram:elvEmbeddedElectronicsActuators,
+        futuram:elvEmbeddedElectronicsCables,
+        futuram:elvEmbeddedElectronicsControllers,
+        futuram:elvEmbeddedElectronicsHeadlights,
+        futuram:elvPowerElectronics .
+
+futuram:PlaceholderMaterials a owl:Class ;
+    rdfs:label "futuram-PlaceholderMaterials" ;
+    rdfs:subClassOf futuram:Material ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:additives a owl:Class ;
+    rdfs:label "futuram-additives" ;
+    rdfs:subClassOf futuram:Material ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:alloySteel a owl:Class ;
+    rdfs:label "futuram-alloySteel" ;
+    rdfs:subClassOf futuram:ferrousMetals ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:brasses a owl:Class ;
+    rdfs:label "futuram-brasses" ;
+    rdfs:subClassOf futuram:CuAndCuAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:wroughtAlAlloys a owl:Class ;
+    rdfs:label "futuram-wroughtAlAlloys" ;
+    rdfs:subClassOf futuram:AlAndAlAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:SubComponent a owl:Class ;
+    rdfs:label "futuram-SubComponent" ;
+    rdfs:comment "Second component-granularity level (componentKeyLevel1 in the source data): a Component that is a direct part of a MainComponent. Defined (equivalentClass) so the layer is ENTAILED top-down from the MainComponent seed via isDirectPartOf, not asserted by hand. Disjoint from the other three component layers."@en ;
+    rdfs:subClassOf futuram:Component ;
+    owl:equivalentClass [ a owl:Class ;
+            owl:intersectionOf ( futuram:Component [ a owl:Restriction ;
+                        owl:onProperty futuram:isDirectPartOf ;
+                        owl:someValuesFrom futuram:MainComponent ] ) ] ;
+    futuram:hasAggregationStrategy futuram:YearSliceMeanStrategy .
+
+futuram:castAlAlloys a owl:Class ;
+    rdfs:label "futuram-castAlAlloys" ;
+    rdfs:subClassOf futuram:AlAndAlAlloys ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:constructionMinerals a owl:Class ;
+    rdfs:label "futuram-constructionMinerals" ;
+    rdfs:subClassOf futuram:Minerals ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:ferrousMetals a owl:Class ;
+    rdfs:label "futuram-Ferrous metals" ;
+    rdfs:subClassOf futuram:Material ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+futuram:nonCuAndAlAlloys a owl:Class ;
+    rdfs:label "futuram-nonCuAndAlAlloys" ;
+    rdfs:subClassOf futuram:non-ferrousMetals ;
+    futuram:hasAggregationStrategy futuram:MassWeightedRollupStrategy .
+
+[] a owl:AllDisjointClasses ;
+    owl:members ( futuram:elvGeneralComponents futuram:elvEmbeddedElectronics futuram:elvDepollutionComponents ) .
+
+[] a owl:AllDisjointClasses ;
+    owl:members ( futuram:MainComponent futuram:SubComponent futuram:SubSubComponent futuram:SubSubSubComponent ) .
+

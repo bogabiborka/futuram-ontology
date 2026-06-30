@@ -1,0 +1,15 @@
+{
+  "testcases": "bench/testcases/domain.yaml",
+  "provider": "ollama",
+  "model": "minimax-m3:cloud",
+  "backends": [
+    "fq",
+    "composition"
+  ],
+  "skills": true,
+  "maxSteps": 23,
+  "maxAttempts": 3,
+  "tokenBudget": 800000,
+  "timeout": 900,
+  "note": ""
+}

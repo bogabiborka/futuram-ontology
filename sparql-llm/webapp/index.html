@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FutuRaM Chat</title>
+    <meta
+      name="description"
+      content="Ask about the material, component and element composition of products (e.g. end-of-life vehicles) in the FutuRaM knowledge graph."
+    />
+    <link rel="icon" type="image/png" href="/assets/sib-logo--jUM9mer.png" />
+
+    <script type="module" crossorigin src="/assets/index-Dp5RABF9.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-DUrw8Cxs.css">
+  </head>
+
+  <!-- Demo chat webpage served by the FutuRaM API. The intro + the backend
+       picker are rendered DYNAMICALLY from settings.endpoints (Jinja vars
+       `backends` / `active_backend`, injected by the GET / route patch) — no
+       hardcoded backend list. Each backend is an INDEPENDENT endpoint; the
+       picker SELECTS which one the chat queries (no union, no restart). -->
+  <body>
+    <!-- Backend picker: lists the configured backends; selecting one scopes the
+         chat to that backend's own /query for the session. -->
+    <div style="background:#1d4ed8;color:#fff;padding:8px 12px;display:flex;
+                align-items:center;justify-content:center;gap:.6rem;flex-wrap:wrap;">
+      <span style="font-weight:600;letter-spacing:.02em;">🗄️ Backend</span>
+      <select id="futuram-backend"
+              style="background:#fff;color:#1d4ed8;font-weight:600;border:none;
+                     border-radius:6px;padding:4px 8px;">
+        {% for b in backends %}
+        <option value="{{ b.id }}" data-endpoint="{{ b.endpoint_url }}"
+          {% if not b.reachable %}disabled{% endif %}
+          {% if b.id == active_backend %}selected{% endif %}>{{ b.label }}{% if not b.reachable %} (offline){% endif %}</option>
+        {% endfor %}
+      </select>
+      <span style="opacity:.85;font-weight:400;">— each backend is independent; the
+        chat queries the selected one</span>
+    </div>
+
+    <div class="flex flex-col h-screen w-full">
+      <nav class="flex justify-end"></nav>
+
+      <div class="text-left text-sm mb-5 prose max-w-3xl mx-auto pb-5 border-b">
+        <h2 class="text-xl text-center font-semibold border-b pb-2">
+          {{ app_name or "FutuRaM Chat" }}
+          <div
+            class="inline-block ml-3 px-3 py-1 bg-red-600 text-white text-sm font-semibold rounded-full justify-center items-center"
+          >
+            Beta
+          </div>
+        </h2>
+        <p>
+          <strong>FutuRaM Chat</strong> answers questions about the
+          <strong>material, component and element composition</strong> of products
+          in the FutuRaM knowledge graph. It turns your question into a SPARQL query
+          over the flat <code>fq:</code> query vocabulary and runs it against the
+          <strong>selected backend</strong> (each backend is an independent SPARQL
+          endpoint — pick one above):
+        </p>
+        <ul style="list-style: inside">
+          {% for b in backends %}
+          <li>
+            <strong>{{ b.label }}</strong>{% if b.description %} — {{ b.description }}{% endif %}
+            {% if b.id == active_backend %}<em>(active)</em>{% elif not b.reachable %}<em>(offline)</em>{% endif %}
+          </li>
+          {% endfor %}
+        </ul>
+        <p>
+          Ask, for example, <em>how much of an element / material / component is in a
+          given class</em> — the assistant builds the <code>fq:contains</code>
+          pattern, declares the constituent kind via the ontology
+          (<code>rdfs:subClassOf futuram:Element</code>), and
+          reads back the amount.
+        </p>
+      </div>
+
+      <div class="flex-grow mx-5">
+        <chat-with-context
+          chat-endpoint="{{ chat_endpoint }}"
+          feedback-endpoint="{{ feedback_endpoint }}"
+          api-key="{{ api_key }}"
+          examples="{{ examples }}"
+        >
+        </chat-with-context>
+      </div>
+    </div>
+
+    <!-- Persist the chosen backend and send it on every chat request. The chat
+         POST is patched server-side to read this header / body field and scope
+         retrieval + the SPARQL query to that backend's endpoint. -->
+    <script>
+      (function () {
+        var sel = document.getElementById("futuram-backend");
+        if (!sel) return;
+        var KEY = "futuram_backend";
+        var saved = localStorage.getItem(KEY);
+        if (saved) {
+          for (var i = 0; i < sel.options.length; i++) {
+            // only restore a saved choice if that backend is currently reachable
+            if (sel.options[i].value === saved && !sel.options[i].disabled) {
+              sel.selectedIndex = i; break;
+            }
+          }
+        }
+        window.__futuramBackend = sel.value;
+        sel.addEventListener("change", function () {
+          window.__futuramBackend = sel.value;
+          localStorage.setItem(KEY, sel.value);
+        });
+        // Tag every chat fetch with the chosen backend (header the /chat patch reads).
+        var _fetch = window.fetch;
+        window.fetch = function (input, init) {
+          try {
+            var url = typeof input === "string" ? input : (input && input.url) || "";
+            if (url.indexOf("{{ chat_endpoint }}") !== -1) {
+              init = init || {};
+              init.headers = new Headers(init.headers || {});
+              init.headers.set("X-FutuRaM-Backend", window.__futuramBackend || "");
+            }
+          } catch (e) {}
+          return _fetch(input, init);
+        };
+      })();
+    </script>
+  </body>
+</html>

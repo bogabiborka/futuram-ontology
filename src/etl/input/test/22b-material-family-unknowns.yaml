@@ -1,0 +1,111 @@
+id: "22b_material_family_unknowns"
+title: "material-family aggregation WITH unknowns (coarse component->element bound above the known path)"
+note: |
+  Isolates the MATERIAL aggregation mechanism, which differs from products /
+  components: a material SUPERCLASS is the MASS-WEIGHTED combination of the
+  materials under it (NOT an equal subclass mean), and it rolls up through
+  EVERY layer of the material subClass hierarchy:
+
+    pureCu, highCuAlloys ─┐
+    mFamily(CuAndCuAlloys)├─→ CuAndCuAlloys ─┐
+                          ┘                  ├─→ non-ferrousMetals ─→ Material
+    extrudedAlAlloys ─→ AlAndAlAlloys ───────┘
+
+  One component `block` is made of six materials from THREE families (Cu, Al,
+  steel). A statement may target a leaf material (pureCu, highCuAlloys,
+  extrudedAlAlloys) OR a family superclass directly (mFamily is CuAndCuAlloys).
+  Every layer is a mass-weighted rollup of everything beneath it.
+
+  Masses (conserve to 1.0):
+    mPure   (pureCu)          0.30  Cu[0.98,1.00] best 0.99
+    mAlloy  (highCuAlloys)    0.20  Cu[0.80,0.90] best 0.85
+    mFamily (CuAndCuAlloys)   0.15  Cu[0.90,0.95] best 0.925
+    mAl1    (AlAndAlAlloys)   0.20  Al[0.95,0.99] best 0.97 ; Cu[0,0.01] best 0.005
+    mAl2    (extrudedAlAlloys)0.10  Al[0.90,0.95] best 0.925
+    mSteel  (steelAndSteelAlloys) 0.05  Fe (ferrous, separate family)
+
+  Mass-weighted Cu content per LAYER (aggregate_material_family(family,'Copper')):
+    CuAndCuAlloys  Cu = (0.30*0.99 + 0.20*0.85 + 0.15*0.925)/0.65  best 0.93192
+                       lo 0.90615  hi 0.95769
+    non-ferrousMetals Cu = pool Cu-fam + Al-fam (Al carries trace Cu):
+                       best 0.63868  lo 0.62000  hi 0.65737
+    non-ferrousMetals Al = mass-weighted over the same non-ferrous set:
+                       best 0.30158  lo 0.29474  hi 0.30842
+  Higher family layers pool MORE materials; the mass-weighting and min/max
+  intervals propagate up the subClass tree.
+
+  UNKNOWNS EXTENSION (this file): the material-family rollup above is UNCHANGED
+  from scenario 22. We additionally add ONE coarse composition statement
+  block -> ni (best 0.30). `block` is a Component and `ni` is an Element, so
+  this bound skips the intervening MATERIAL level (Component->Element, two
+  levels apart) and is therefore COARSE: it is automatically EXCLUDED from
+  conservation (it can never cause overshoot) and instead creates an UNKNOWN
+  nickel residual.
+
+  The known granular nickel reaching `block` is the sum over its materials of
+  (material mass * that material's ni fraction):
+    mPure   0.30 * ni 0.01  = 0.00300
+    mAlloy  0.20 * ni 0.15  = 0.03000
+    mFamily 0.15 * ni 0.075 = 0.01125
+    (mAl1, mAl2, mSteel carry no ni)
+    known-granular-ni = 0.04425
+  The coarse block->ni bound (0.30) EXCEEDS this known path, so the residual
+    unknown_min = coarse_min - known-granular-ni = 0.30 - 0.04425 = 0.25575
+  is POSITIVE and is attributed to nickel that the granular material->element
+  statements do not account for. It is derived as the path
+    block -> unknownMaterial -> ni
+  i.e. nickel arriving through an unenumerated ("unknown") material.
+
+provenance:
+  source: "FutuRaM composition datasheet (test)"
+  agent: "FutuRaM test organisation"
+  production: "forming"
+  validFrom: "2020-01-01"
+  validUntil: "2026-12-31"
+
+nodes:
+  block: {level: Component, class: elvElectricMotor_Y2020, itemMass: 50.0}
+  mPure: {level: Material, class: pureCu}
+  mAlloy: {level: Material, class: highCuAlloys}
+  mFamily: {level: Material, class: CuAndCuAlloys}
+  mAl1: {level: Material, class: AlAndAlAlloys}
+  mAl2: {level: Material, class: extrudedAlAlloys}
+  mSteel: {level: Material, class: steelAndSteelAlloys}
+  cu: {level: Element, class: Copper}
+  ni: {level: Element, class: Nickel}
+  al: {level: Element, class: Aluminium}
+  fe: {level: Element, class: Iron}
+  c: {level: Element, class: Carbon}
+
+statements:
+  # block -> 6 materials; masses conserve (0.30+0.20+0.15+0.20+0.10+0.05 = 1.0)
+- {whole: block, part: mPure, best: 0.3, lo: 0.30, hi: 0.30, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: block, part: mAlloy, best: 0.2, lo: 0.20, hi: 0.20, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: block, part: mFamily, best: 0.15, lo: 0.15, hi: 0.15, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: block, part: mAl1, best: 0.2, lo: 0.20, hi: 0.20, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: block, part: mAl2, best: 0.1, lo: 0.10, hi: 0.10, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: block, part: mSteel, best: 0.05, lo: 0.05, hi: 0.05, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+  # material -> element composition statements
+- {whole: mPure, part: cu, best: 0.99, lo: 0.98, hi: 1.00, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: mPure, part: ni, best: 0.01, lo: 0.00, hi: 0.02, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: mAlloy, part: cu, best: 0.85, lo: 0.80, hi: 0.90, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: mAlloy, part: ni, best: 0.15, lo: 0.10, hi: 0.20, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: mFamily, part: cu, best: 0.925, lo: 0.90, hi: 0.95, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: mFamily, part: ni, best: 0.075, lo: 0.05, hi: 0.10, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: mAl1, part: al, best: 0.97, lo: 0.95, hi: 0.99, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: mAl1, part: cu, best: 0.005, lo: 0.00, hi: 0.01, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: mAl2, part: al, best: 0.925, lo: 0.90, hi: 0.95, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: mAl2, part: fe, best: 0.01, lo: 0.00, hi: 0.02, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: mSteel, part: fe, best: 0.98, lo: 0.97, hi: 0.99, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: mSteel, part: c, best: 0.02, lo: 0.01, hi: 0.03, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+  # COARSE Component->Element bound (skips Material level): excluded from conservation, creates an unknown ni residual
+- {whole: block, part: ni, best: 0.30, lo: 0.30, hi: 0.30, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+subclass_of:
+  elvElectricMotor_Y2020:
+  - elvElectricMotor
+class_time:
+  elvElectricMotor_Y2020:
+    year: 2020
+    slices:
+    - parent: elvElectricMotor
+      axis: year-slice-mean

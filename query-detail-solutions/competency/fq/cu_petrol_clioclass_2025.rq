@@ -1,0 +1,11 @@
+# Copper in a petrol Clio-class car (segment B petrol), 2025.
+PREFIX fq:      <https://www.purl.org/futuram/query#>
+PREFIX futuram: <https://www.purl.org/futuram#>
+PREFIX afn:     <http://jena.apache.org/ARQ/function#>
+SELECT (SUM(?kg) AS ?total) (afn:sqrt(SUM(?sig*?sig)) AS ?unc) WHERE {
+  SELECT (?m*?f AS ?kg) (?ru*?m*?f AS ?sig) WHERE {
+    futuram:V0101010102_Y2025 fq:itemMass ?m ;
+        fq:contains [ fq:constituent futuram:Copper ;
+                      fq:amount ?f ; fq:relativeUncertainty ?ru ] .
+  }
+}

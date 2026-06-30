@@ -1,0 +1,43 @@
+# Copper in a petrol Clio-class car (segment B petrol), 2025.
+PREFIX futuram: <https://www.purl.org/futuram#>
+PREFIX ex:      <https://www.purl.org/futuram/example#>
+PREFIX qudt:    <http://qudt.org/schema/qudt/>
+PREFIX dqv:     <http://www.w3.org/ns/dqv#>
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX afn:     <http://jena.apache.org/ARQ/function#>
+SELECT (SUM(?kg) AS ?total) (afn:sqrt(SUM(?sig*?sig)) AS ?unc) WHERE {
+  SELECT (?mass * ?f1 * ?f2 * ?f3 AS ?kg) (?ru * ?mass * ?f1 * ?f2 * ?f3 AS ?sig) WHERE {
+    ex:V0101010102_2025 futuram:itemMass/qudt:numericValue ?mass .
+    ex:V0101010102_2025 futuram:hasCompositionStatement/futuram:hasPartRelation ?pr1 .
+    ?pr1 futuram:refersTo ?comp ;
+         futuram:hasQuantity/futuram:hasBestValue/qudt:numericValue ?f1 .
+    ?comp futuram:hasCompositionStatement/futuram:hasPartRelation ?pr2 .
+    ?pr2 futuram:refersTo ?mat ;
+         futuram:hasQuantity/futuram:hasBestValue/qudt:numericValue ?f2 .
+    ?mat futuram:hasCompositionStatement/futuram:hasPartRelation ?pr3 .
+    ?pr3 futuram:refersTo ?elem ;
+         futuram:hasQuantity/futuram:hasBestValue/qudt:numericValue ?f3 .
+    ?elem rdf:type futuram:Copper .
+    { SELECT ?pr3 (
+        IF(?wsum <  7.0, 0.1 ,
+        IF(?wsum <  9.0, 0.15,
+        IF(?wsum < 10.0, 0.2 ,
+        IF(?wsum < 14.0, 0.25,
+        IF(?wsum < 15.0, 0.3 , 0.35))))) / 1.7320508 AS ?ru)
+      WHERE {
+        { SELECT ?pr3
+            (SUM(IF(?dim = dqv:Accuracy,    ?v*1.0,
+                 IF(?dim = dqv:Completeness, ?v*1.0,
+                 IF(?dim = dqv:Consistency,  ?v*1.0,
+                 IF(?dim = dqv:Integrity,    ?v*0.5,
+                 IF(?dim = dqv:Timeliness,   ?v*1.5,
+                 IF(?dim = dqv:Validity,     ?v*1.0, 0))))))) AS ?wsum)
+          WHERE {
+            ?pr3 dqv:hasQualityMeasurement ?meas .
+            ?meas dqv:isMeasurementOf/dqv:inDimension ?dim ; dqv:value ?v .
+          } GROUP BY ?pr3
+        }
+      }
+    }
+  }
+}

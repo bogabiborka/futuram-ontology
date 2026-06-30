@@ -1,0 +1,181 @@
+@prefix ex: <https://www.purl.org/futuram/query/examples#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+ex:absoluteAmountFromFraction a sh:SPARQLExecutable,
+        sh:SPARQLSelectExecutable ;
+    rdfs:comment "How many KILOGRAMS of an element are in one item of a class? Composition is served as a kg/kg fraction (fq:amount); multiply by the class's fq:itemMass (absolute kg of one item) to get absolute kg: absoluteKg = itemMass x amount. Joined to rdfs:label for a human-readable element name." ;
+    sh:prefixes ex: ;
+    sh:select """SELECT ?elementLabel ?fraction ?itemMass ?absoluteKg WHERE {
+  futuram:V0301030105 fq:itemMass ?itemMass ;
+                      fq:contains ?a .
+  ?a fq:constituent ?el ; fq:amount ?fraction .
+  ?el rdfs:subClassOf futuram:Element ; rdfs:label ?elementLabel .
+  BIND(?itemMass * ?fraction AS ?absoluteKg)
+} ORDER BY DESC(?absoluteKg)""" .
+
+ex:classByName a sh:SPARQLExecutable,
+        sh:SPARQLSelectExecutable ;
+    rdfs:comment "Resolve a user's plain-language term (e.g. 'electric motor', 'copper', 'stainless steel') to the futuram: class IRI before querying. EVERY class in the ontology is guaranteed to carry an rdfs:label (SHACL-enforced), so this lookup always works — match case-insensitively and substring, since labels are like 'futuram-elvElectricMotor'. Use the returned ?class as the subject or constituent in any fq:contains query." ;
+    sh:prefixes ex: ;
+    sh:select """SELECT ?class ?label WHERE {
+  ?class a owl:Class ;
+         rdfs:label ?label .
+  FILTER(CONTAINS(LCASE(STR(?label)), "electricmotor"))
+}""" .
+
+ex:componentInProduct a sh:SPARQLExecutable,
+        sh:SPARQLSelectExecutable ;
+    rdfs:comment "How much of a component (e.g. the electric motor) is in a product, by mass fraction? The constituent's KIND is its rdfs:subClassOf edge to futuram:Component (there is no fq:level marker)." ;
+    sh:prefixes ex: ;
+    sh:select """SELECT ?amount WHERE {
+  futuram:V0301030101 fq:contains ?a .
+  ?a fq:constituent futuram:elvElectricMotor ;
+     fq:amount ?amount .
+  futuram:elvElectricMotor rdfs:subClassOf futuram:Component .
+}""" .
+
+ex:copperInSmallCar a sh:SPARQLExecutable,
+        sh:SPARQLSelectExecutable ;
+    rdfs:comment "How much copper (kg/kg) is in an electric car (class elvBEV)? Declare the kind via rdfs:subClassOf futuram:Element." ;
+    sh:prefixes ex: ;
+    sh:select """SELECT ?amount ?low ?high WHERE {
+  futuram:elvBEV fq:contains ?a .
+  ?a fq:constituent futuram:Copper ;
+     fq:amount ?amount .
+  futuram:Copper rdfs:subClassOf futuram:Element .
+  OPTIONAL { ?a fq:amountLow ?low ; fq:amountHigh ?high }
+}""" .
+
+ex:criticalElements a sh:SPARQLExecutable,
+        sh:SPARQLSelectExecutable ;
+    rdfs:comment "Which elements are flagged CRITICAL and/or STRATEGIC raw materials (EU 2024)? The criticality overlay attaches crit:remark to a ChEBI element; the remark's crit:importance is CRITICAL and/or STRATEGIC for a given crit:year." ;
+    sh:prefixes ex: ;
+    sh:select """PREFIX crit: <http://purl.org/futuram/criticality#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT ?name ?importance ?year WHERE {
+  ?element crit:remark ?remark ;
+           skos:altLabel ?name .
+  ?remark crit:importance ?importance ;
+          crit:year ?year .
+} ORDER BY ?name""" .
+
+ex:elementByName a sh:SPARQLExecutable,
+        sh:SPARQLSelectExecutable ;
+    rdfs:comment "Find the ChEBI element/compound IRI for a plain element name (e.g. 'copper'). The Metal-Wheel overlay keys on ChEBI IRIs; skos:altLabel is the human name that bridges to an fq: element you already asked about." ;
+    sh:prefixes ex: ;
+    sh:select """PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT ?element ?name WHERE {
+  ?element skos:altLabel ?name .
+  FILTER(LCASE(STR(?name)) = "copper")
+}""" .
+
+ex:elementsInProduct a sh:SPARQLExecutable,
+        sh:SPARQLSelectExecutable ;
+    rdfs:comment "List every element and its amount (kg/kg) in a product class. Filter the kind with `?element rdfs:subClassOf futuram:Element` — a product also contains components and materials. The list includes a futuram:unknownElement row: the unattributed remainder, so the amounts sum to 1.0." ;
+    sh:prefixes ex: ;
+    sh:select """SELECT ?element ?amount WHERE {
+  futuram:V0301030105 fq:contains ?a .
+  ?a fq:constituent ?element ; fq:amount ?amount .
+  ?element rdfs:subClassOf futuram:Element .
+} ORDER BY DESC(?amount)""" .
+
+ex:itemMassByYear a sh:SPARQLExecutable,
+        sh:SPARQLSelectExecutable ;
+    rdfs:comment "How does a component's mass change BY YEAR? Each year slice (<component>_Y<year>, carrying fq:referenceYear) has its own fq:itemMass, derived from that year's instances; the year-free base is their mean. Lists the per-year item mass so the trend over time is visible." ;
+    sh:prefixes ex: ;
+    sh:select """SELECT ?slice ?year ?itemMass WHERE {
+  ?slice fq:sliceOf futuram:elvGeneralComponents ;
+         fq:sliceAxis futuram:YearSliceMeanStrategy ;
+         fq:referenceYear ?year ;
+         fq:itemMass ?itemMass .
+} ORDER BY ?year""" .
+
+ex:itemMassOfClass a sh:SPARQLExecutable,
+        sh:SPARQLSelectExecutable ;
+    rdfs:comment "How heavy is ONE item of a Product/Component class, in kilograms? fq:itemMass is the absolute mass of one item (e.g. one BEV, one electric motor) — the reference anchor. Composition amounts (fq:amount) are kg/kg fractions; fq:itemMass is the absolute scale." ;
+    sh:prefixes ex: ;
+    sh:select """SELECT ?itemMass WHERE {
+  futuram:V0301030105 fq:itemMass ?itemMass .
+}""" .
+
+ex:labelledConstituents a sh:SPARQLExecutable,
+        sh:SPARQLSelectExecutable ;
+    rdfs:comment "Return human-readable names alongside amounts. Because every class carries an rdfs:label (SHACL-enforced), join each constituent IRI to its rdfs:label so the answer shows names (not opaque IRIs). Works for the unknown* remainder rows too — they are labelled classes like any other." ;
+    sh:prefixes ex: ;
+    sh:select """SELECT ?constituentLabel ?amount WHERE {
+  futuram:elvBEV fq:contains ?a .
+  ?a fq:constituent ?c ; fq:amount ?amount .
+  ?c rdfs:subClassOf futuram:Element ;
+     rdfs:label ?constituentLabel .
+} ORDER BY DESC(?amount)""" .
+
+ex:materialInComponent a sh:SPARQLExecutable,
+        sh:SPARQLSelectExecutable ;
+    rdfs:comment "How much of a material (e.g. pure copper) is in a component class (e.g. the electric motor)? Declare the kind via rdfs:subClassOf futuram:Material." ;
+    sh:prefixes ex: ;
+    sh:select """SELECT ?amount WHERE {
+  futuram:elvElectricMotor fq:contains ?a .
+  ?a fq:constituent futuram:pureCu ;
+     fq:amount ?amount .
+  futuram:pureCu rdfs:subClassOf futuram:Material .
+}""" .
+
+ex:motorOfProductContext a sh:SPARQLExecutable,
+        sh:SPARQLSelectExecutable ;
+    rdfs:comment "Contextual scope: how much copper is in a motor THAT IS PART OF a specific product (not motors in general)? Constrain with futuram:partOf." ;
+    sh:prefixes ex: ;
+    sh:select """SELECT ?amount WHERE {
+  ?m a futuram:elvElectricMotor ;
+     futuram:partOf futuram:V0301030101 .
+  ?m fq:contains ?a .
+  ?a fq:constituent futuram:Copper ;
+     fq:amount ?amount .
+  futuram:Copper rdfs:subClassOf futuram:Element .
+}""" .
+
+ex:recoverabilityOfElement a sh:SPARQLExecutable,
+        sh:SPARQLSelectExecutable ;
+    rdfs:comment "How recoverable is an element, and by what process? Each ChEBI element has metalwheel:hasRecoveryInformation nodes — one per base-metal scenario — carrying the recovery process, the base metal, and the expected recovery effectiveness (MainlyRecovered / RecoveredInAlloy / MainlyLost)." ;
+    sh:prefixes ex: ;
+    sh:select """PREFIX mw: <https://purl.org/metalwheel#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT ?name ?baseMetal ?process ?effectiveness WHERE {
+  ?element skos:altLabel ?name ;
+           mw:hasRecoveryInformation ?ri .
+  FILTER(LCASE(STR(?name)) = "copper")
+  OPTIONAL { ?ri mw:hasBaseMetal ?baseMetal }
+  OPTIONAL { ?ri mw:hasRecoveryProcess ?process }
+  OPTIONAL { ?ri mw:hasExpectedRecoveryEffectiveness ?effectiveness }
+}""" .
+
+ex:recoverabilityOfProductElement a sh:SPARQLExecutable,
+        sh:SPARQLSelectExecutable ;
+    rdfs:comment "Cross-vocabulary: for an element present in a product (via fq:contains), is it recoverable (via the Metal-Wheel overlay)? Joins the two graphs on the element NAME — fq: gives the amount, skos:altLabel bridges to the ChEBI recovery node." ;
+    sh:prefixes ex: ;
+    sh:select """PREFIX mw: <https://purl.org/metalwheel#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT ?elementName ?amount ?effectiveness WHERE {
+  futuram:elvBEV fq:contains ?a .
+  ?a fq:constituent ?el ; fq:amount ?amount .
+  ?el rdfs:subClassOf futuram:Element ; rdfs:label ?elementName .
+  OPTIONAL {
+    ?chebi skos:altLabel ?elementName ;
+           mw:hasRecoveryInformation/mw:hasExpectedRecoveryEffectiveness ?effectiveness .
+  }
+} ORDER BY DESC(?amount)""" .
+
+ex:unknownRemainder a sh:SPARQLExecutable,
+        sh:SPARQLSelectExecutable ;
+    rdfs:comment "How much of a whole is UNATTRIBUTED (not located to any named element/material/component)? The remainder is a FIRST-CLASS constituent of an unknown* class (futuram:unknownElement / unknownMaterial / unknownComponent, or a per-context subclass like unknownComponent_in_V0301030105) — query it like any constituent. Each level's amounts (named + unknown) sum to 1.0." ;
+    sh:prefixes ex: ;
+    sh:select """SELECT ?unknown ?amount WHERE {
+  futuram:elvBEV fq:contains ?a .
+  ?a fq:constituent ?unknown ; fq:amount ?amount .
+  { ?unknown rdfs:subClassOf futuram:unknownElement }
+  UNION { ?unknown rdfs:subClassOf futuram:unknownMaterial }
+  UNION { ?unknown rdfs:subClassOf futuram:unknownComponent }
+  UNION { VALUES ?unknown { futuram:unknownElement futuram:unknownMaterial
+                            futuram:unknownComponent } }
+}""" .
+

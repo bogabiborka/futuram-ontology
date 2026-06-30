@@ -1,0 +1,38 @@
+# FutuRaM chemical-element mutual disjointness
+#
+# PURPOSE
+#   The 80 direct subclasses of futuram:Element model distinct chemical
+#   elements (Copper, Iron, Gold, ...). They are MUTUALLY DISJOINT in reality:
+#   a single class cannot be both Copper and Iron. Asserting this lets the
+#   ROBOT/ELK consistency check actually reason -- e.g. catch a served or
+#   bridged class that ends up subClassOf two different elements, or an element
+#   class accidentally folded under another. Without these axioms the run is an
+#   IRI-hygiene check only (SHACL does the rest); with them it is semantic.
+#
+#   futuram:unknownElement is DELIBERATELY EXCLUDED from the disjointness set:
+#   it is the residual / catch-all placeholder for unattributed element mass and
+#   is permitted to co-occur with any concrete element (it is not a real,
+#   mutually-exclusive element).
+#
+# EL-SAFETY
+#   owl:AllDisjointClasses over named classes is within the OWL 2 EL profile and
+#   is handled by ELK. No allValuesFrom / complementOf / negation / cardinality
+#   is introduced here, so the consistency check stays inside EL (reasoner=elk).
+#
+# PROVENANCE
+#   The member list is derived programmatically (scripts, rdflib) as the named
+#   subjects of  rdfs:subClassOf futuram:Element  across composition-statement.ttl,
+#   futuram-hierarchy.ttl and futuram-chebi-bridge.ttl, minus futuram:unknownElement.
+#   Regenerate with the same query if the element roster changes.
+
+@prefix futuram: <https://www.purl.org/futuram#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<https://www.purl.org/futuram/element-disjointness> a owl:Ontology ;
+    rdfs:label "FutuRaM Element Disjointness" .
+
+[] a owl:AllDisjointClasses ;
+    owl:members ( futuram:Actinium futuram:Aluminium futuram:Antimony futuram:Astatine futuram:Barium futuram:Beryllium futuram:Bismuth futuram:Boron futuram:Cadmium futuram:Calcium futuram:Carbon futuram:Cerium futuram:Chlorine futuram:Chromium futuram:Cobalt futuram:Copper futuram:Dysprosium futuram:Fluorine futuram:Gallium futuram:Germanium futuram:Gold futuram:Hafnium futuram:Hassium futuram:Helium futuram:Hydrogen futuram:Indium futuram:Iridium futuram:Iron futuram:Krypton futuram:Lanthanum futuram:Lawrencium futuram:Lead futuram:Lithium futuram:Lutetium futuram:Magnesium futuram:Manganese futuram:Mercury futuram:Molybdenum futuram:Neodymium futuram:Neon futuram:Nickel futuram:Niobium futuram:Nitrogen futuram:Osmium futuram:Oxygen futuram:Palladium futuram:Phosphorus futuram:Platinum futuram:Plutonium futuram:Polonium futuram:Potassium futuram:Praseodymium futuram:Radium futuram:Rhenium futuram:Rhodium futuram:Rubidium futuram:Ruthenium futuram:Scandium futuram:Selenium futuram:Silicon futuram:Silver futuram:Strontium futuram:Sulfur futuram:Tantalum futuram:Tellurium futuram:Tennessine futuram:Terbium futuram:Thallium futuram:Thorium futuram:Thulium futuram:Tin futuram:Titanium futuram:Tungsten futuram:Vanadium futuram:Xenon futuram:Ytterbium futuram:Yttrium futuram:Zinc futuram:Zirconium ) .
+

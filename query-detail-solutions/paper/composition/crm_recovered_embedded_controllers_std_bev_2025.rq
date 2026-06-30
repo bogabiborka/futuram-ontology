@@ -1,0 +1,67 @@
+# Recoverable CRM quantities + recovery routes in embedded CONTROLLERS, std BEV 2025.
+# One row per (element, base-metal): Cu×4 (Cu/Pb/Sn/Zn), Al×1, Pd×2 (Cu/Ni).
+# The base-metal join is over the ChEBI class directly (no co-presence filter) so the
+# full metal-wheel table is reproduced regardless of what else is present in the part.
+# FuturamDQS uncertainty computed from leaf DQV scores (same as other composition queries).
+PREFIX futuram: <https://www.purl.org/futuram#>
+PREFIX ex:      <https://www.purl.org/futuram/example#>
+PREFIX qudt:    <http://qudt.org/schema/qudt/>
+PREFIX dqv:     <http://www.w3.org/ns/dqv#>
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX crit:    <http://purl.org/futuram/criticality#>
+PREFIX mw:      <https://purl.org/metalwheel#>
+PREFIX afn:     <http://jena.apache.org/ARQ/function#>
+SELECT ?key (SUM(?mass * ?f1 * ?f2 * ?f3) AS ?kg) (afn:sqrt(SUM(?ru * ?mass * ?f1 * ?f2 * ?f3 * (?ru * ?mass * ?f1 * ?f2 * ?f3))) AS ?unc) ?baseMetal ?route WHERE {
+  ex:V0301030000_2025 futuram:itemMass/qudt:numericValue ?mass .
+  ex:V0301030000_2025 futuram:hasCompositionStatement/futuram:hasPartRelation ?pr1 .
+  ?pr1 futuram:refersTo ?comp ;
+       futuram:hasQuantity/futuram:hasBestValue/qudt:numericValue ?f1 .
+  ?comp rdf:type futuram:elvEmbeddedElectronicsControllers .
+  ?comp futuram:hasCompositionStatement/futuram:hasPartRelation ?pr2 .
+  ?pr2 futuram:refersTo ?mat ;
+       futuram:hasQuantity/futuram:hasBestValue/qudt:numericValue ?f2 .
+  ?mat futuram:hasCompositionStatement/futuram:hasPartRelation ?pr3 .
+  ?pr3 futuram:refersTo ?elem ;
+       futuram:hasQuantity/futuram:hasBestValue/qudt:numericValue ?f3 .
+  ?elem rdf:type ?key .
+  ?key rdfs:subClassOf ?chebi .
+  FILTER(CONTAINS(STR(?chebi), "CHEBI"))
+  ?chebi crit:remark ?flag .
+  # FuturamDQS: weighted sum of leaf DQV scores -> limit band -> relUnc
+  { SELECT ?pr3 (
+      IF(?wsum <  7.0, 0.1 ,
+      IF(?wsum <  9.0, 0.15,
+      IF(?wsum < 10.0, 0.2 ,
+      IF(?wsum < 14.0, 0.25,
+      IF(?wsum < 15.0, 0.3 , 0.35))))) / 1.7320508 AS ?ru)
+    WHERE {
+      { SELECT ?pr3
+          (SUM(IF(?dim = dqv:Accuracy,    ?v*1.0,
+               IF(?dim = dqv:Completeness, ?v*1.0,
+               IF(?dim = dqv:Consistency,  ?v*1.0,
+               IF(?dim = dqv:Integrity,    ?v*0.5,
+               IF(?dim = dqv:Timeliness,   ?v*1.5,
+               IF(?dim = dqv:Validity,     ?v*1.0, 0))))))) AS ?wsum)
+        WHERE {
+          ?pr3 dqv:hasQualityMeasurement ?meas .
+          ?meas dqv:isMeasurementOf/dqv:inDimension ?dim ; dqv:value ?v .
+        } GROUP BY ?pr3
+      }
+    }
+  }
+  # Full metal-wheel recovery table for this element (not filtered by co-presence)
+  ?chebi mw:hasRecoveryInformation ?ri .
+  ?ri mw:hasBaseMetal ?baseChebi ;
+      mw:hasExpectedRecoveryEffectiveness ?eff ;
+      mw:hasRecoveryProcess ?route .
+  FILTER(?eff IN (mw:TargetedElement, mw:MainlyRecoveredElement))
+  # Resolve baseChebi → futuram class IRI
+  ?baseMetal rdfs:subClassOf ?baseChebi .
+  FILTER(CONTAINS(STR(?baseChebi), "CHEBI"))
+  FILTER NOT EXISTS {
+    ?baseMetal rdfs:subClassOf ?mid .
+    ?mid rdfs:subClassOf ?baseChebi .
+    FILTER(?mid != ?baseMetal)
+  }
+} GROUP BY ?key ?baseMetal ?route ORDER BY ?key ?baseMetal

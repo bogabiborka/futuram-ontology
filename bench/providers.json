@@ -1,0 +1,55 @@
+{
+  "_comment": "BYOK / BYOM provider profiles for the bench. A profile NAME is passed as --provider <name> (or set BENCH_PROVIDER). API keys are NEVER stored here — only the NAME of the env var that holds the key (key_env). The runner reads that env var at launch; the key never enters config, transcripts, or results. `model` is the default model for the profile and can be overridden with --model. Bare `--model <tag>` with no --provider stays Ollama (the default).",
+
+  "ollama": {
+    "provider": "ollama",
+    "host_env": "OLLAMA_HOST",
+    "comment": "Local Ollama daemon (the default). For an Ollama CLOUD model, set model to its *-cloud tag and `ollama signin` once; the local daemon proxies it."
+  },
+
+  "anthropic": {
+    "provider": "anthropic",
+    "model": "claude-opus-4-8",
+    "key_env": "ANTHROPIC_API_KEY",
+    "comment": "Native Anthropic Messages API."
+  },
+
+  "openai": {
+    "provider": "openai",
+    "model": "gpt-4o",
+    "key_env": "OPENAI_API_KEY",
+    "base_url_env": "OPENAI_BASE_URL",
+    "comment": "OpenAI, or any OpenAI-compatible endpoint via OPENAI_BASE_URL."
+  },
+
+  "openrouter": {
+    "provider": "openai",
+    "model": "anthropic/claude-opus-4-8",
+    "base_url": "https://openrouter.ai/api/v1",
+    "key_env": "OPENROUTER_API_KEY",
+    "comment": "OpenRouter (OpenAI-compatible aggregator)."
+  },
+
+  "groq": {
+    "provider": "openai",
+    "model": "llama-3.3-70b-versatile",
+    "base_url": "https://api.groq.com/openai/v1",
+    "key_env": "GROQ_API_KEY",
+    "comment": "Groq (OpenAI-compatible)."
+  },
+
+  "copilot": {
+    "provider": "copilot",
+    "model": "gpt-4o",
+    "key_env": "COPILOT_API_KEY",
+    "github_token_env": "GITHUB_TOKEN",
+    "comment": "GitHub Copilot chat (OpenAI-compatible at api.githubcopilot.com). Provide COPILOT_API_KEY (a Copilot bearer token) OR a GitHub token in GITHUB_TOKEN/GH_TOKEN authorised for Copilot, which is exchanged for the Copilot token automatically. Requires an active Copilot subscription."
+  },
+
+  "gemini": {
+    "provider": "google",
+    "model": "gemini-2.0-flash",
+    "key_env": "GOOGLE_API_KEY",
+    "comment": "Google Gemini native API."
+  }
+}

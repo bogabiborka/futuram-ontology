@@ -1,0 +1,18 @@
+# Total critical raw material content of a segment C PHEV, 2020.
+# Same CRM definition as the BEV case (CRITICAL-flagged constituents, copper IN,
+# carbon OUT). The SI value 176.16 EXCLUDED copper, which is the sole SI
+# correction (-> 214.10): copper is critical per the authoritative criticality ABox.
+PREFIX fq:      <https://www.purl.org/futuram/query#>
+PREFIX futuram: <https://www.purl.org/futuram#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX crit:    <http://purl.org/futuram/criticality#>
+PREFIX afn:     <http://jena.apache.org/ARQ/function#>
+SELECT (SUM(?kg) AS ?total) (afn:sqrt(SUM(?sig*?sig)) AS ?unc) WHERE {
+  SELECT DISTINCT ?c (?m*?f AS ?kg) (?ru*?m*?f AS ?sig) WHERE {
+    futuram:V0501030103_Y2020 fq:itemMass ?m ;
+        fq:contains [ fq:constituent ?c ;
+                      fq:amount ?f ; fq:relativeUncertainty ?ru ] .
+    ?c rdfs:subClassOf ?chebi . FILTER(CONTAINS(STR(?chebi), "CHEBI"))
+    ?chebi crit:remark/crit:importance crit:CRITICAL .
+  }
+}

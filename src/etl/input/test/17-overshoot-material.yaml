@@ -1,0 +1,39 @@
+id: "17_overshoot_material"
+title: "winding elements overshoot 1.0 (MATERIAL-level violation)"
+note: "the winding MATERIAL's two ELEMENTS sum to a minimum of 1.15 (>1) — a conservation VIOLATION at the MATERIAL level (an alloy claiming more than 100% element content). The motor's materials conserve, so the overshoot is isolated to the winding (Material). Proves the rule fires on a Material whole."
+
+provenance:
+  source: "FutuRaM composition datasheet (test)"
+  agent: "FutuRaM test organisation"
+  production: "forming"
+  validFrom: "2020-01-01"
+  validUntil: "2026-12-31"
+
+nodes:
+  motor: {level: Component, class: elvElectricMotor_Y2020, itemMass: 50.0}
+  winding: {level: Material, class: pureCu}
+  steel: {level: Material, class: steelAndSteelAlloys}
+  cu: {level: Element, class: Copper}
+  ni: {level: Element, class: Nickel}
+  fe: {level: Element, class: Iron}
+  c: {level: Element, class: Carbon}
+
+statements:
+  # motor -> 2 materials (conserve)
+- {whole: motor, part: winding, best: 0.32, lo: 0.30, hi: 0.34, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: motor, part: steel, best: 0.62, lo: 0.60, hi: 0.64, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+  # winding -> 2 elements; min 0.60 + 0.55 = 1.15 > 1.0 -> OVERSHOOT at MATERIAL level
+- {whole: winding, part: cu, best: 0.625, lo: 0.60, hi: 0.65, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: winding, part: ni, best: 0.575, lo: 0.55, hi: 0.60, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+  # steel -> elements (conserve)
+- {whole: steel, part: fe, best: 0.98, lo: 0.97, hi: 0.99, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: steel, part: c, best: 0.0075, lo: 0.005, hi: 0.01, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+subclass_of:
+  elvElectricMotor_Y2020:
+  - elvElectricMotor
+class_time:
+  elvElectricMotor_Y2020:
+    year: 2020
+    slices:
+    - parent: elvElectricMotor
+      axis: year-slice-mean

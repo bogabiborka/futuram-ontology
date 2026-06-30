@@ -1,0 +1,507 @@
+id: 25b_deep_four_car_unknowns
+title: deep 4-car aggregation WITH unknowns (coarse element bounds above the known paths)
+note: "This is scenario 25 (the DEEP 4-car capstone) PLUS two derivable nickel\nUNKNOWNS. Everything structural is identical to scenario 25 — FOUR real car\ninstances across THREE product subclasses of elvBEV, each with a DEEP and\nDIFFERENT composition-statement structure sharing the SAME superclass/level\ngrammar — exercising BOTH aggregation mechanisms at once:\n\n  * PRODUCT/COMPONENT recursion (composition-statement tree, equal-subclass\n    mean at parents, equal (unweighted) instance mean within a leaf class):\n      V0301030105 <- carA (SPLIT harness) + carB (single)\n      V0301030101 <- carC (battery-centric)\n      V0301030102 <- carD (power-electronics-centric)\n      elvBEV      <- the three subclasses (EQUAL mean, each once)\n    carA nests its harness into harnFA/harnBA (front/back); carB/carC/carD do\n    not — the SAME wiringHarness class realised at different instance depth.\n\n  * MATERIAL-family mass-weighted subClass rollup, on the cupronickel-vs-pureCu\n    axis: carA's and carD's motor windings are cupronickel (a ~15% nickel\n    copper alloy, subClass of otherCuAlloys under CuAndCuAlloys); every other\n    winding/cuwire/foil is pureCu. Both roll up under CuAndCuAlloys, so\n    aggregate_material_family('CuAndCuAlloys','Copper') pools them MASS-weighted\n    — distinct from the product-class copper totals above. Steel parts roll up\n    under steelAndSteelAlloys, Al under AlAndAlAlloys.\n\nCOPPER AGGREGATION IS UNCHANGED FROM 25. We add NO new copper or nickel traces;\nwe only add two COARSE whole-vehicle nickel statements (Product->Element, three\nlevels apart, hence automatically EXCLUDED from conservation). The oracle copper\nfigures are therefore the SAME as scenario 25:\n      Cu(V0301030105) = 0.476350   (EQUAL mean of carA, carB)\n      Cu(V0301030101) = 0.145000   (carC)\n      Cu(V0301030102) = 0.483337   (carD)\n      Cu(elvBEV)      = 0.368229   (EQUAL mean of the three subclasses)\n\nTHE UNKNOWNS. carA and carD are the two cupronickel cars: each ALREADY carries\na traced nickel granular path through its motor winding (windA->ni 0.15,\nwindD->ni 0.15). The known traced nickel reaching each whole is:\n      carA: ptA(0.4) * motorA(0.6) * statorA(0.5) * windA(0.5) * ni(0.15)\n            = 0.009 kg/kg  (lo-path 0.10 -> 0.006)\n      carD: drvtD(0.45) * motD(0.7) * statD(0.5) * windD(0.5) * ni(0.15)\n            = 0.0118125 kg/kg  (lo-path 0.10 -> 0.007875)\nWe now assert a COARSE whole-vehicle nickel bound on each car that EXCEEDS the\ntraced amount:\n      carA -> ni : 0.07 kg/kg  (coarse, > 0.009 known)\n      carD -> ni : 0.07 kg/kg  (coarse, > 0.0118125 known)\nThe residual (coarse - known granular) is the derivable UNKNOWN nickel, which\nthe pipeline materialises as car -> unknownComponent -> unknownMaterial -> ni.\nBecause both coarse bounds sit ABOVE their known granular paths, neither\novershoots, and each yields a positive unknown_min in coarse_fine().\n"
+subclass_of:
+  V0301030101:
+  - elvBEV
+  V0301030102:
+  - elvBEV
+  V0301030101_Y2020:
+  - V0301030101
+  - elvBEV_Y2020
+  V0301030102_Y2020:
+  - V0301030102
+  - elvBEV_Y2020
+  V0301030105_Y2020:
+  - V0301030105
+  - elvBEV_Y2020
+  elvBEV_Y2020:
+  - elvBEV
+  elvChassis_Y2020:
+  - elvChassis
+  elvEVbattery_Y2020:
+  - elvEVbattery
+  elvElectricMotor_Y2020:
+  - elvElectricMotor
+  elvPowerElectronics_Y2020:
+  - elvPowerElectronics
+  wiringHarness_Y2020:
+  - wiringHarness
+provenance:
+  source: FutuRaM composition datasheet (test)
+  agent: FutuRaM test organisation
+  production: forming
+  validFrom: '2020-01-01'
+  validUntil: '2026-12-31'
+nodes:
+  carA:
+    level: Product
+    class: V0301030105_Y2020
+    itemMass: 1000.0
+  ptA:
+    level: Product
+    class: elvBEV_Y2020
+    itemMass: 1000.0
+  chasA:
+    level: Product
+    class: elvBEV_Y2020
+    itemMass: 1000.0
+  motorA:
+    level: Component
+    class: elvElectricMotor_Y2020
+    itemMass: 50.0
+  invA:
+    level: Component
+    class: elvPowerElectronics_Y2020
+    itemMass: 50.0
+  statorA:
+    level: Component
+    class: elvElectricMotor_Y2020
+    itemMass: 50.0
+  rotorA:
+    level: Component
+    class: elvElectricMotor_Y2020
+    itemMass: 50.0
+  harnA:
+    level: Component
+    class: wiringHarness_Y2020
+    itemMass: 50.0
+  harnFA:
+    level: Component
+    class: wiringHarness_Y2020
+    itemMass: 50.0
+  harnBA:
+    level: Component
+    class: wiringHarness_Y2020
+    itemMass: 50.0
+  frameA:
+    level: Component
+    class: elvElectricMotor_Y2020
+    itemMass: 50.0
+  windA:
+    level: Material
+    class: cupronickel
+  cuwFA:
+    level: Material
+    class: pureCu
+  cuwBA:
+    level: Material
+    class: pureCu
+  rmatA:
+    level: Material
+    class: pureCu
+  boardA:
+    level: Material
+    class: pureCu
+  lamA:
+    level: Material
+    class: steelAndSteelAlloys
+  rsteelA:
+    level: Material
+    class: steelAndSteelAlloys
+  fsteelA:
+    level: Material
+    class: steelAndSteelAlloys
+  shFA:
+    level: Material
+    class: thermoplastics
+  shBA:
+    level: Material
+    class: thermoplastics
+  falA:
+    level: Material
+    class: AlAndAlAlloys
+  caseA:
+    level: Material
+    class: steelAndSteelAlloys
+  panA:
+    level: Component
+    class: elvChassis_Y2020
+    itemMass: 50.0
+  panMatA:
+    level: Material
+    class: AlAndAlAlloys
+  carB:
+    level: Product
+    class: V0301030105_Y2020
+    itemMass: 1000.0
+  ptB:
+    level: Product
+    class: elvBEV_Y2020
+    itemMass: 1000.0
+  chasB:
+    level: Product
+    class: elvBEV_Y2020
+    itemMass: 1000.0
+  motorB:
+    level: Component
+    class: elvElectricMotor_Y2020
+    itemMass: 50.0
+  invB:
+    level: Component
+    class: elvPowerElectronics_Y2020
+    itemMass: 50.0
+  statorB:
+    level: Component
+    class: elvElectricMotor_Y2020
+    itemMass: 50.0
+  rotorB:
+    level: Component
+    class: elvElectricMotor_Y2020
+    itemMass: 50.0
+  harnB:
+    level: Component
+    class: wiringHarness_Y2020
+    itemMass: 50.0
+  frameB:
+    level: Component
+    class: elvElectricMotor_Y2020
+    itemMass: 50.0
+  windB:
+    level: Material
+    class: pureCu
+  cuwB:
+    level: Material
+    class: pureCu
+  rmatB:
+    level: Material
+    class: pureCu
+  boardB:
+    level: Material
+    class: pureCu
+  lamB:
+    level: Material
+    class: steelAndSteelAlloys
+  caseB:
+    level: Material
+    class: steelAndSteelAlloys
+  rsteelB:
+    level: Material
+    class: steelAndSteelAlloys
+  fsteelB:
+    level: Material
+    class: steelAndSteelAlloys
+  shB:
+    level: Material
+    class: thermoplastics
+  falB:
+    level: Material
+    class: AlAndAlAlloys
+  panB:
+    level: Component
+    class: elvChassis_Y2020
+    itemMass: 50.0
+  panMatB:
+    level: Material
+    class: AlAndAlAlloys
+  carC:
+    level: Product
+    class: V0301030101_Y2020
+    itemMass: 1000.0
+  battC:
+    level: Component
+    class: elvEVbattery_Y2020
+    itemMass: 50.0
+  drvC:
+    level: Component
+    class: elvElectricMotor_Y2020
+    itemMass: 50.0
+  modC:
+    level: Component
+    class: elvEVbattery_Y2020
+    itemMass: 50.0
+  bmsC:
+    level: Component
+    class: elvPowerElectronics_Y2020
+    itemMass: 50.0
+  cellC:
+    level: Component
+    class: elvEVbattery_Y2020
+    itemMass: 50.0
+  motC:
+    level: Component
+    class: elvElectricMotor_Y2020
+    itemMass: 50.0
+  gearC:
+    level: Component
+    class: elvElectricMotor_Y2020
+    itemMass: 50.0
+  foilC:
+    level: Material
+    class: pureCu
+  pcbC:
+    level: Material
+    class: pureCu
+  windC:
+    level: Material
+    class: pureCu
+  cathC:
+    level: Material
+    class: NiAndNiAlloys
+  plasC:
+    level: Material
+    class: thermoplastics
+  housC:
+    level: Material
+    class: AlAndAlAlloys
+  stlC:
+    level: Material
+    class: steelAndSteelAlloys
+  gearStlC:
+    level: Material
+    class: lowCarbonSteel
+  gearSealC:
+    level: Material
+    class: thermoplastics
+  carD:
+    level: Product
+    class: V0301030102_Y2020
+    itemMass: 1000.0
+  pwrD:
+    level: Product
+    class: elvBEV_Y2020
+    itemMass: 1000.0
+  drvtD:
+    level: Product
+    class: elvBEV_Y2020
+    itemMass: 1000.0
+  invD:
+    level: Component
+    class: elvPowerElectronics_Y2020
+    itemMass: 50.0
+  convD:
+    level: Component
+    class: elvPowerElectronics_Y2020
+    itemMass: 50.0
+  motD:
+    level: Component
+    class: elvElectricMotor_Y2020
+    itemMass: 50.0
+  statD:
+    level: Component
+    class: elvElectricMotor_Y2020
+    itemMass: 50.0
+  rotD:
+    level: Component
+    class: elvElectricMotor_Y2020
+    itemMass: 50.0
+  harnD:
+    level: Component
+    class: wiringHarness_Y2020
+    itemMass: 50.0
+  boardD:
+    level: Material
+    class: pureCu
+  caseD:
+    level: Material
+    class: AlAndAlAlloys
+  coilD:
+    level: Material
+    class: pureCu
+  windD:
+    level: Material
+    class: cupronickel
+  lamD:
+    level: Material
+    class: steelAndSteelAlloys
+  rmatD:
+    level: Material
+    class: pureCu
+  rsteelD:
+    level: Material
+    class: steelAndSteelAlloys
+  cuwD:
+    level: Material
+    class: pureCu
+  shD:
+    level: Material
+    class: thermoplastics
+  cu:
+    level: Element
+    class: Copper
+  ni:
+    level: Element
+    class: Nickel
+  fe:
+    level: Element
+    class: Iron
+  c:
+    level: Element
+    class: Carbon
+  al:
+    level: Element
+    class: Aluminium
+statements:
+- {whole: carA, part: ptA, best: 0.4, lo: 0.4, hi: 0.4, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: carA, part: harnA, best: 0.3, lo: 0.3, hi: 0.3, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: carA, part: chasA, best: 0.2, lo: 0.2, hi: 0.2, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: ptA, part: motorA, best: 0.6, lo: 0.6, hi: 0.6, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: ptA, part: invA, best: 0.3, lo: 0.3, hi: 0.3, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: motorA, part: statorA, best: 0.5, lo: 0.5, hi: 0.5, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: motorA, part: rotorA, best: 0.4, lo: 0.4, hi: 0.4, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: statorA, part: windA, best: 0.5, lo: 0.5, hi: 0.5, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: statorA, part: lamA, best: 0.4, lo: 0.4, hi: 0.4, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: harnA, part: harnFA, best: 0.6, lo: 0.6, hi: 0.6, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: harnA, part: harnBA, best: 0.3, lo: 0.3, hi: 0.3, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: harnFA, part: cuwFA, best: 0.7, lo: 0.7, hi: 0.7, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: harnFA, part: shFA, best: 0.2, lo: 0.2, hi: 0.2, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: harnBA, part: cuwBA, best: 0.6, lo: 0.6, hi: 0.6, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: harnBA, part: shBA, best: 0.3, lo: 0.3, hi: 0.3, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: chasA, part: frameA, best: 0.7, lo: 0.7, hi: 0.7, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: chasA, part: panA, best: 0.2, lo: 0.2, hi: 0.2, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: frameA, part: fsteelA, best: 0.9, lo: 0.9, hi: 0.9, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: frameA, part: falA, best: 0.1, lo: 0.1, hi: 0.1, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: invA, part: boardA, best: 0.8, lo: 0.8, hi: 0.8, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: invA, part: caseA, best: 0.1, lo: 0.1, hi: 0.1, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: rotorA, part: rmatA, best: 0.9, lo: 0.9, hi: 0.9, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: rotorA, part: rsteelA, best: 0.1, lo: 0.1, hi: 0.1, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: windA, part: cu, best: 0.85, lo: 0.845, hi: 0.855, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: windA, part: ni, best: 0.15, lo: 0.145, hi: 0.155, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: cuwFA, part: cu, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: cuwBA, part: cu, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: boardA, part: cu, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: rmatA, part: cu, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: lamA, part: fe, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: caseA, part: fe, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: rsteelA, part: fe, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: fsteelA, part: fe, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: shFA, part: c, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: shBA, part: c, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: falA, part: al, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: panA, part: panMatA, best: 0.9, lo: 0.9, hi: 0.9, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: panA, part: fsteelA, best: 0.1, lo: 0.1, hi: 0.1, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: panMatA, part: al, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: carA, part: ni, best: 0.07, lo: 0.07, hi: 0.07, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: carB, part: ptB, best: 0.45, lo: 0.45, hi: 0.45, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: carB, part: harnB, best: 0.35, lo: 0.35, hi: 0.35, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: carB, part: chasB, best: 0.15, lo: 0.15, hi: 0.15, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: ptB, part: motorB, best: 0.55, lo: 0.55, hi: 0.55, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: ptB, part: invB, best: 0.35, lo: 0.35, hi: 0.35, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: motorB, part: statorB, best: 0.5, lo: 0.5, hi: 0.5, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: motorB, part: rotorB, best: 0.45, lo: 0.45, hi: 0.45, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: statorB, part: windB, best: 0.55, lo: 0.55, hi: 0.55, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: statorB, part: lamB, best: 0.4, lo: 0.4, hi: 0.4, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: harnB, part: cuwB, best: 0.7, lo: 0.7, hi: 0.7, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: harnB, part: shB, best: 0.2, lo: 0.2, hi: 0.2, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: chasB, part: frameB, best: 0.7, lo: 0.7, hi: 0.7, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: chasB, part: panB, best: 0.2, lo: 0.2, hi: 0.2, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: frameB, part: fsteelB, best: 0.9, lo: 0.9, hi: 0.9, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: frameB, part: falB, best: 0.1, lo: 0.1, hi: 0.1, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: invB, part: boardB, best: 0.8, lo: 0.8, hi: 0.8, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: invB, part: caseB, best: 0.1, lo: 0.1, hi: 0.1, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: rotorB, part: rmatB, best: 0.9, lo: 0.9, hi: 0.9, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: rotorB, part: rsteelB, best: 0.1, lo: 0.1, hi: 0.1, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: windB, part: cu, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: cuwB, part: cu, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: boardB, part: cu, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: rmatB, part: cu, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: lamB, part: fe, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: caseB, part: fe, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: rsteelB, part: fe, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: fsteelB, part: fe, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: shB, part: c, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: falB, part: al, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: panB, part: panMatB, best: 0.9, lo: 0.9, hi: 0.9, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: panB, part: fsteelB, best: 0.1, lo: 0.1, hi: 0.1, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: panMatB, part: al, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: carC, part: battC, best: 0.5, lo: 0.5, hi: 0.5, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: carC, part: drvC, best: 0.3, lo: 0.3, hi: 0.3, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: battC, part: modC, best: 0.6, lo: 0.6, hi: 0.6, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: battC, part: bmsC, best: 0.2, lo: 0.2, hi: 0.2, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: modC, part: cellC, best: 0.5, lo: 0.5, hi: 0.5, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: modC, part: housC, best: 0.4, lo: 0.4, hi: 0.4, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: cellC, part: foilC, best: 0.3, lo: 0.3, hi: 0.3, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: cellC, part: cathC, best: 0.6, lo: 0.6, hi: 0.6, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: bmsC, part: pcbC, best: 0.4, lo: 0.4, hi: 0.4, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: bmsC, part: plasC, best: 0.5, lo: 0.5, hi: 0.5, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: drvC, part: motC, best: 0.5, lo: 0.5, hi: 0.5, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: drvC, part: gearC, best: 0.4, lo: 0.4, hi: 0.4, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: motC, part: windC, best: 0.4, lo: 0.4, hi: 0.4, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: motC, part: stlC, best: 0.5, lo: 0.5, hi: 0.5, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: foilC, part: cu, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: cathC, part: ni, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: pcbC, part: cu, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: windC, part: cu, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: plasC, part: c, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: housC, part: al, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: stlC, part: fe, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: gearC, part: gearStlC, best: 0.9, lo: 0.9, hi: 0.9, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: gearC, part: gearSealC, best: 0.05, lo: 0.05, hi: 0.05, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: gearStlC, part: fe, best: 0.99, lo: 0.985, hi: 0.995, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: gearStlC, part: c, best: 0.01, lo: 0.005, hi: 0.015, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: gearSealC, part: c, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: carD, part: pwrD, best: 0.4, lo: 0.4, hi: 0.4, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: carD, part: drvtD, best: 0.45, lo: 0.45, hi: 0.45, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: pwrD, part: invD, best: 0.6, lo: 0.6, hi: 0.6, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: pwrD, part: convD, best: 0.3, lo: 0.3, hi: 0.3, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: invD, part: boardD, best: 0.7, lo: 0.7, hi: 0.7, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: invD, part: caseD, best: 0.2, lo: 0.2, hi: 0.2, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: convD, part: coilD, best: 0.6, lo: 0.6, hi: 0.6, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: convD, part: caseD, best: 0.3, lo: 0.3, hi: 0.3, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: drvtD, part: motD, best: 0.7, lo: 0.7, hi: 0.7, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: drvtD, part: harnD, best: 0.2, lo: 0.2, hi: 0.2, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: motD, part: statD, best: 0.5, lo: 0.5, hi: 0.5, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: motD, part: rotD, best: 0.4, lo: 0.4, hi: 0.4, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: rotD, part: rmatD, best: 0.9, lo: 0.9, hi: 0.9, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: rotD, part: rsteelD, best: 0.1, lo: 0.1, hi: 0.1, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: rmatD, part: cu, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: rsteelD, part: fe, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: statD, part: windD, best: 0.5, lo: 0.5, hi: 0.5, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: statD, part: lamD, best: 0.4, lo: 0.4, hi: 0.4, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: harnD, part: cuwD, best: 0.7, lo: 0.7, hi: 0.7, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: harnD, part: shD, best: 0.2, lo: 0.2, hi: 0.2, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: boardD, part: cu, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: coilD, part: cu, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: caseD, part: al, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: windD, part: cu, best: 0.85, lo: 0.845, hi: 0.855, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: windD, part: ni, best: 0.15, lo: 0.145, hi: 0.155, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: lamD, part: fe, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: cuwD, part: cu, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: shD, part: c, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: carD, part: ni, best: 0.07, lo: 0.07, hi: 0.07, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+class_time:
+  V0301030101_Y2020:
+    year: 2020
+    slices:
+    - parent: V0301030101
+      axis: year-slice-mean
+  V0301030102_Y2020:
+    year: 2020
+    slices:
+    - parent: V0301030102
+      axis: year-slice-mean
+  V0301030105_Y2020:
+    year: 2020
+    slices:
+    - parent: V0301030105
+      axis: year-slice-mean
+  elvBEV_Y2020:
+    year: 2020
+    slices:
+    - parent: elvBEV
+      axis: year-slice-mean
+  elvChassis_Y2020:
+    year: 2020
+    slices:
+    - parent: elvChassis
+      axis: year-slice-mean
+  elvEVbattery_Y2020:
+    year: 2020
+    slices:
+    - parent: elvEVbattery
+      axis: year-slice-mean
+  elvElectricMotor_Y2020:
+    year: 2020
+    slices:
+    - parent: elvElectricMotor
+      axis: year-slice-mean
+  elvPowerElectronics_Y2020:
+    year: 2020
+    slices:
+    - parent: elvPowerElectronics
+      axis: year-slice-mean
+  wiringHarness_Y2020:
+    year: 2020
+    slices:
+    - parent: wiringHarness
+      axis: year-slice-mean

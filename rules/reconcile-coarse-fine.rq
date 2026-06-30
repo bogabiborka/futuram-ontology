@@ -1,0 +1,55 @@
+# Reconcile a coarse bound against its known granular paths: the residual
+# unknownAmount is stamped on the RELATION node ?rel (1:1 with the coarse edge), never
+# the grouped statement node — else two coarse edges of one whole would collide.
+PREFIX futuram: <https://www.purl.org/futuram#>
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+PREFIX qudt:    <http://qudt.org/schema/qudt/>
+PREFIX unit:    <http://qudt.org/vocab/unit/>
+PREFIX ceonq:   <http://w3id.org/CEON/ontology/quantity/>
+
+CONSTRUCT {
+    ?rel   futuram:unknownAmount ?unknown .
+    ?whole futuram:massConserved ?conserved .
+}
+WHERE {
+    {
+        SELECT ?rel ?whole ?part ?coarseFrac
+        WHERE {
+            ?whole futuram:hasCompositionStatement ?coarseStmt .
+            ?coarseStmt a futuram:CompositionStatement ; futuram:hasPartRelation ?rel .
+            ?rel futuram:refersTo ?part ; futuram:hasQuantity ?cq .
+            ?whole a ?wRoot . ?part a ?pRoot .
+            VALUES ( ?wRoot ?wRank ) {
+                ( futuram:Product 0 ) ( futuram:Component 1 )
+                ( futuram:Material 2 ) ( futuram:Element 3 ) }
+            VALUES ( ?pRoot ?pRank ) {
+                ( futuram:Product 0 ) ( futuram:Component 1 )
+                ( futuram:Material 2 ) ( futuram:Element 3 ) }
+            FILTER ( ?pRank - ?wRank >= 2 )
+
+            ?cq futuram:hasBestValue ?cBest .
+            ?cBest qudt:numericValue ?cBestVal ; qudt:unit ?cBestUnit .
+            OPTIONAL { ?cq ceonq:hasMinimalValueIncludedOfInterval ?cMin .
+                       ?cMin qudt:numericValue ?cMinVal ; qudt:unit ?cMinUnit . }
+            BIND( COALESCE(?cMinVal, ?cBestVal) AS ?cLo )
+            BIND( COALESCE(?cMinUnit, ?cBestUnit) AS ?cU )
+            BIND( IF(?cU = unit:KiloGM-PER-KiloGM, ?cLo,
+                  IF(?cU = unit:GM-PER-KiloGM, ?cLo * 0.001, 0.0)) AS ?coarseFrac )
+        }
+    }
+    OPTIONAL {
+        SELECT ?whole ?part (SUM(?rf) AS ?granularSum)
+        WHERE {
+            ?reach a futuram:GranularReach ;
+                   futuram:reachRoot ?whole ;
+                   futuram:reachHead ?part ;
+                   futuram:reachFrac ?rf .
+        }
+        GROUP BY ?whole ?part
+    }
+    BIND( COALESCE(?granularSum, 0.0) AS ?granular )
+    BIND( ?coarseFrac - ?granular AS ?diff )
+    BIND( IF(?diff > 0.000000001, ?diff, 0.0) AS ?unknown )
+    BIND( IF(?granular > ?coarseFrac + 0.000000001, "false"^^xsd:boolean, "true"^^xsd:boolean) AS ?conserved )
+}

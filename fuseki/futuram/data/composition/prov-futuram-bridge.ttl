@@ -1,0 +1,11 @@
+@prefix futuram: <https://www.purl.org/futuram#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+futuram:Source rdfs:subClassOf prov:Entity .
+
+<https://www.purl.org/futuram/prov-futuram-bridge> a owl:Ontology ;
+    rdfs:label "prov-futuram-bridge" ;
+    rdfs:comment "FutuRaM -> PROV-O alignment: futuram:Source rdfs:subClassOf prov:Entity. Moved out of composition-statement.ttl." .
+

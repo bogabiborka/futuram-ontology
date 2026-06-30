@@ -1,0 +1,96 @@
+@prefix sh:      <http://www.w3.org/ns/shacl#> .
+@prefix futuram: <https://www.purl.org/futuram#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix time:    <http://www.w3.org/2006/time#> .
+
+#################################################################
+#
+#    DIAGNOSTIC shapes for the futuram-hierarchy ABox
+#    (the taxonomy of punned class-individuals)
+#
+#    The hierarchy ABox alone MAY be valid without these holding —
+#    the strict versions of these rules live in the combined-graph
+#    shapes (time-strategy-shapes.ttl) and only the COMBINATION of
+#    hierarchy ABox + composition-statement ABox must satisfy them.
+#    Here everything is sh:Warning: run these to get the same
+#    report scripts/audit_hierarchy_abox.py prints, as a SHACL
+#    validation report.
+#
+#    Rule T (time-basedness): Product and Component classes only.
+#    Rule S (statement-or-strategy): Product, Component, Material.
+#    Elements are exempt (always leaves).
+#
+#################################################################
+
+
+#################################################################
+#    Rule T — a Product/Component class should be time-scoped:
+#    futuram:referenceYear XOR futuram:hasReferencePeriod.
+#    (Subclass-based satisfaction — "has a time-scoped slice" —
+#    needs the combined graph; standalone this is a Warning.)
+#################################################################
+
+futuram:HierarchyTimeScopeProductShape a sh:NodeShape ;
+    sh:targetSubjectsOf rdfs:subClassOf ;
+    rdfs:label "Rule T (diagnostic): P/C class carries a time scope"@en ;
+    sh:severity sh:Warning ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "Rule T: this Product/Component class carries neither futuram:referenceYear nor futuram:hasReferencePeriod (and may lack time-scoped slices — verify on the combined graph)." ;
+        sh:select """
+            PREFIX futuram: <https://www.purl.org/futuram#>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this WHERE {
+                { $this rdfs:subClassOf* futuram:Product }
+                UNION
+                { $this rdfs:subClassOf* futuram:Component }
+                FILTER (?this NOT IN (futuram:Product, futuram:Component))
+                FILTER NOT EXISTS { $this futuram:referenceYear ?y }
+                FILTER NOT EXISTS { $this futuram:hasReferencePeriod ?p }
+                FILTER NOT EXISTS {
+                    ?slice rdfs:subClassOf $this .
+                    { ?slice futuram:referenceYear ?sy }
+                    UNION
+                    { ?slice futuram:hasReferencePeriod ?sp }
+                }
+            }
+        """ ;
+    ] .
+
+
+#################################################################
+#    Rule S — a Product/Component/Material class should declare an
+#    aggregation strategy (or its instances carry their own
+#    composition statements — only visible on the combined graph).
+#################################################################
+
+futuram:HierarchyStrategyShape a sh:NodeShape ;
+    sh:targetSubjectsOf rdfs:subClassOf ;
+    rdfs:label "Rule S (diagnostic): P/C/M class declares an aggregation strategy"@en ;
+    sh:severity sh:Warning ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "Rule S: this Product/Component/Material class declares no futuram:hasAggregationStrategy and (in this graph) no instance of it carries an own CompositionStatement." ;
+        sh:select """
+            PREFIX futuram: <https://www.purl.org/futuram#>
+            PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this WHERE {
+                { $this rdfs:subClassOf* futuram:Product }
+                UNION
+                { $this rdfs:subClassOf* futuram:Component }
+                UNION
+                { $this rdfs:subClassOf* futuram:Material }
+                FILTER (?this NOT IN (futuram:Product, futuram:Component,
+                                      futuram:Material))
+                FILTER NOT EXISTS { $this futuram:hasAggregationStrategy ?s }
+                FILTER NOT EXISTS {
+                    ?inst rdf:type $this .
+                    ?inst futuram:hasCompositionStatement ?stmt .
+                }
+            }
+        """ ;
+    ] .

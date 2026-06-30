@@ -1,0 +1,76 @@
+id: "06_coarse_prod_elem"
+title: "coarse product->element, no granular aluminium path"
+note: "car -> Aluminium measured directly (coarse, skips component+material). The car DOES fan out into real components/materials, but NONE of them carries aluminium — so granular-Al = 0 and the whole coarse value is unknown, needing unknownComponent + unknownMaterial to be chain-complete."
+
+provenance:
+  source: "FutuRaM composition datasheet (test)"
+  agent: "FutuRaM test organisation"
+  production: "forming"
+  validFrom: "2020-01-01"
+  validUntil: "2026-12-31"
+
+nodes:
+  car: {level: Product, class: V0301030105_Y2020, itemMass: 1000.0}
+  motor: {level: Component, class: elvElectricMotor_Y2020, itemMass: 50.0}
+  harness: {level: Component, class: wiringHarness_Y2020, itemMass: 50.0}
+  winding: {level: Material, class: highCuAlloys}
+  steel: {level: Material, class: lowCarbonSteel}
+  cuwire: {level: Material, class: highCuAlloys}
+  sheath: {level: Material, class: plasticComposites}
+  cu: {level: Element, class: Copper}
+  ni: {level: Element, class: Nickel}
+  fe: {level: Element, class: Iron}
+  c: {level: Element, class: Carbon}
+  al: {level: Element, class: Aluminium}
+
+statements:
+  # COARSE: total aluminium in the car, directly (the headline of this scenario)
+- {whole: car, part: al, best: 0.08, lo: 0.078, hi: 0.082, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+  # the car fans out into real components/materials — but NONE contains Al,
+  # so the granular aluminium total is 0 and the coarse Al is fully unknown.
+- {whole: car, part: motor, best: 5.55, lo: 5.2, hi: 5.9, unit: gkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: car, part: harness, best: 2.05, lo: 1.9, hi: 2.2, unit: gkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: motor, part: winding, best: 0.15, lo: 0.14, hi: 0.16, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: motor, part: steel, best: 0.62, lo: 0.60, hi: 0.64, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: harness, part: cuwire, best: 0.6, lo: 0.58, hi: 0.62, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: harness, part: sheath, best: 0.38, lo: 0.36, hi: 0.40, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: winding, part: cu, best: 0.99, lo: 0.985, hi: 0.995, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: winding, part: ni, best: 0.01, lo: 0.005, hi: 0.015, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: steel, part: fe, best: 0.99, lo: 0.985, hi: 0.995, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: steel, part: c, best: 0.01, lo: 0.005, hi: 0.015, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: cuwire, part: cu, best: 0.99, lo: 0.985, hi: 0.995, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: cuwire, part: ni, best: 0.01, lo: 0.005, hi: 0.015, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: sheath, part: c, best: 0.99, lo: 0.985, hi: 0.995, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: sheath, part: cu, best: 0.01, lo: 0.005, hi: 0.015, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+subclass_of:
+  V0301030105_Y2020:
+  - V0301030105
+  - elvBEV_Y2020
+  elvElectricMotor_Y2020:
+  - elvElectricMotor
+  wiringHarness_Y2020:
+  - wiringHarness
+  elvBEV_Y2020:
+  - elvBEV
+class_time:
+  V0301030105_Y2020:
+    year: 2020
+    slices:
+    - parent: V0301030105
+      axis: year-slice-mean
+  elvElectricMotor_Y2020:
+    year: 2020
+    slices:
+    - parent: elvElectricMotor
+      axis: year-slice-mean
+  wiringHarness_Y2020:
+    year: 2020
+    slices:
+    - parent: wiringHarness
+      axis: year-slice-mean
+  elvBEV_Y2020:
+    year: 2020
+    strategy: equal-subclass-mean
+    slices:
+    - parent: elvBEV
+      axis: year-slice-mean

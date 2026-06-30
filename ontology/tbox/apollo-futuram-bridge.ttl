@@ -1,0 +1,27 @@
+@prefix futuram: <https://www.purl.org/futuram#> .
+@prefix obo: <http://purl.obolibrary.org/obo/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+futuram:BetaDistribution rdfs:subClassOf obo:APOLLO_SV_00000078 .
+
+futuram:Distribution rdfs:subClassOf obo:APOLLO_SV_00000251 .
+
+futuram:GammaDistribution rdfs:subClassOf obo:APOLLO_SV_00000255 .
+
+futuram:LogNormalDistribution rdfs:subClassOf obo:APOLLO_SV_00000254 .
+
+futuram:NormalDistribution rdfs:subClassOf obo:APOLLO_SV_00000036 .
+
+futuram:RectangularDistribution rdfs:subClassOf obo:APOLLO_SV_00000257 .
+
+futuram:TriangularDistribution rdfs:subClassOf obo:APOLLO_SV_00000081 .
+
+futuram:UniformDistribution rdfs:subClassOf obo:APOLLO_SV_00000257 .
+
+futuram:WeibullDistribution rdfs:subClassOf obo:APOLLO_SV_00000256 .
+
+<https://www.purl.org/futuram/apollo-futuram-bridge> a owl:Ontology ;
+    rdfs:label "apollo-futuram-bridge" ;
+    rdfs:comment "FutuRaM -> APOLLO-SV alignment: each futuram distribution kind rdfs:subClassOf its APOLLO_SV probability-distribution class. The Apollo class subtree is vendored separately in apollo-sv-distributions.ttl; this file holds ONLY the futuram->Apollo bridge edges. Moved out of composition-statement.ttl." .
+

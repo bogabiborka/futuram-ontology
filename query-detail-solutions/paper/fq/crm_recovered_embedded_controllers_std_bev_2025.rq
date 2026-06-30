@@ -1,0 +1,34 @@
+# Recoverable CRM quantities + recovery routes in embedded CONTROLLERS, std BEV 2025.
+# One row per (element, base-metal): Cu×4 (Cu/Pb/Sn/Zn), Al×1, Pd×2 (Cu/Ni).
+# The base-metal join is over the ChEBI class directly (no co-presence filter) so the
+# full metal-wheel table is reproduced regardless of what else is present in the part.
+# kg and unc are constant per element across base-metal rows (they come from the fq node).
+PREFIX fq:      <https://www.purl.org/futuram/query#>
+PREFIX futuram: <https://www.purl.org/futuram#>
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX crit:    <http://purl.org/futuram/criticality#>
+PREFIX mw:      <https://purl.org/metalwheel#>
+SELECT DISTINCT ?key (?m*?f AS ?kg) (?ru*?m*?f AS ?unc) ?baseMetal ?route WHERE {
+  ?node futuram:partOf futuram:V0301030000_Y2025 ;
+        rdf:type futuram:elvEmbeddedElectronicsControllers ;
+        fq:itemMass ?m ;
+        fq:contains [ fq:constituent ?key ; fq:amount ?f ; fq:relativeUncertainty ?ru ] .
+  ?key rdfs:subClassOf ?chebi .
+  FILTER(CONTAINS(STR(?chebi), "CHEBI"))
+  ?chebi crit:remark ?flag .
+  # Full metal-wheel recovery table for this element (not filtered by co-presence)
+  ?chebi mw:hasRecoveryInformation ?ri .
+  ?ri mw:hasBaseMetal ?baseChebi ;
+      mw:hasExpectedRecoveryEffectiveness ?eff ;
+      mw:hasRecoveryProcess ?route .
+  FILTER(?eff IN (mw:TargetedElement, mw:MainlyRecoveredElement))
+  # Resolve baseChebi → futuram class IRI for a readable result
+  ?baseMetal rdfs:subClassOf ?baseChebi .
+  FILTER(CONTAINS(STR(?baseChebi), "CHEBI"))
+  FILTER NOT EXISTS {
+    ?baseMetal rdfs:subClassOf ?mid .
+    ?mid rdfs:subClassOf ?baseChebi .
+    FILTER(?mid != ?baseMetal)
+  }
+} ORDER BY ?key ?baseMetal

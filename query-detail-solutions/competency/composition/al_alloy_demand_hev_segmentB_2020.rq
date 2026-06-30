@@ -1,0 +1,26 @@
+# Aluminium demand by Al-alloy type in a B-segment HEV, 2020.
+# Al alloy types are classes that are a direct rdfs:subClassOf futuram:AlAndAlAlloys
+# subtree; the material scope node carries rdf:type of the leaf alloy class.
+# No element-level (L3) traversal needed — the "constituent" IS the alloy material.
+PREFIX futuram: <https://www.purl.org/futuram#>
+PREFIX ex:      <https://www.purl.org/futuram/example#>
+PREFIX qudt:    <http://qudt.org/schema/qudt/>
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?key (SUM(?mass * ?f1 * ?f2) AS ?kg) WHERE {
+  ex:V0401010102_2020 futuram:itemMass/qudt:numericValue ?mass .
+  ex:V0401010102_2020 futuram:hasCompositionStatement/futuram:hasPartRelation ?pr1 .
+  ?pr1 futuram:refersTo ?comp ;
+       futuram:hasQuantity/futuram:hasBestValue/qudt:numericValue ?f1 .
+  ?comp futuram:hasCompositionStatement/futuram:hasPartRelation ?pr2 .
+  ?pr2 futuram:refersTo ?mat ;
+       futuram:hasQuantity/futuram:hasBestValue/qudt:numericValue ?f2 .
+  ?mat rdf:type ?key .
+  ?key rdfs:subClassOf* futuram:AlAndAlAlloys .
+  FILTER NOT EXISTS {
+    ?mat rdf:type ?sub .
+    ?sub rdfs:subClassOf ?key .
+    ?sub rdfs:subClassOf* futuram:AlAndAlAlloys .
+    FILTER(?sub != ?key)
+  }
+} GROUP BY ?key ORDER BY DESC(?kg)

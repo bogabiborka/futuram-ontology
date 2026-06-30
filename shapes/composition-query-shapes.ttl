@@ -1,0 +1,104 @@
+@prefix fq: <https://www.purl.org/futuram/query#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+fq:AmountShape a sh:NodeShape ;
+    rdfs:label "served amount shape"@en ;
+    sh:property [ sh:maxCount 1 ;
+            sh:message "An fq:Amount must have exactly one fq:constituent (the constituent class)." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:path fq:constituent ],
+        [ sh:datatype xsd:double ;
+            sh:maxCount 1 ;
+            sh:message "An fq:Amount must have exactly one fq:amount (best value, kg/kg, >= 0)." ;
+            sh:minCount 1 ;
+            sh:minInclusive 0.0 ;
+            sh:path fq:amount ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:message "An fq:Amount must record fq:unit." ;
+            sh:minCount 1 ;
+            sh:path fq:unit ],
+        [ sh:datatype xsd:double ;
+            sh:lessThanOrEquals fq:amount ;
+            sh:maxCount 1 ;
+            sh:message "fq:amountLow must be <= fq:amount." ;
+            sh:minInclusive 0.0 ;
+            sh:path fq:amountLow ],
+        [ sh:lessThanOrEquals fq:amountHigh ;
+            sh:message "fq:amount must be <= fq:amountHigh." ;
+            sh:path fq:amount ],
+        [ sh:datatype xsd:double ;
+            sh:maxCount 1 ;
+            sh:path fq:amountHigh ],
+        [ sh:class fq:Empirical ;
+            sh:maxCount 1 ;
+            sh:message "A served fq:distribution must be fq:Empirical (percentile-based, not a parametric family)." ;
+            sh:path fq:distribution ],
+        [ sh:maxCount 1 ;
+            sh:message "An fq:Amount must have exactly one fq:whole (the subject class)." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:path fq:whole ] ;
+    sh:targetClass fq:Amount .
+
+fq:ConstituentKindShape a sh:NodeShape ;
+    rdfs:label "constituent carries exactly one level via rdfs:subClassOf"@en ;
+    sh:sparql [ sh:message "A served constituent must be rdfs:subClassOf EXACTLY ONE of futuram:Product/Component/Material/Element (the levels are disjoint; the kind lives in the ontology, not a flat marker)." ;
+            sh:select """
+            SELECT $this WHERE {
+                {
+                    SELECT $this (COUNT(DISTINCT ?lvl) AS ?n) WHERE {
+                        OPTIONAL {
+                            $this <http://www.w3.org/2000/01/rdf-schema#subClassOf> ?lvl .
+                            FILTER(?lvl IN (
+                                <https://www.purl.org/futuram#Product>,
+                                <https://www.purl.org/futuram#Component>,
+                                <https://www.purl.org/futuram#Material>,
+                                <https://www.purl.org/futuram#Element>))
+                        }
+                    } GROUP BY $this
+                }
+                FILTER(?n != 1)
+            }
+        """ ] ;
+    sh:targetObjectsOf fq:constituent .
+
+fq:ContainsSubjectIsClassShape a sh:NodeShape ;
+    rdfs:label "fq:contains subject is a class"@en ;
+    sh:class owl:Class ;
+    sh:message "The subject of fq:contains must be a CLASS, not an instance (served graph is class-only)." ;
+    sh:property [ sh:class fq:Amount ;
+            sh:message "fq:contains must point to an fq:Amount node." ;
+            sh:path fq:contains ] ;
+    sh:targetSubjectsOf fq:contains .
+
+fq:S6TimeScopeOnServedShape a sh:NodeShape ;
+    rdfs:label "S6: served P/C class carries a year or a period"@en ;
+    sh:severity sh:Violation ;
+    sh:sparql [ a sh:SPARQLConstraint ;
+            sh:message "S6: a Product/Component-level fq:contains subject must carry exactly one of fq:referenceYear or (fq:periodStart and fq:periodEnd)." ;
+            sh:select """
+            PREFIX fq: <https://www.purl.org/futuram/query#>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT DISTINCT $this WHERE {
+                $this rdfs:subClassOf ?lvl .
+                FILTER (?lvl IN (<https://www.purl.org/futuram#Product>,
+                                 <https://www.purl.org/futuram#Component>))
+                {
+                    FILTER NOT EXISTS { $this fq:referenceYear ?y }
+                    FILTER NOT EXISTS { $this fq:periodStart ?p0 .
+                                        $this fq:periodEnd ?p1 }
+                }
+                UNION
+                {
+                    $this fq:referenceYear ?y2 ;
+                          fq:periodStart ?p2 .
+                }
+            }
+        """ ] ;
+    sh:targetSubjectsOf fq:contains .
+

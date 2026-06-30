@@ -1,0 +1,15 @@
+# Copper in each BEV passenger-body segment, 2030.
+# A body segment IS-A the BEV-2030 product line: it is rdfs:subClassOf the
+# drivetrain×year class elvBEV_Y2030 and carries its own itemMass + fq:contains.
+# So select every such subclass structurally (no list, no string-matching the IRI).
+PREFIX fq:      <https://www.purl.org/futuram/query#>
+PREFIX futuram: <https://www.purl.org/futuram#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX afn:     <http://jena.apache.org/ARQ/function#>
+SELECT ?key (?m*?f AS ?kg) (?ru*?m*?f AS ?unc) WHERE {
+  ?key rdfs:subClassOf futuram:elvBEV_Y2030 ;
+       fq:itemMass ?m ;
+       fq:contains [ fq:constituent futuram:Copper ; fq:amount ?f ;
+                     fq:relativeUncertainty ?ru ] .
+}
+ORDER BY DESC(?kg)

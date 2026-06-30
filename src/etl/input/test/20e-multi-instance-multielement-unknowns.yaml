@@ -1,0 +1,129 @@
+id: 20e_multi_instance_multielement_unknowns
+title: multi-instance aggregation WITH multi-element unknowns (two elements coarse-bounded on one instance)
+note: "BASE: two instances of the SAME class V0301030105 — carA and carB —\naggregated to the class by the equal (unweighted) mean, as in scenario 20.\n\nPLUS: TWO coexisting ELEMENT-level unknowns on carA, on two DIFFERENT\nelements, each producing its own independent unknown residual on one\ninstance:\n\n1. NICKEL unknown. A known ni trace is recorded inside the motor winding\n   (windingA->ni best 0.01; windingA->cu drops 1.0->0.99 so cu+ni conserve\n   to 1.0). The granular ni reaching carA via that traced path is\n     carA->motorA (0.5) * motorA->windingA (0.3) * windingA->ni (0.01)\n       = 0.0015 kg/kg.\n   A COARSE Product->Element statement carA->ni best 0.02 bounds total\n   nickel ABOVE that traced path. residual (unknown) = 0.02 - 0.0015\n     = 0.0185 kg/kg.\n\n2. SILVER unknown. There is NO silver anywhere in carA's granular chain,\n   so the known granular ag = 0. A COARSE Product->Element statement\n   carA->ag best 0.015 is therefore FULLY GENERIC: residual (unknown)\n     = 0.015 - 0.0 = 0.015 kg/kg.\n\nBoth coarse statements span more than one level (Product->Element) and are\nAUTO-EXCLUDED from conservation. Copper on carA drops slightly because the\nni trace displaces cu inside windingA (windingA->cu 1.0 -> 0.99).\n\nORIGINAL NOTE (base scenario 20) follows:\nTHE keystone aggregation scenario. Two DISTINCT product instances — carA and\ncarB — are BOTH of the same class V0301030105. They have the same KIND of\nchain (product -> component -> material -> element: motor->winding->Cu and\nharness->cuwire->Cu) but DIFFERENT values per instance. The class is the plain\n(equal, unweighted) mean of its member instances — each instance counts once.\n\nPer-instance copper per kg of car (path-product of best values). NOTE windingA\ncopper is now 0.99 because the ni trace above displaces 0.01 of cu inside it:\n  carA: motor 0.50 * winding 0.30 * 0.99 = 0.1485\n      + harness 0.50 * cuwire 0.60 * 1.0  = 0.300   -> 0.4485\n  carB: motor 0.40 * winding 0.35 * 1.0  = 0.140\n      + harness 0.55 * cuwire 0.70 * 1.0  = 0.385   -> 0.525\n\nClass-level copper = equal (unweighted) mean over the two instances:\n  Cu(V0301030105) = (0.4485 + 0.525) / 2 = 0.486750 kg/kg\n\nThis is the ClassCompositionStatement the Monte-Carlo aggregator must\nreproduce (best/central value; MC adds the spread). Every instance conserves\nindependently; the two share ONLY their class, not their individuals.\n"
+provenance:
+  source: FutuRaM composition datasheet (test)
+  agent: FutuRaM test organisation
+  production: forming
+  validFrom: '2020-01-01'
+  validUntil: '2026-12-31'
+nodes:
+  carA:
+    level: Product
+    class: V0301030105_Y2020
+    itemMass: 1000.0
+  motorA:
+    level: Component
+    class: elvElectricMotor_Y2020
+    itemMass: 50.0
+  harnessA:
+    level: Component
+    class: wiringHarness_Y2020
+    itemMass: 50.0
+  windingA:
+    level: Material
+    class: highCuAlloys
+  steelA:
+    level: Material
+    class: steelAndSteelAlloys
+  cuwireA:
+    level: Material
+    class: pureCu
+  sheathA:
+    level: Material
+    class: thermoplastics
+  carB:
+    level: Product
+    class: V0301030105_Y2020
+    itemMass: 1000.0
+  motorB:
+    level: Component
+    class: elvElectricMotor_Y2020
+    itemMass: 50.0
+  harnessB:
+    level: Component
+    class: wiringHarness_Y2020
+    itemMass: 50.0
+  windingB:
+    level: Material
+    class: pureCu
+  steelB:
+    level: Material
+    class: steelAndSteelAlloys
+  cuwireB:
+    level: Material
+    class: pureCu
+  sheathB:
+    level: Material
+    class: thermoplastics
+  cu:
+    level: Element
+    class: Copper
+  fe:
+    level: Element
+    class: Iron
+  ni:
+    level: Element
+    class: Nickel
+  ag:
+    level: Element
+    class: Silver
+  c:
+    level: Element
+    class: Carbon
+statements:
+- {whole: carA, part: motorA, best: 0.5, lo: 0.5, hi: 0.5, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: carA, part: harnessA, best: 0.5, lo: 0.5, hi: 0.5, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: motorA, part: windingA, best: 0.3, lo: 0.3, hi: 0.3, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: motorA, part: steelA, best: 0.6, lo: 0.6, hi: 0.6, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: harnessA, part: cuwireA, best: 0.6, lo: 0.6, hi: 0.6, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: harnessA, part: sheathA, best: 0.35, lo: 0.35, hi: 0.35, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: windingA, part: cu, best: 0.99, lo: 0.985, hi: 0.995, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: windingA, part: ni, best: 0.01, lo: 0.005, hi: 0.015, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: steelA, part: fe, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: cuwireA, part: cu, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: sheathA, part: c, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: carA, part: ni, best: 0.02, lo: 0.02, hi: 0.02, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: carA, part: ag, best: 0.015, lo: 0.015, hi: 0.015, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: carB, part: motorB, best: 0.4, lo: 0.4, hi: 0.4, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: carB, part: harnessB, best: 0.55, lo: 0.55, hi: 0.55, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: motorB, part: windingB, best: 0.35, lo: 0.35, hi: 0.35, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: motorB, part: steelB, best: 0.55, lo: 0.55, hi: 0.55, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: harnessB, part: cuwireB, best: 0.7, lo: 0.7, hi: 0.7, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: harnessB, part: sheathB, best: 0.25, lo: 0.25, hi: 0.25, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: windingB, part: cu, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: steelB, part: fe, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: cuwireB, part: cu, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: sheathB, part: c, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+subclass_of:
+  V0301030105_Y2020:
+  - V0301030105
+  - elvBEV_Y2020
+  elvElectricMotor_Y2020:
+  - elvElectricMotor
+  wiringHarness_Y2020:
+  - wiringHarness
+  elvBEV_Y2020:
+  - elvBEV
+class_time:
+  V0301030105_Y2020:
+    year: 2020
+    slices:
+    - parent: V0301030105
+      axis: year-slice-mean
+  elvElectricMotor_Y2020:
+    year: 2020
+    slices:
+    - parent: elvElectricMotor
+      axis: year-slice-mean
+  wiringHarness_Y2020:
+    year: 2020
+    slices:
+    - parent: wiringHarness
+      axis: year-slice-mean
+  elvBEV_Y2020:
+    year: 2020
+    strategy: equal-subclass-mean
+    slices:
+    - parent: elvBEV
+      axis: year-slice-mean

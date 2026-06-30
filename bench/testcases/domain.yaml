@@ -1,0 +1,284 @@
+# Hand-maintained — DATA-DERIVED truths. The COMBINED domain benchmark: the union
+# of domain-competency.yaml (the SI's ten NL competency questions) and
+# domain-sparql.yaml (the four special SPARQL-query questions, SI-5/6/7 + embedded
+# controllers). This file = the two split files concatenated; the splits exist so an
+# experiment can target one half. Questions never name an ontology class; the LLM
+# must resolve them. A question whose verbatim text already asks for the ± is a
+# single uncertainty-scoring case (no __valunc twin). A "rank … in decreasing order"
+# case carries `ranked: true` (the answer order is scored). Whole = elvBEV (2249 kg).
+cases:
+- id: al_diesel_clioclass_2025__valunc
+  question: What is the theoretical total mass of aluminum contained in a similar
+    category car like a diesel Renault Clio produced in 2025?
+  source: SI competency Q (al_diesel_clioclass_2025)
+  score_uncertainty: true
+  expected:
+    unit: kg
+    values:
+      https://www.purl.org/futuram#Aluminium: 113.05
+    uncertainty:
+      https://www.purl.org/futuram#Aluminium: 11.8
+- id: cu_petrol_clioclass_2025__valunc
+  question: What is the theoretical total mass of copper contained in a similar category
+    car like  petrol Renault Clio produced in 2025?
+  source: SI competency Q (cu_petrol_clioclass_2025)
+  score_uncertainty: true
+  expected:
+    unit: kg
+    values:
+      https://www.purl.org/futuram#Copper: 7.57
+    uncertainty:
+      https://www.purl.org/futuram#Copper: 0.54
+- id: cu_hev_clioclass_2025__valunc
+  question: What is the theoretical total mass of copper contained in a similar category
+    car like a hybrid (HEV) Renault Clio produced in 2025?
+  source: SI competency Q (cu_hev_clioclass_2025)
+  score_uncertainty: true
+  expected:
+    unit: kg
+    values:
+      https://www.purl.org/futuram#Copper: 29.74
+    uncertainty:
+      https://www.purl.org/futuram#Copper: 3.5
+- id: crm_total_bev_segmentD_2020__valunc
+  question: What is the total critical raw material content of a segment D, battery
+    electric car (BEV) produced in 2020? (without considering the composition of the
+    battery)
+  source: SI competency Q (crm_total_bev_segmentD_2020)
+  score_uncertainty: true
+  expected:
+    unit: kg
+    value: 349.27
+    uncertainty: 27.79
+- id: crm_total_phev_segmentC_2020__valunc
+  question: What is the total critical raw material content of a segment C, plug-in
+    hybrid car (PHEV) produced in 2020?
+  source: SI competency Q (crm_total_phev_segmentC_2020); value CORRECTED from SI
+    176.16 -> 214.10 (SI omitted critical copper; sole SI exception)
+  score_uncertainty: true
+  expected:
+    unit: kg
+    value: 214.1
+    uncertainty: 16.77
+- id: ree_in_motor_bev_segmentB_2025__valunc
+  question: What is the total rare earth element content (e.g., Nd, Dy,etc,) in a
+    permanent magnet-containing motor from the similar category as a battery electric
+    VW ID.3 produced in 2025?
+  source: SI competency Q (ree_in_motor_bev_segmentB_2025)
+  score_uncertainty: true
+  expected:
+    unit: kg
+    value: 0.84
+    uncertainty: 0.06
+- id: cu_distribution_bev_segmentC_2025__valunc
+  question: How is copper distributed across vehicle components (motor, wiring, electronics)
+    in case of segment C, battery electric car produced in 2025?
+  source: SI competency Q (cu_distribution_bev_segmentC_2025); "battery, " removed
+    — no battery component in the data (SI answer omits it too)
+  score_uncertainty: true
+  expected:
+    unit: kg
+    values:
+      https://www.purl.org/futuram#elvElectricMotor: 31.185
+      https://www.purl.org/futuram#elvEmbeddedElectronics: 10.43
+      https://www.purl.org/futuram#elvGeneralComponents: 3.97
+    uncertainty:
+      https://www.purl.org/futuram#elvElectricMotor: 4.5
+      https://www.purl.org/futuram#elvEmbeddedElectronics: 1.19
+      https://www.purl.org/futuram#elvGeneralComponents: 0.4
+  expected_by_backend:
+    fq:
+      unit: kg
+      values:
+        https://www.purl.org/futuram/query#elvElectricMotor_in_V0301030103_Y2025: 31.185
+        https://www.purl.org/futuram/query#elvEmbeddedElectronics_in_V0301030103_Y2025: 10.43
+        https://www.purl.org/futuram/query#elvGeneralComponents_in_V0301030103_Y2025: 3.97
+      uncertainty:
+        https://www.purl.org/futuram/query#elvElectricMotor_in_V0301030103_Y2025: 4.5
+        https://www.purl.org/futuram/query#elvEmbeddedElectronics_in_V0301030103_Y2025: 1.19
+        https://www.purl.org/futuram/query#elvGeneralComponents_in_V0301030103_Y2025: 0.4
+- id: al_alloy_demand_hev_segmentB_2020__valunc
+  question: What is the distribution of aluminium alloys in a 2020 B-segment hybrid
+    car?
+  source: SI competency Q (al_alloy_demand_hev_segmentB_2020); "cast" removed (user-authorised)
+    — 3/4 answer alloys are WROUGHT, not cast; the answer is the AlAndAlAlloys family
+  score_uncertainty: true
+  expected:
+    unit: kg
+    values:
+      https://www.purl.org/futuram#castAlAlloys: 66.52
+      https://www.purl.org/futuram#5xxxAlAlloy: 24.98
+      https://www.purl.org/futuram#6xxxAlAlloy: 11.75
+      https://www.purl.org/futuram#2xxxAlAlloy: 1.94
+    uncertainty:
+      https://www.purl.org/futuram#castAlAlloys: 11.52
+      https://www.purl.org/futuram#5xxxAlAlloy: 4.33
+      https://www.purl.org/futuram#6xxxAlAlloy: 2.03
+      https://www.purl.org/futuram#2xxxAlAlloy: 0.34
+- id: crm_recovered_embedded_electronics_std_bev_2025
+  question: List the potential recycling routes in case of the embedded electronics
+    in standard, battery-electric vehicle from 2025, together with the quantities
+    of critical raw materials recovered, including both mean values and associated
+    uncertainties.
+  source: SI competency Q9 (recycling routes, para 280-281)
+  score_uncertainty: true
+  expected:
+    unit: kg
+    values:
+      https://www.purl.org/futuram#Copper: 11.58
+      https://www.purl.org/futuram#Aluminium: 0.980439
+      https://www.purl.org/futuram#Palladium: 0.001995
+    uncertainty:
+      https://www.purl.org/futuram#Copper: 1.38
+      https://www.purl.org/futuram#Aluminium: 0.091
+      https://www.purl.org/futuram#Palladium: 0.000243
+    routes:
+      https://www.purl.org/futuram#Copper: https://purl.org/metalwheel#smelt_refine
+      https://www.purl.org/futuram#Aluminium: https://purl.org/metalwheel#electrolysis_remelt_refine
+      https://www.purl.org/futuram#Palladium: https://purl.org/metalwheel#smelt_refine
+- id: cu_recovery_from_car
+  question: How can copper be recovered from a car?
+  source: SI competency Q10 (SI doc para 57-58); process class IRIs from metalwheel
+    TBox
+  expected:
+    unit: ''
+    names:
+    - https://purl.org/metalwheel#smelt_refine
+    - https://purl.org/metalwheel#roast-leach_electrowinning_RLE_smeltfumerefine
+    - https://purl.org/metalwheel#smelt_fume_refine
+- id: cu_by_bev_segment_2030
+  question: Rank all battery-electric vehicles projected to be produced in 2030 according
+    to their copper content, reporting both the mean value and the associated uncertainty
+    (e.g., standard deviation) in decreasing order.
+  source: SI-5 (Cu by BEV segment, 2030)
+  score_uncertainty: true
+  ranked: true
+  expected:
+    unit: kg
+    values:
+      https://www.purl.org/futuram#V0301030206_Y2030: 78.27
+      https://www.purl.org/futuram#V0301030205_Y2030: 70.88
+      https://www.purl.org/futuram#V0301030106_Y2030: 67.22
+      https://www.purl.org/futuram#V0301030105_Y2030: 61.7
+      https://www.purl.org/futuram#V0301030204_Y2030: 57.38
+      https://www.purl.org/futuram#V0301030104_Y2030: 53.93
+      https://www.purl.org/futuram#V0301030203_Y2030: 51.15
+      https://www.purl.org/futuram#V0301030000_Y2030: 49.73
+      https://www.purl.org/futuram#V0301030103_Y2030: 46.05
+      https://www.purl.org/futuram#V0301030202_Y2030: 45.59
+      https://www.purl.org/futuram#V0301030102_Y2030: 42.89
+      https://www.purl.org/futuram#V0301030201_Y2030: 39.04
+      https://www.purl.org/futuram#V0301030101_Y2030: 36.46
+    uncertainty:
+      https://www.purl.org/futuram#V0301030206_Y2030: 9.01
+      https://www.purl.org/futuram#V0301030205_Y2030: 8.04
+      https://www.purl.org/futuram#V0301030106_Y2030: 6.23
+      https://www.purl.org/futuram#V0301030105_Y2030: 5.71
+      https://www.purl.org/futuram#V0301030204_Y2030: 6.52
+      https://www.purl.org/futuram#V0301030104_Y2030: 5.17
+      https://www.purl.org/futuram#V0301030203_Y2030: 6.01
+      https://www.purl.org/futuram#V0301030000_Y2030: 3.22
+      https://www.purl.org/futuram#V0301030103_Y2030: 4.68
+      https://www.purl.org/futuram#V0301030202_Y2030: 5.65
+      https://www.purl.org/futuram#V0301030102_Y2030: 4.52
+      https://www.purl.org/futuram#V0301030201_Y2030: 4.86
+      https://www.purl.org/futuram#V0301030101_Y2030: 2.46
+- id: al5xxx_by_bev_segment_2020
+  question: Rank all battery-electric type vehicles produced in 2020 according to
+    their 5xxxAlAlloy content, including both the mean value and the corresponding
+    uncertainty (standard deviation) in decreasing order.
+  source: SI-6 (5xxxAl by BEV segment, 2020)
+  score_uncertainty: true
+  ranked: true
+  expected:
+    unit: kg
+    values:
+      https://www.purl.org/futuram#V0301030206_Y2020: 127.2
+      https://www.purl.org/futuram#V0301030205_Y2020: 113.19
+      https://www.purl.org/futuram#V0301030106_Y2020: 106.0
+      https://www.purl.org/futuram#V0301030105_Y2020: 94.32
+      https://www.purl.org/futuram#V0301030204_Y2020: 75.42
+      https://www.purl.org/futuram#V0301030104_Y2020: 62.85
+      https://www.purl.org/futuram#V0301030000_Y2020: 47.06
+      https://www.purl.org/futuram#V0301030203_Y2020: 45.2
+      https://www.purl.org/futuram#V0301030103_Y2020: 37.67
+      https://www.purl.org/futuram#V0301030202_Y2020: 28.72
+      https://www.purl.org/futuram#V0301030102_Y2020: 24.98
+      https://www.purl.org/futuram#V0301030201_Y2020: 17.31
+      https://www.purl.org/futuram#V0301030101_Y2020: 15.74
+    uncertainty:
+      https://www.purl.org/futuram#V0301030206_Y2020: 22.03
+      https://www.purl.org/futuram#V0301030205_Y2020: 19.6
+      https://www.purl.org/futuram#V0301030106_Y2020: 18.36
+      https://www.purl.org/futuram#V0301030105_Y2020: 16.34
+      https://www.purl.org/futuram#V0301030204_Y2020: 13.06
+      https://www.purl.org/futuram#V0301030104_Y2020: 10.56
+      https://www.purl.org/futuram#V0301030203_Y2020: 7.82
+      https://www.purl.org/futuram#V0301030000_Y2020: 6.79
+      https://www.purl.org/futuram#V0301030103_Y2020: 6.52
+      https://www.purl.org/futuram#V0301030202_Y2020: 4.97
+      https://www.purl.org/futuram#V0301030102_Y2020: 4.33
+      https://www.purl.org/futuram#V0301030201_Y2020: 3.0
+      https://www.purl.org/futuram#V0301030101_Y2020: 2.73
+- id: elements_embedded_electronics_std_bev_2030
+  question: List the projected elemental composition of embedded electronics of a
+    standard, battery-electric vehicle produced in 2030, including both mean values
+    and associated uncertainties for each element.
+  source: SI-7 (embedded-electronics elements, std BEV 2030)
+  score_uncertainty: true
+  expected:
+    unit: kg
+    values:
+      https://www.purl.org/futuram#Copper: 11.9
+      https://www.purl.org/futuram#Aluminium: 1.02
+      https://www.purl.org/futuram#Iron: 0.0963
+      https://www.purl.org/futuram#Silver: 0.0295
+      https://www.purl.org/futuram#Gold: 0.0121
+      https://www.purl.org/futuram#Palladium: 0.00206
+    uncertainty:
+      https://www.purl.org/futuram#Copper: 1.41
+      https://www.purl.org/futuram#Aluminium: 0.0937
+      https://www.purl.org/futuram#Iron: 0.011
+      https://www.purl.org/futuram#Silver: 0.00305
+      https://www.purl.org/futuram#Gold: 0.00145
+      https://www.purl.org/futuram#Palladium: 0.000248
+- id: crm_recovered_embedded_controllers_std_bev_2025
+  question: List the potential recycling routes in case of the embedded controllers
+    in standard, battery-electric vehicle from 2025, together with the quantities
+    of critical raw materials recovered, including both mean values and associated
+    uncertainties.
+  source: New SPARQL Q (embedded controllers recycling routes; screenshot/metal-wheel;
+    values data-verified on the fq endpoint)
+  score_uncertainty: true
+  expected:
+    unit: kg
+    values:
+      https://www.purl.org/futuram#Copper: 0.795906
+      https://www.purl.org/futuram#Aluminium: 0.122864
+      https://www.purl.org/futuram#Palladium: 0.000432581
+    uncertainty:
+      https://www.purl.org/futuram#Copper: 0.137855
+      https://www.purl.org/futuram#Aluminium: 0.0212806
+      https://www.purl.org/futuram#Palladium: 7.49253e-05
+    routes:
+    - element: https://www.purl.org/futuram#Copper
+      base_metal: https://www.purl.org/futuram#Copper
+      route: https://purl.org/metalwheel#smelt_refine
+    - element: https://www.purl.org/futuram#Copper
+      base_metal: https://www.purl.org/futuram#Lead
+      route: https://purl.org/metalwheel#roast-leach_electrowinning_RLE_smeltfumerefine
+    - element: https://www.purl.org/futuram#Copper
+      base_metal: https://www.purl.org/futuram#Tin
+      route: https://purl.org/metalwheel#smelt_fume_refine
+    - element: https://www.purl.org/futuram#Copper
+      base_metal: https://www.purl.org/futuram#Zinc
+      route: https://purl.org/metalwheel#roast-leach_electrowinning_RLE_smeltfumerefine
+    - element: https://www.purl.org/futuram#Aluminium
+      base_metal: https://www.purl.org/futuram#Aluminium
+      route: https://purl.org/metalwheel#electrolysis_remelt_refine
+    - element: https://www.purl.org/futuram#Palladium
+      base_metal: https://www.purl.org/futuram#Copper
+      route: https://purl.org/metalwheel#smelt_refine
+    - element: https://www.purl.org/futuram#Palladium
+      base_metal: https://www.purl.org/futuram#Nickel
+      route: https://purl.org/metalwheel#smelt_refine

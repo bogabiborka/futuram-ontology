@@ -1,0 +1,125 @@
+id: 20b_multi_instance_unknowns
+title: multi-instance aggregation WITH unknowns (coarse element bound above the known path)
+note: "Scenario 20 (two V0301030105 instances aggregated to the class by the equal\n(unweighted) mean) PLUS a derivable UNKNOWN on carA. Adding a 0.01 nickel trace to windingA\ndisplaces that much copper (windingA cu 1.00->0.99), so:\n  carA Cu 0.4485, carB Cu 0.525  ->  Cu(V0301030105) = (0.4485 + 0.525)/2 = 0.486750\n  Ni(V0301030105) = equal-mean KNOWN nickel = (0.0015 + 0.0)/2 = 0.00075.\n(The 0.0185 unknown nickel is NOT in the known aggregate — it is the residual\nthe reconcile pipeline derives, see below.)\n\nThe unknown: carA carries a COARSE car->ni bound of 0.02 (Product->Element, a\nwhole-vehicle nickel figure) while only PART of that nickel is traced — windingA\nis highCuAlloys (a copper-nickel alloy, cu 0.99 + ni 0.01), so the known\ngranular nickel reaching carA\nis  car->motor->winding->ni = 0.50 * 0.30 * 0.01 = 0.0015. The coarse bound\n(0.02) exceeds the known path, so the pipeline must derive an unknown nickel\nresidual of 0.02 - 0.0015 = 0.0185, attributed as a fully-generic chain\ncar -> unknownComponent -> unknownMaterial -> ni. The coarse bound is EXCLUDED\nfrom carA's conservation (a parallel low-resolution view, not a sibling part),\nso carA still conserves. None of the unknown nodes are in the Turtle — the\nreconcile pipeline produces them.\n"
+provenance:
+  source: FutuRaM composition datasheet (test)
+  agent: FutuRaM test organisation
+  production: forming
+  validFrom: '2020-01-01'
+  validUntil: '2026-12-31'
+nodes:
+  carA:
+    level: Product
+    class: V0301030105_Y2020
+    itemMass: 1000.0
+  motorA:
+    level: Component
+    class: elvElectricMotor_Y2020
+    itemMass: 50.0
+  harnessA:
+    level: Component
+    class: wiringHarness_Y2020
+    itemMass: 50.0
+  windingA:
+    level: Material
+    class: highCuAlloys
+  steelA:
+    level: Material
+    class: steelAndSteelAlloys
+  cuwireA:
+    level: Material
+    class: pureCu
+  sheathA:
+    level: Material
+    class: thermoplastics
+  carB:
+    level: Product
+    class: V0301030105_Y2020
+    itemMass: 1000.0
+  motorB:
+    level: Component
+    class: elvElectricMotor_Y2020
+    itemMass: 50.0
+  harnessB:
+    level: Component
+    class: wiringHarness_Y2020
+    itemMass: 50.0
+  windingB:
+    level: Material
+    class: pureCu
+  steelB:
+    level: Material
+    class: steelAndSteelAlloys
+  cuwireB:
+    level: Material
+    class: pureCu
+  sheathB:
+    level: Material
+    class: thermoplastics
+  cu:
+    level: Element
+    class: Copper
+  fe:
+    level: Element
+    class: Iron
+  ni:
+    level: Element
+    class: Nickel
+  c:
+    level: Element
+    class: Carbon
+statements:
+- {whole: carA, part: motorA, best: 0.5, lo: 0.5, hi: 0.5, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: carA, part: harnessA, best: 0.5, lo: 0.5, hi: 0.5, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: motorA, part: windingA, best: 0.3, lo: 0.3, hi: 0.3, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: motorA, part: steelA, best: 0.6, lo: 0.6, hi: 0.6, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: harnessA, part: cuwireA, best: 0.6, lo: 0.6, hi: 0.6, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: harnessA, part: sheathA, best: 0.35, lo: 0.35, hi: 0.35, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: windingA, part: cu, best: 0.99, lo: 0.985, hi: 0.995, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: windingA, part: ni, best: 0.01, lo: 0.005, hi: 0.015, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: carA, part: ni, best: 0.02, lo: 0.02, hi: 0.02, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: steelA, part: fe, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: cuwireA, part: cu, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: sheathA, part: c, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: carB, part: motorB, best: 0.4, lo: 0.4, hi: 0.4, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: carB, part: harnessB, best: 0.55, lo: 0.55, hi: 0.55, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: motorB, part: windingB, best: 0.35, lo: 0.35, hi: 0.35, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: motorB, part: steelB, best: 0.55, lo: 0.55, hi: 0.55, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: harnessB, part: cuwireB, best: 0.7, lo: 0.7, hi: 0.7, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: harnessB, part: sheathB, best: 0.25, lo: 0.25, hi: 0.25, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: windingB, part: cu, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: steelB, part: fe, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: cuwireB, part: cu, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: sheathB, part: c, best: 1.0, lo: 0.995, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+subclass_of:
+  V0301030105_Y2020:
+  - V0301030105
+  - elvBEV_Y2020
+  elvElectricMotor_Y2020:
+  - elvElectricMotor
+  wiringHarness_Y2020:
+  - wiringHarness
+  elvBEV_Y2020:
+  - elvBEV
+class_time:
+  V0301030105_Y2020:
+    year: 2020
+    slices:
+    - parent: V0301030105
+      axis: year-slice-mean
+  elvElectricMotor_Y2020:
+    year: 2020
+    slices:
+    - parent: elvElectricMotor
+      axis: year-slice-mean
+  wiringHarness_Y2020:
+    year: 2020
+    slices:
+    - parent: wiringHarness
+      axis: year-slice-mean
+  elvBEV_Y2020:
+    year: 2020
+    strategy: equal-subclass-mean
+    slices:
+    - parent: elvBEV
+      axis: year-slice-mean

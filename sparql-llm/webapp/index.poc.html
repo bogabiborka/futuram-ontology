@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FutuRaM Chat — PoC (live-computed)</title>
+    <meta
+      name="description"
+      content="Ask about the material, component and element composition of products in the FutuRaM knowledge graph."
+    />
+    <link rel="icon" type="image/png" href="/assets/sib-logo--jUM9mer.png" />
+
+    <script type="module" crossorigin src="/assets/index-Dp5RABF9.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-DUrw8Cxs.css">
+  </head>
+
+  <!-- Demo chat webpage served by the FutuRaM API -->
+  <body>
+    <!-- BACKEND BANNER: which endpoint the chat is querying (profile: poc) -->
+    <div style="background:#7c3aed;color:#fff;text-align:center;padding:8px 12px;font-weight:600;letter-spacing:.02em;">
+      🐍 Backend: <strong>PoC — live-computed in Python</strong>
+      <span style="opacity:.85;font-weight:400;">(rdflib-endpoint @ :48060 — fq: graph computed live by the oracle, not stored in Jena)</span>
+    </div>
+
+    <div class="flex flex-col h-screen w-full">
+      <nav class="flex justify-end"></nav>
+
+      <div class="text-left text-sm mb-5 prose max-w-3xl mx-auto pb-5 border-b">
+        <h2 class="text-xl text-center font-semibold border-b pb-2">
+          FutuRaM Chat
+          <div
+            class="inline-block ml-3 px-3 py-1 bg-purple-600 text-white text-sm font-semibold rounded-full justify-center items-center"
+          >
+            PoC · live
+          </div>
+        </h2>
+        <p>
+          <strong>FutuRaM Chat</strong> answers questions about the
+          <strong>material, component and element composition</strong> of products
+          in the FutuRaM knowledge graph. It turns your question into a SPARQL query
+          over the flat <code>fq:</code> query vocabulary and runs it against the
+          <strong>live-compute proof-of-concept endpoint</strong>: the
+          <code>fq:</code> graph is produced on the fly by the Python oracle rather
+          than precomputed and stored in Jena.
+        </p>
+        <p>
+          Confirm the backend yourself by asking for the provenance node:
+          <code>SELECT ?p ?o WHERE { fq:_provenance ?p ?o }</code> — only the live
+          PoC endpoint carries it.
+        </p>
+        <p>
+          Ask, for example, <em>how much of an element / material / component is in a
+          given class</em> — the assistant builds the <code>fq:contains</code>
+          pattern, declares the constituent kind via the ontology
+          (<code>rdfs:subClassOf futuram:Element</code>), and reads back the amount.
+        </p>
+      </div>
+
+      <div class="flex-grow mx-5">
+        <chat-with-context
+          chat-endpoint="{{ chat_endpoint }}"
+          feedback-endpoint="{{ feedback_endpoint }}"
+          api-key="{{ api_key }}"
+          examples="{{ examples }}"
+        >
+        </chat-with-context>
+      </div>
+    </div>
+  </body>
+</html>

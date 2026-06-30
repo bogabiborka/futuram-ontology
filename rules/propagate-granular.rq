@@ -1,0 +1,73 @@
+# Propagate granular path-products along the qualified-part-relation shape
+# (?W hasCompositionStatement ?s . ?s hasPartRelation ?rel . ?rel refersTo ?P ; hasQuantity ?q),
+# keying path identity on the RELATION (bare filler edges have no hasQuantity, so skip).
+PREFIX futuram: <https://www.purl.org/futuram#>
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+PREFIX qudt:    <http://qudt.org/schema/qudt/>
+PREFIX unit:    <http://qudt.org/vocab/unit/>
+PREFIX ceonq:   <http://w3id.org/CEON/ontology/quantity/>
+
+CONSTRUCT {
+    ?reach a futuram:GranularReach ;
+           futuram:reachRoot ?root ;
+           futuram:reachHead ?head ;
+           futuram:reachFrac ?frac ;
+           futuram:reachKey  ?key .
+}
+WHERE {
+    {
+        # ---- SEED ----
+        ?root futuram:hasCompositionStatement ?s .
+        ?s a futuram:CompositionStatement ; futuram:hasPartRelation ?rel .
+        ?rel futuram:refersTo ?head ; futuram:hasQuantity ?q .
+        ?root a ?wRoot . ?head a ?pRoot .
+        VALUES ( ?wRoot ?wRank ) {
+            ( futuram:Product 0 ) ( futuram:Component 1 )
+            ( futuram:Material 2 ) ( futuram:Element 3 ) }
+        VALUES ( ?pRoot ?pRank ) {
+            ( futuram:Product 0 ) ( futuram:Component 1 )
+            ( futuram:Material 2 ) ( futuram:Element 3 ) }
+        FILTER ( ?pRank - ?wRank = 1 || ( ?pRank = ?wRank ) )
+        FILTER ( ?root != ?head )
+
+        ?q futuram:hasBestValue ?b . ?b qudt:numericValue ?bv ; qudt:unit ?bu .
+        OPTIONAL { ?q ceonq:hasMinimalValueIncludedOfInterval ?n . ?n qudt:numericValue ?nv ; qudt:unit ?nu . }
+        BIND( IF(COALESCE(?nu,?bu)=unit:GM-PER-KiloGM, COALESCE(?nv,?bv)*0.001, COALESCE(?nv,?bv)) AS ?frac )
+
+        # HAZARD 1: key on ?rel (the edge), not ?s (the per-whole statement)
+        BIND( CONCAT(STR(?root), "|", STR(?rel)) AS ?key )
+        BIND( IRI(CONCAT("urn:reach:", ENCODE_FOR_URI(?key))) AS ?reach )
+    }
+    UNION
+    {
+        # ---- STEP ----
+        ?prev a futuram:GranularReach ;
+              futuram:reachRoot ?root ;
+              futuram:reachHead ?mid ;
+              futuram:reachFrac ?prevFrac ;
+              futuram:reachKey  ?prevKey .
+        ?mid futuram:hasCompositionStatement ?s .
+        ?s a futuram:CompositionStatement ; futuram:hasPartRelation ?rel .
+        ?rel futuram:refersTo ?head ; futuram:hasQuantity ?q .
+        ?mid a ?wRoot . ?head a ?pRoot .
+        VALUES ( ?wRoot ?wRank ) {
+            ( futuram:Product 0 ) ( futuram:Component 1 )
+            ( futuram:Material 2 ) ( futuram:Element 3 ) }
+        VALUES ( ?pRoot ?pRank ) {
+            ( futuram:Product 0 ) ( futuram:Component 1 )
+            ( futuram:Material 2 ) ( futuram:Element 3 ) }
+        FILTER ( ?pRank - ?wRank = 1 || ( ?pRank = ?wRank ) )
+        FILTER ( ?mid != ?head )
+        # loop guard: do not re-walk an edge (RELATION) already on this path
+        FILTER ( ! CONTAINS(?prevKey, CONCAT("|", STR(?rel))) )
+
+        ?q futuram:hasBestValue ?b . ?b qudt:numericValue ?bv ; qudt:unit ?bu .
+        OPTIONAL { ?q ceonq:hasMinimalValueIncludedOfInterval ?nn . ?nn qudt:numericValue ?nv ; qudt:unit ?nu . }
+        BIND( IF(COALESCE(?nu,?bu)=unit:GM-PER-KiloGM, COALESCE(?nv,?bv)*0.001, COALESCE(?nv,?bv)) AS ?edgeFrac )
+        BIND( ?prevFrac * ?edgeFrac AS ?frac )
+
+        BIND( CONCAT(?prevKey, "|", STR(?rel)) AS ?key )
+        BIND( IRI(CONCAT("urn:reach:", ENCODE_FOR_URI(?key))) AS ?reach )
+    }
+}

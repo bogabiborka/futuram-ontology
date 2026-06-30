@@ -1,0 +1,37 @@
+[project]
+name = "futuram-composition-rdf"
+version = "0.1.0"
+description = "FutuRaM Composition-Statement RDF: ETL (CSV/Excel -> composition RDF) and builder (composition RDF -> fq: served graph)."
+requires-python = ">=3.9"
+
+# Console entry points. csv2rdf: one dataset -> composition RDF (or the served fq:
+# graph via --served). serve-corpus: a composition DIRECTORY -> the single global
+# fq: graph (the on-disk runner that drives the pure-RDF builder).
+[project.scripts]
+futuram-csv2rdf = "etl.csv_to_rdf:main"
+futuram-serve-corpus = "etl.serve_corpus:main"
+futuram-buckets = "etl.buckets:main"
+
+# The shippable library lives under src/ as layered packages plus a shared common/:
+#   etl/      CSV/Excel -> Composition-Statement RDF (oracle-free real path)
+#   builder/  Composition-Statement RDF -> fq: served graph (resolver pipeline)
+#   poc/      live Monte-Carlo, extends builder
+#   common/   shared low-level rdflib/SHACL primitives + the Fuseki client
+# The oracle (frozen reference SupplyChain) is TESTS-ONLY: tests/oracle, not src/.
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+# tests live in tests/; the library is importable from src/ via pythonpath. The
+# oracle (the frozen reference SupplyChain) is TESTS-ONLY — it lives under
+# tests/oracle, so tests/ is on the path too. No src/ package imports oracle
+# (enforced by tests/test_layering.py).
+pythonpath = ["src", "tests"]
+testpaths = ["tests"]
+# Heavy end-to-end tests (real CSV reads / full pooled builds) are marked `slow`
+# and DESELECTED by default. Run them with `pytest -m slow`, or everything with
+# `pytest -m "slow or not slow"`.
+markers = [
+    "slow: heavy end-to-end test (reads large CSVs / runs full builds)",
+]
+addopts = "-m 'not slow'"

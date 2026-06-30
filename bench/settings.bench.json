@@ -1,0 +1,33 @@
+{
+  "app_name": "FutuRaM Benchmark (fq vs composition)",
+  "app_org": "FutuRaM",
+  "app_topics": "the material, component and element composition of products, asked two ways: the query-optimized fq: dataset, and the baseline composition futuram:CompositionStatement dataset",
+  "example_questions": [
+    "How much copper is in elvBEV?",
+    "How much copper is in the car?",
+    "Which elements does the motor contain, and in what amounts?",
+    "What is the iron fraction of low carbon steel?"
+  ],
+  "vectordb_url": "http://bench-vectordb:6333",
+  "default_backend": "fq",
+  "endpoints": [
+    {
+      "id": "fq",
+      "endpoint_url": "http://localhost:47040/query/sparql",
+      "void_file": "/app/sparql-llm/futuram_void.ttl",
+      "examples_file": "/app/sparql-llm/futuram_examples.ttl",
+      "label": "FutuRaM fq (query-optimized dataset)",
+      "description": "The QUERY-OPTIMIZED fq: dataset over CLASSES. One pattern answers everything: ?class fq:contains [ fq:constituent ?x ; fq:amount ?frac ]. Amounts are already aggregated kg/kg fractions; declare the constituent KIND with rdfs:subClassOf futuram:Element/Material/Component. No tree traversal, no unit normalisation, no manual aggregation.",
+      "homepage_url": "https://www.purl.org/futuram"
+    },
+    {
+      "id": "composition",
+      "endpoint_url": "http://localhost:47040/composition/sparql",
+      "void_file": "/app/sparql-llm/futuram_void_composition.ttl",
+      "examples_file": "/app/sparql-llm/futuram_examples_composition.ttl",
+      "label": "FutuRaM composition (baseline composition dataset)",
+      "description": "The BASELINE COMPOSITION futuram:CompositionStatement dataset on INSTANCES. Amounts live in the statement tree: ?whole futuram:hasCompositionStatement ?stmt . ?stmt futuram:hasPartRelation ?pr . ?pr futuram:refersTo ?partInstance ; futuram:hasQuantity/futuram:hasBestValue [ qudt:numericValue ?v ; qudt:unit ?u ]. Units are MIXED (kg/kg vs g/kg). There is NO precomputed aggregate: a constituent's share of a whole several hops up must be obtained by multiplying fractions down each whole->part path, normalising units, and summing paths. This is what the fq: view precomputes.",
+      "homepage_url": "https://www.purl.org/futuram"
+    }
+  ]
+}

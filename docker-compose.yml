@@ -1,0 +1,93 @@
+# ============================================================================
+# FutuRaM bench — ONE command for the whole system.
+#
+#     docker compose up
+#
+# This IS the default compose file: a bare `docker compose up` from a fresh clone
+# brings up the entire bench and opens the UI at http://localhost:3737 :
+#
+#   bench-fuseki     :47040  triplestore, serves BOTH vocabularies of the SAME
+#                            FutuRaM data: /query/sparql (query-optimized fq: dataset) and
+#                            /composition/sparql (baseline composition dataset)
+#   bench-vectordb   :47343  Qdrant, the RAG index over both backends' VoID
+#   bench-mcp        :47898  sparql-llm MCP server (the tools the LLM calls)
+#   bench-observer   :3737   the web UI — run experiments, pick a model/provider,
+#                            sign into GitHub Copilot, watch runs live
+#
+# WHERE THE DATA COMES FROM
+# -------------------------
+# The data is COMMITTED IN THIS REPO, under fuseki/futuram/data/ — a `git clone`
+# already has it, nothing is downloaded at `up`:
+#   fuseki/futuram/data/composition/   FutuRaM baseline composition dataset (ABox) +
+#                                      TBox, ChEBI module/bridge, criticality,
+#                                      reasoned rdf:type closure — ONE dir
+#   fuseki/futuram/data/query/         the query-optimized fq: dataset (futuram.ttl) + ChEBI
+#                                      module/bridge + criticality — ONE dir
+# bench-materialize (a one-shot) regenerates the derived files in place before
+# Fuseki loads; no network. The GitHub `deploy-data` workflow VALIDATES and PUBLISHES these same
+# files as a tagged Release — it is the governance/publishing pipeline, NOT a
+# runtime data source. To run on a different release, check out that tag (or drop
+# its release .ttl into fuseki/futuram/data/) and `up` again.
+#
+# This file pulls in the bench service stack from bench/docker-compose.bench.yml
+# and adds the observer UI on top.
+# ============================================================================
+
+include:
+  - bench/docker-compose.bench.yml
+
+services:
+  bench-observer:
+    build:
+      context: ./bench/observer
+      dockerfile: Dockerfile
+    image: futuram-bench-observer:latest
+    container_name: futuram-bench-observer
+    ports:
+      - "3737:3737"
+    environment:
+      BENCH_REPO: /repo
+      # run_bench runs INSIDE this container, so it must reach the bench services
+      # by their compose hostnames (not the host's localhost:47040/47898).
+      BENCH_MCP_URL: http://bench-mcp:8888/
+      BENCH_FQ_ENDPOINT: http://bench-fuseki:3030/query/sparql
+      BENCH_COMPOSITION_ENDPOINT: http://bench-fuseki:3030/composition/sparql
+      # the shared live-transcript dir + testcases the observer reads/writes
+      BENCH_LIVE_DIR: /repo/bench/live
+      BENCH_TESTCASES: /repo/bench/testcases/domain.yaml
+      # default model for ad-hoc asks when no provider is picked (Ollama on host)
+      BENCH_ASK_MODEL: ${BENCH_ASK_MODEL:-gemma4:31b-cloud}
+      OLLAMA_HOST: ${OLLAMA_HOST:-http://host.docker.internal:11434}
+      # cloud-provider keys (BYOK) are read from the env you bring; Copilot can be
+      # signed in from the UI instead. None are baked into the image.
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:-}
+      GROQ_API_KEY: ${GROQ_API_KEY:-}
+      GOOGLE_API_KEY: ${GOOGLE_API_KEY:-}
+      COPILOT_API_KEY: ${COPILOT_API_KEY:-}
+      GITHUB_TOKEN: ${GITHUB_TOKEN:-}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      # the live checkout — data, testcases, experiments, run_bench all from here
+      - .:/repo
+      # keep the container's own node_modules + .next (don't let a macOS host
+      # install shadow them) and persist the uv toolchain/cache across restarts
+      - observer_node_modules:/repo/bench/observer/node_modules
+      - observer_next:/repo/bench/observer/.next
+      - observer_uv:/root/.cache/uv
+      # persist the Copilot OAuth token (so a sign-in survives restarts)
+      - observer_cfg:/root/.config/futuram-bench
+    depends_on:
+      bench-mcp:
+        condition: service_started
+      bench-fuseki:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  observer_node_modules:
+  observer_next:
+  observer_uv:
+  observer_cfg:

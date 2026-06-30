@@ -1,0 +1,623 @@
+@prefix chebi: <http://purl.obolibrary.org/obo/> .
+@prefix crit: <http://purl.org/futuram/criticality#> .
+@prefix fq: <https://www.purl.org/futuram/query#> .
+@prefix futuram: <https://www.purl.org/futuram#> .
+@prefix mw: <https://purl.org/metalwheel#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix void-ext: <http://ldf.fi/void-ext#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+[] void:class futuram:CombinationMethod ;
+    void:propertyPartition [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property rdfs:label ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property rdfs:comment ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property futuram:presentedBy ] .
+
+[] void:class rdfs:Datatype ;
+    void:propertyPartition [ void:classPartition [ void:class owl:Class ] ;
+            void:property owl:withRestrictions ],
+        [ void:classPartition [ void:class owl:Class ] ;
+            void:property owl:onDatatype ] .
+
+[] void:class owl:Class ;
+    void:propertyPartition [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property crit:year ],
+        [ void:classPartition [ void:class owl:Class ] ;
+            void:property crit:remark ],
+        [ void:classPartition [ void:class owl:Class ] ;
+            void:property crit:importance ] ;
+    rdfs:comment "Criticality overlay: an element's ChEBI class may carry a criticality flag via crit:remark [ crit:importance ?imp ; crit:year ?y ], where ?imp is crit:CRITICAL or crit:STRATEGIC. To find critical raw materials, navigate the flag — ?chebi crit:remark/crit:importance crit:CRITICAL — NOT a 'CriticalRawMaterial' class (there is none). Reach an element's ChEBI class with ?element rdfs:subClassOf ?chebi." .
+
+[] void:class owl:Ontology ;
+    void:propertyPartition [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property rdfs:label ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property futuram:presentedBy ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property rdfs:comment ] .
+
+[] void:class owl:Class ;
+    void:propertyPartition [ void:classPartition [ void:class owl:Class ] ;
+            void:property mw:hasType ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property <http://www.geneontology.org/formats/oboInOwl#hasAlternativeId> ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:decimal ] ;
+            void:property <https://w3id.org/chemrof/mass> ],
+        [ void:classPartition [ void:class owl:Class ] ;
+            void:property futuram:partOf ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property <https://w3id.org/chemrof/smiles_string> ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property <https://w3id.org/chemrof/inchi_string> ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property <https://w3id.org/chemrof/generalized_empirical_formula> ],
+        [ void:classPartition [ void:class owl:Class ] ;
+            void:property mw:hasRecoveryInformation ],
+        [ void:classPartition [ void:class owl:Class ] ;
+            void:property fq:derivedFromStatement ],
+        [ void:classPartition [ void:class fq:Amount ] ;
+            void:property fq:contains ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:decimal ] ;
+            void:property <https://w3id.org/chemrof/monoisotopic_mass> ],
+        [ void:classPartition [ void:class owl:Class ] ;
+            void:property crit:remark ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property rdfs:comment ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property <http://www.geneontology.org/formats/oboInOwl#id> ],
+        [ void:classPartition [ void:class owl:Class ] ;
+            void:property fq:derivedFrom ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property <https://w3id.org/chemrof/inchi_key_string> ],
+        [ void:classPartition [ void:class owl:Class ],
+                [ void:class owl:Restriction ] ;
+            void:property rdfs:subClassOf ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:boolean ] ;
+            void:property fq:mcAvailable ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property chebi:IAO_0000115 ],
+        [ void:classPartition [ void:class owl:Restriction ] ;
+            void:property owl:equivalentClass ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property skos:altLabel ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property rdfs:label ],
+        [ void:classPartition [ void:class owl:Class ] ;
+            void:property <http://www.geneontology.org/formats/oboInOwl#inSubset> ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:integer ] ;
+            void:property <https://w3id.org/chemrof/charge> ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property <http://www.geneontology.org/formats/oboInOwl#hasOBONamespace> ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:double ] ;
+            void:property fq:itemMass ] .
+
+[] void:class owl:NamedIndividual ;
+    void:propertyPartition [ void:classPartition [ void:class futuram:UncertaintyPropagation ],
+                [ void:class owl:NamedIndividual ] ;
+            void:property futuram:uncertaintyPropagation ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:double ] ;
+            void:property futuram:uncertaintyValue ],
+        [ void:classPartition [ void:class futuram:CombinationMethod ],
+                [ void:class owl:NamedIndividual ] ;
+            void:property futuram:pathSumMethod ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:double ] ;
+            void:property futuram:meanUpperBound ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:double ] ;
+            void:property futuram:uncertaintyLowerBound ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:double ] ;
+            void:property futuram:uncertaintyUpperBound ],
+        [ void:classPartition [ void:class owl:Class ] ;
+            void:property futuram:expectsDimension ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:double ] ;
+            void:property futuram:meanLowerBound ],
+        [ void:classPartition [ void:class futuram:LimitBand ] ;
+            void:property futuram:hasLimitBand ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property futuram:presentedBy ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property rdfs:comment ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property futuram:combination ],
+        [ void:classPartition [ void:class futuram:CombinationMethod ],
+                [ void:class owl:NamedIndividual ] ;
+            void:property futuram:combinationMethod ],
+        [ void:classPartition [ void:class futuram:DimensionWeight ] ;
+            void:property futuram:hasDimensionWeight ],
+        [ void:classPartition [ void:class owl:NamedIndividual ],
+                [ void:class futuram:DqvAggregation ] ;
+            void:property futuram:defaultDqvAggregation ],
+        [ void:classPartition [ void:class owl:Class ] ;
+            void:property futuram:extraWeightDimension ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property rdfs:label ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:integer ] ;
+            void:property futuram:dqsValue ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:boolean ] ;
+            void:property futuram:pathProductCompounds ],
+        [ void:classPartition [ void:class futuram:MissingDimensionPolicy ],
+                [ void:class owl:NamedIndividual ] ;
+            void:property futuram:onMissingDimension ],
+        [ void:classPartition [ void:class futuram:DqsBand ],
+                [ void:class owl:NamedIndividual ] ;
+            void:property futuram:hasBand ] .
+
+[] void:class futuram:UncertaintyPropagation ;
+    void:propertyPartition [ void:classPartition [ void:class futuram:CombinationMethod ],
+                [ void:class owl:NamedIndividual ] ;
+            void:property futuram:pathSumMethod ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property rdfs:label ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property futuram:presentedBy ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:boolean ] ;
+            void:property futuram:pathProductCompounds ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property rdfs:comment ] .
+
+[] void:class owl:TransitiveProperty ;
+    void:propertyPartition [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property <http://www.geneontology.org/formats/oboInOwl#hasDbXref> ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property <http://www.geneontology.org/formats/oboInOwl#id> ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property rdfs:label ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:boolean ] ;
+            void:property <http://www.geneontology.org/formats/oboInOwl#is_cyclic> ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property <http://www.geneontology.org/formats/oboInOwl#hasOBONamespace> ] .
+
+[] void:class owl:Restriction ;
+    void:propertyPartition [ void:classPartition [ void:class owl:ObjectProperty ],
+                [ void:class owl:DatatypeProperty ],
+                [ void:class owl:TransitiveProperty ] ;
+            void:property owl:onProperty ],
+        [ void:classPartition [ void:class owl:Class ] ;
+            void:property owl:someValuesFrom ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:decimal ] ;
+            void:property owl:hasValue ],
+        [ void:classPartition [ void:class rdfs:Datatype ] ;
+            void:property owl:allValuesFrom ] .
+
+[] void:class futuram:DimensionWeight ;
+    void:propertyPartition [ void-ext:datatypePartition [ void-ext:datatype xsd:double ] ;
+            void:property futuram:weightValue ],
+        [ void:classPartition [ void:class owl:Class ] ;
+            void:property futuram:weightDimension ] .
+
+[] void:class owl:ObjectProperty ;
+    void:propertyPartition [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property rdfs:label ],
+        [ void:classPartition [ void:class owl:Class ] ;
+            void:property rdfs:subPropertyOf ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property <http://www.geneontology.org/formats/oboInOwl#hasOBONamespace> ],
+        [ void:classPartition [ void:class owl:Class ] ;
+            void:property rdfs:range ],
+        [ void:classPartition [ void:class owl:ObjectProperty ] ;
+            void:property owl:inverseOf ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:boolean ] ;
+            void:property <http://www.geneontology.org/formats/oboInOwl#is_cyclic> ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property <http://www.geneontology.org/formats/oboInOwl#id> ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property <http://www.geneontology.org/formats/oboInOwl#hasDbXref> ],
+        [ void:classPartition [ void:class owl:Class ] ;
+            void:property rdfs:domain ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:boolean ] ;
+            void:property <http://www.geneontology.org/formats/oboInOwl#is_transitive> ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property rdfs:comment ] .
+
+[] void:class futuram:UncertaintyRuleset ;
+    void:propertyPartition [ void:classPartition [ void:class futuram:DimensionWeight ] ;
+            void:property futuram:hasDimensionWeight ],
+        [ void:classPartition [ void:class futuram:CombinationMethod ],
+                [ void:class owl:NamedIndividual ] ;
+            void:property futuram:combinationMethod ],
+        [ void:classPartition [ void:class futuram:LimitBand ] ;
+            void:property futuram:hasLimitBand ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property futuram:presentedBy ],
+        [ void:classPartition [ void:class futuram:UncertaintyPropagation ],
+                [ void:class owl:NamedIndividual ] ;
+            void:property futuram:uncertaintyPropagation ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property rdfs:comment ],
+        [ void:classPartition [ void:class owl:NamedIndividual ],
+                [ void:class futuram:DqvAggregation ] ;
+            void:property futuram:defaultDqvAggregation ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property rdfs:label ],
+        [ void:classPartition [ void:class owl:NamedIndividual ],
+                [ void:class futuram:DqsBand ] ;
+            void:property futuram:hasBand ] .
+
+[] void:class futuram:LimitBand ;
+    void:propertyPartition [ void-ext:datatypePartition [ void-ext:datatype xsd:double ] ;
+            void:property futuram:weightedSumLowerBound ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:double ] ;
+            void:property futuram:weightedSumUpperBound ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:double ] ;
+            void:property futuram:bandUncertaintyLimit ] .
+
+[] void:class futuram:MissingDimensionPolicy ;
+    void:propertyPartition [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property rdfs:label ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property rdfs:comment ] .
+
+[] void:class owl:DatatypeProperty ;
+    void:propertyPartition [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property rdfs:label ],
+        [ void:classPartition [ void:class owl:Class ] ;
+            void:property rdfs:domain ],
+        [ void:classPartition [ void:class owl:Class ] ;
+            void:property rdfs:range ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property rdfs:comment ] .
+
+[] void:class futuram:DqvAggregation ;
+    void:propertyPartition [ void:classPartition [ void:class owl:NamedIndividual ],
+                [ void:class futuram:MissingDimensionPolicy ] ;
+            void:property futuram:onMissingDimension ],
+        [ void:classPartition [ void:class owl:Class ] ;
+            void:property futuram:expectsDimension ],
+        [ void:classPartition [ void:class owl:Class ] ;
+            void:property futuram:extraWeightDimension ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property rdfs:comment ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property futuram:presentedBy ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property rdfs:label ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property futuram:combination ] .
+
+[] void:class futuram:DqsBand ;
+    void:propertyPartition [ void-ext:datatypePartition [ void-ext:datatype xsd:double ] ;
+            void:property futuram:uncertaintyUpperBound ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:double ] ;
+            void:property futuram:uncertaintyLowerBound ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:double ] ;
+            void:property futuram:meanUpperBound ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:integer ] ;
+            void:property futuram:dqsValue ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:double ] ;
+            void:property futuram:uncertaintyValue ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property rdfs:label ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:double ] ;
+            void:property futuram:meanLowerBound ] .
+
+[] void:class owl:Class ;
+    void:entities 6888 ;
+    void:propertyPartition [ void:classPartition [ void:class owl:Class ] ;
+            void:property fq:aggregationStrategy ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:boolean ] ;
+            void:property fq:mcAvailable ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:integer ] ;
+            void:property fq:periodStart ],
+        [ void:classPartition [ void:class owl:Class ] ;
+            void:property fq:sliceAxis ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:integer ] ;
+            void:property fq:referenceYear ],
+        [ void:classPartition [ void:class owl:Class ] ;
+            void:property futuram:partOf ],
+        [ void:classPartition [ void:class owl:Class ] ;
+            void:property fq:derivedFrom ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:integer ] ;
+            void:property fq:periodEnd ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property rdfs:label ],
+        [ void:classPartition [ void:class owl:Class ] ;
+            void:property rdfs:subClassOf ],
+        [ void:classPartition [ void:class fq:Amount ] ;
+            void:property fq:contains ],
+        [ void:classPartition [ void:class owl:Class ] ;
+            void:property fq:derivedFromStatement ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property rdfs:comment ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:double ] ;
+            void:property fq:itemMass ],
+        [ void:classPartition [ void:class owl:Class ] ;
+            void:property fq:sliceOf ] ;
+    rdfs:comment "Aggregation-slice classes (e.g. futuram:<drivetrain>_<component>_Y<year>): one summarized partition for ALL such classes. Each is a slice of a parent class along an aggregation axis via fq:sliceOf <parent> + fq:sliceAxis <strategy> (year and/or drivetrain), carrying fq:referenceYear or fq:periodStart..fq:periodEnd. Query any one like a normal class (fq:contains ...); pick the slice by its year/drivetrain." .
+
+[] void:class fq:Amount ;
+    void:propertyPartition [ void:classPartition [ void:class futuram:elvBEV_elvEmbeddedElectronicsHeadlights_Y2020 ],
+                [ void:class futuram:elvPHEV_elvEmbeddedElectronicsActuators_Y2030 ],
+                [ void:class futuram:elvOther_elvElectricMotor_Y2050 ],
+                [ void:class futuram:elvDiesel_elvEmbeddedElectronicsControllers_Y2010 ],
+                [ void:class futuram:elvCatalyticConverters_Y2010 ],
+                [ void:class futuram:elvEmbeddedElectronicsHeadlights_Y2050 ],
+                [ void:class futuram:elvBEV_elvGeneralComponents_Y2030 ],
+                [ void:class futuram:elvHEV_elvCatalyticConverters_Y2050 ],
+                [ void:class futuram:elvPetrol_elvGeneralComponents_Y2025 ],
+                [ void:class futuram:elvDiesel_elvEmbeddedElectronicsCables_Y2025 ],
+                [ void:class futuram:elvHEV_elvGeneralComponents_Y2010 ],
+                [ void:class futuram:elvOther_elvElectricMotor_Y2020 ],
+                [ void:class futuram:elvPHEV_elvEmbeddedElectronicsCables_Y2010 ],
+                [ void:class futuram:elvBEV_elvEmbeddedElectronicsCables_Y2020 ],
+                [ void:class futuram:elvPowerElectronics_Y2025 ],
+                [ void:class futuram:elvEmbeddedElectronicsHeadlights_Y2030 ],
+                [ void:class futuram:elvBEV_elvEmbeddedElectronicsCables_Y2010 ],
+                [ void:class futuram:elvDiesel_elvEmbeddedElectronicsActuators_Y2025 ],
+                [ void:class futuram:elvPHEV_elvEmbeddedElectronicsControllers_Y2025 ],
+                [ void:class futuram:elvBEV_elvEmbeddedElectronicsHeadlights_Y2030 ],
+                [ void:class futuram:elvDiesel_elvEmbeddedElectronicsActuators_Y2020 ],
+                [ void:class futuram:elvHEV_elvCatalyticConverters_Y2030 ],
+                [ void:class futuram:elvEmbeddedElectronicsActuators_Y2050 ],
+                [ void:class futuram:elvDiesel_elvPowerElectronics_Y2030 ],
+                [ void:class futuram:elvEmbeddedElectronicsCables_Y2025 ],
+                [ void:class futuram:elvOther_elvPowerElectronics_Y2025 ],
+                [ void:class futuram:elvDiesel_elvCatalyticConverters_Y2010 ],
+                [ void:class futuram:elvPHEV_elvEmbeddedElectronicsControllers_Y2020 ],
+                [ void:class futuram:elvOther_elvPowerElectronics_Y2010 ],
+                [ void:class futuram:elvPHEV_elvPowerElectronics_Y2030 ],
+                [ void:class futuram:elvBEV_elvEmbeddedElectronicsActuators_Y2050 ],
+                [ void:class futuram:elvPHEV_elvElectricMotor_Y2020 ],
+                [ void:class futuram:elvDiesel_elvEmbeddedElectronicsActuators_Y2010 ],
+                [ void:class futuram:elvPHEV_elvEmbeddedElectronicsActuators_Y2010 ],
+                [ void:class futuram:elvPetrol_elvEmbeddedElectronicsHeadlights_Y2010 ],
+                [ void:class futuram:elvHEV_elvCatalyticConverters_Y2010 ],
+                [ void:class futuram:elvBEV_elvEmbeddedElectronicsCables_Y2025 ],
+                [ void:class futuram:elvHEV_elvEmbeddedElectronicsControllers_Y2050 ],
+                [ void:class futuram:elvHEV_elvElectricMotor_Y2030 ],
+                [ void:class futuram:elvPHEV_elvEmbeddedElectronicsCables_Y2050 ],
+                [ void:class futuram:elvPetrol_elvEmbeddedElectronicsHeadlights_Y2020 ],
+                [ void:class futuram:elvPetrol_elvEmbeddedElectronicsActuators_Y2010 ],
+                [ void:class futuram:elvEmbeddedElectronicsCables ],
+                [ void:class futuram:elvEmbeddedElectronicsActuators ],
+                [ void:class futuram:elvHEV_elvEmbeddedElectronicsActuators_Y2020 ],
+                [ void:class futuram:elvPetrol_elvEmbeddedElectronicsCables_Y2025 ],
+                [ void:class futuram:elvPetrol_elvCatalyticConverters_Y2010 ],
+                [ void:class futuram:elvPHEV_elvPowerElectronics_Y2020 ],
+                [ void:class futuram:elvEmbeddedElectronicsActuators_Y2025 ],
+                [ void:class futuram:elvEmbeddedElectronics_Y2025 ],
+                [ void:class futuram:elvPetrol_elvEmbeddedElectronicsActuators_Y2050 ],
+                [ void:class futuram:elvHEV_elvEmbeddedElectronicsActuators_Y2030 ],
+                [ void:class futuram:elvOther_elvElectricMotor_Y2030 ],
+                [ void:class futuram:elvOther_elvEmbeddedElectronicsControllers_Y2030 ],
+                [ void:class futuram:elvPHEV_elvEmbeddedElectronicsControllers_Y2030 ],
+                [ void:class futuram:elvHEV_elvEmbeddedElectronicsActuators_Y2010 ],
+                [ void:class futuram:elvHEV_elvGeneralComponents_Y2050 ],
+                [ void:class futuram:elvEmbeddedElectronicsActuators_Y2010 ],
+                [ void:class futuram:elvBEV_elvPowerElectronics_Y2020 ],
+                [ void:class futuram:elvOther_elvEmbeddedElectronicsHeadlights_Y2030 ],
+                [ void:class futuram:elvPowerElectronics_Y2020 ],
+                [ void:class futuram:elvDiesel_elvEmbeddedElectronicsHeadlights_Y2020 ],
+                [ void:class futuram:elvElectricMotor_Y2030 ],
+                [ void:class futuram:elvDiesel_elvCatalyticConverters_Y2025 ],
+                [ void:class futuram:elvDiesel_elvGeneralComponents_Y2020 ],
+                [ void:class futuram:elvPetrol_elvEmbeddedElectronicsActuators_Y2025 ],
+                [ void:class futuram:elvEmbeddedElectronics_Y2010 ],
+                [ void:class futuram:elvOther_elvEmbeddedElectronicsCables_Y2050 ],
+                [ void:class futuram:elvBEV_elvEmbeddedElectronicsControllers_Y2010 ],
+                [ void:class futuram:elvOther_elvEmbeddedElectronicsActuators_Y2050 ],
+                [ void:class futuram:elvDiesel_elvEmbeddedElectronicsActuators_Y2030 ],
+                [ void:class futuram:elvBEV_elvElectricMotor_Y2025 ],
+                [ void:class futuram:elvBEV_elvEmbeddedElectronicsControllers_Y2025 ],
+                [ void:class futuram:elvDiesel_elvGeneralComponents_Y2050 ],
+                [ void:class futuram:elvHEV_elvElectricMotor_Y2010 ],
+                [ void:class futuram:elvPHEV_elvEmbeddedElectronicsHeadlights_Y2025 ],
+                [ void:class futuram:elvEmbeddedElectronicsCables_Y2030 ],
+                [ void:class futuram:elvPHEV_elvEmbeddedElectronicsActuators_Y2020 ],
+                [ void:class futuram:elvHEV_elvGeneralComponents_Y2020 ],
+                [ void:class futuram:elvBEV_elvEmbeddedElectronicsActuators_Y2025 ],
+                [ void:class futuram:elvDiesel_elvEmbeddedElectronicsActuators_Y2050 ],
+                [ void:class futuram:elvHEV_elvGeneralComponents_Y2025 ],
+                [ void:class futuram:elvPetrol_elvPowerElectronics_Y2030 ],
+                [ void:class futuram:elvOther_elvEmbeddedElectronicsHeadlights_Y2020 ],
+                [ void:class futuram:elvPHEV_elvGeneralComponents_Y2020 ],
+                [ void:class futuram:elvHEV_elvEmbeddedElectronicsCables_Y2020 ],
+                [ void:class futuram:elvDiesel_elvCatalyticConverters_Y2020 ],
+                [ void:class futuram:elvPHEV_elvElectricMotor_Y2030 ],
+                [ void:class futuram:elvDiesel_elvEmbeddedElectronicsControllers_Y2050 ],
+                [ void:class futuram:elvBEV_elvGeneralComponents_Y2050 ],
+                [ void:class futuram:elvPetrol_elvGeneralComponents_Y2020 ],
+                [ void:class futuram:elvOther_elvEmbeddedElectronicsCables_Y2010 ],
+                [ void:class futuram:elvOther_elvEmbeddedElectronicsActuators_Y2025 ],
+                [ void:class futuram:elvOther_elvEmbeddedElectronicsActuators_Y2020 ],
+                [ void:class futuram:elvPetrol_elvPowerElectronics_Y2050 ],
+                [ void:class futuram:elvEmbeddedElectronics_Y2020 ],
+                [ void:class futuram:elvCatalyticConverters_Y2020 ],
+                [ void:class futuram:elvHEV_elvEmbeddedElectronicsControllers_Y2010 ],
+                [ void:class futuram:elvOther_elvEmbeddedElectronicsControllers_Y2025 ],
+                [ void:class futuram:elvEmbeddedElectronicsControllers_Y2030 ],
+                [ void:class futuram:elvPHEV_elvElectricMotor_Y2010 ],
+                [ void:class futuram:elvHEV_elvEmbeddedElectronicsCables_Y2025 ],
+                [ void:class futuram:elvEmbeddedElectronics_Y2050 ],
+                [ void:class futuram:elvBEV_elvEmbeddedElectronicsControllers_Y2050 ],
+                [ void:class futuram:elvPetrol_elvEmbeddedElectronicsControllers_Y2025 ],
+                [ void:class futuram:elvBEV_elvEmbeddedElectronicsControllers_Y2020 ],
+                [ void:class futuram:elvOther_elvGeneralComponents_Y2050 ],
+                [ void:class futuram:elvPHEV_elvCatalyticConverters_Y2025 ],
+                [ void:class futuram:elvHEV_elvPowerElectronics_Y2030 ],
+                [ void:class futuram:elvEmbeddedElectronicsCables_Y2050 ],
+                [ void:class futuram:elvPetrol_elvEmbeddedElectronicsCables_Y2030 ],
+                [ void:class futuram:elvDiesel_elvEmbeddedElectronicsHeadlights_Y2050 ],
+                [ void:class futuram:elvElectricMotor_Y2025 ],
+                [ void:class futuram:elvHEV_elvEmbeddedElectronicsHeadlights_Y2030 ],
+                [ void:class futuram:elvEmbeddedElectronicsControllers_Y2020 ],
+                [ void:class futuram:elvPHEV_elvElectricMotor_Y2025 ],
+                [ void:class futuram:elvPHEV_elvCatalyticConverters_Y2020 ],
+                [ void:class futuram:elvHEV_elvEmbeddedElectronicsCables_Y2030 ],
+                [ void:class futuram:elvOther_elvEmbeddedElectronicsActuators_Y2030 ],
+                [ void:class futuram:elvHEV_elvElectricMotor_Y2050 ],
+                [ void:class futuram:elvOther_elvPowerElectronics_Y2020 ],
+                [ void:class futuram:elvBEV_elvEmbeddedElectronicsActuators_Y2010 ],
+                [ void:class futuram:elvGeneralComponents ],
+                [ void:class futuram:elvDiesel_elvPowerElectronics_Y2025 ],
+                [ void:class futuram:elvElectricMotor ],
+                [ void:class futuram:elvPHEV_elvEmbeddedElectronicsControllers_Y2050 ],
+                [ void:class futuram:elvHEV_elvEmbeddedElectronicsHeadlights_Y2025 ],
+                [ void:class futuram:elvCatalyticConverters_Y2050 ],
+                [ void:class futuram:elvPetrol_elvCatalyticConverters_Y2020 ],
+                [ void:class futuram:elvBEV_elvEmbeddedElectronicsActuators_Y2030 ],
+                [ void:class futuram:elvCatalyticConverters_Y2025 ],
+                [ void:class futuram:elvOther_elvEmbeddedElectronicsCables_Y2020 ],
+                [ void:class futuram:elvPetrol_elvEmbeddedElectronicsHeadlights_Y2050 ],
+                [ void:class futuram:elvPowerElectronics_Y2010 ],
+                [ void:class futuram:elvPHEV_elvEmbeddedElectronicsHeadlights_Y2010 ],
+                [ void:class futuram:elvBEV_elvPowerElectronics_Y2010 ],
+                [ void:class futuram:elvBEV_elvEmbeddedElectronicsCables_Y2030 ],
+                [ void:class futuram:elvEmbeddedElectronicsCables_Y2020 ],
+                [ void:class futuram:elvElectricMotor_Y2010 ],
+                [ void:class futuram:elvBEV_elvElectricMotor_Y2020 ],
+                [ void:class futuram:elvPHEV_elvCatalyticConverters_Y2010 ],
+                [ void:class futuram:elvBEV_elvEmbeddedElectronicsHeadlights_Y2025 ],
+                [ void:class futuram:elvPetrol_elvEmbeddedElectronicsControllers_Y2030 ],
+                [ void:class futuram:elvOther_elvGeneralComponents_Y2025 ],
+                [ void:class futuram:elvPetrol_elvGeneralComponents_Y2050 ],
+                [ void:class futuram:elvPHEV_elvGeneralComponents_Y2030 ],
+                [ void:class futuram:elvOther_elvEmbeddedElectronicsCables_Y2030 ],
+                [ void:class futuram:elvPHEV_elvEmbeddedElectronicsHeadlights_Y2050 ],
+                [ void:class futuram:elvOther_elvGeneralComponents_Y2030 ],
+                [ void:class futuram:elvPowerElectronics_Y2050 ],
+                [ void:class futuram:elvPHEV_elvPowerElectronics_Y2050 ],
+                [ void:class futuram:elvEmbeddedElectronicsControllers_Y2050 ],
+                [ void:class futuram:elvPetrol_elvEmbeddedElectronicsActuators_Y2020 ],
+                [ void:class futuram:elvPHEV_elvEmbeddedElectronicsControllers_Y2010 ],
+                [ void:class futuram:elvPetrol_elvEmbeddedElectronicsCables_Y2010 ],
+                [ void:class futuram:elvOther_elvEmbeddedElectronicsHeadlights_Y2050 ],
+                [ void:class futuram:elvDiesel_elvEmbeddedElectronicsCables_Y2020 ],
+                [ void:class futuram:elvDiesel_elvEmbeddedElectronicsControllers_Y2020 ],
+                [ void:class futuram:elvEmbeddedElectronicsHeadlights_Y2025 ],
+                [ void:class futuram:elvPHEV_elvGeneralComponents_Y2010 ],
+                [ void:class futuram:elvHEV_elvPowerElectronics_Y2020 ],
+                [ void:class futuram:elvPowerElectronics_Y2030 ],
+                [ void:class futuram:elvPetrol_elvEmbeddedElectronicsActuators_Y2030 ],
+                [ void:class futuram:elvPHEV_elvCatalyticConverters_Y2050 ],
+                [ void:class futuram:elvPHEV_elvEmbeddedElectronicsCables_Y2020 ],
+                [ void:class futuram:elvPHEV_elvEmbeddedElectronicsActuators_Y2050 ],
+                [ void:class futuram:elvEmbeddedElectronicsControllers_Y2025 ],
+                [ void:class futuram:elvBEV_elvEmbeddedElectronicsCables_Y2050 ],
+                [ void:class futuram:elvHEV_elvPowerElectronics_Y2025 ],
+                [ void:class futuram:elvOther_elvEmbeddedElectronicsControllers_Y2010 ],
+                [ void:class futuram:elvPHEV_elvPowerElectronics_Y2025 ],
+                [ void:class futuram:elvDiesel_elvEmbeddedElectronicsHeadlights_Y2010 ],
+                [ void:class futuram:elvDiesel_elvEmbeddedElectronicsCables_Y2010 ],
+                [ void:class futuram:elvEmbeddedElectronicsActuators_Y2030 ],
+                [ void:class futuram:elvBEV_elvElectricMotor_Y2050 ],
+                [ void:class futuram:elvGeneralComponents_Y2010 ],
+                [ void:class futuram:elvOther_elvPowerElectronics_Y2030 ],
+                [ void:class futuram:elvDiesel_elvEmbeddedElectronicsHeadlights_Y2025 ],
+                [ void:class futuram:elvEmbeddedElectronicsControllers ],
+                [ void:class futuram:elvHEV_elvCatalyticConverters_Y2025 ],
+                [ void:class futuram:elvPetrol_elvEmbeddedElectronicsControllers_Y2010 ],
+                [ void:class futuram:elvOther_elvEmbeddedElectronicsControllers_Y2020 ],
+                [ void:class futuram:elvHEV_elvCatalyticConverters_Y2020 ],
+                [ void:class futuram:elvPetrol_elvGeneralComponents_Y2030 ],
+                [ void:class futuram:elvBEV_elvEmbeddedElectronicsHeadlights_Y2050 ],
+                [ void:class futuram:elvPetrol_elvCatalyticConverters_Y2030 ],
+                [ void:class futuram:elvPHEV_elvPowerElectronics_Y2010 ],
+                [ void:class futuram:elvOther_elvEmbeddedElectronicsCables_Y2025 ],
+                [ void:class futuram:elvHEV_elvPowerElectronics_Y2010 ],
+                [ void:class futuram:elvPetrol_elvCatalyticConverters_Y2025 ],
+                [ void:class futuram:elvPHEV_elvEmbeddedElectronicsHeadlights_Y2030 ],
+                [ void:class futuram:elvPHEV_elvCatalyticConverters_Y2030 ],
+                [ void:class futuram:elvEmbeddedElectronicsActuators_Y2020 ],
+                [ void:class futuram:elvBEV_elvEmbeddedElectronicsHeadlights_Y2010 ],
+                [ void:class futuram:elvHEV_elvGeneralComponents_Y2030 ],
+                [ void:class futuram:elvHEV_elvElectricMotor_Y2020 ],
+                [ void:class futuram:elvBEV_elvElectricMotor_Y2010 ],
+                [ void:class futuram:elvDiesel_elvPowerElectronics_Y2010 ],
+                [ void:class futuram:elvEmbeddedElectronicsHeadlights_Y2020 ],
+                [ void:class futuram:elvOther_elvElectricMotor_Y2010 ],
+                [ void:class futuram:elvGeneralComponents_Y2050 ],
+                [ void:class futuram:elvEmbeddedElectronics_Y2030 ],
+                [ void:class futuram:elvHEV_elvEmbeddedElectronicsHeadlights_Y2050 ],
+                [ void:class futuram:elvPetrol_elvCatalyticConverters_Y2050 ],
+                [ void:class futuram:elvPetrol_elvPowerElectronics_Y2025 ],
+                [ void:class futuram:elvDiesel_elvCatalyticConverters_Y2030 ],
+                [ void:class futuram:elvEmbeddedElectronicsCables_Y2010 ],
+                [ void:class futuram:elvBEV_elvPowerElectronics_Y2025 ],
+                [ void:class futuram:elvPetrol_elvGeneralComponents_Y2010 ],
+                [ void:class futuram:elvHEV_elvPowerElectronics_Y2050 ],
+                [ void:class futuram:elvOther_elvElectricMotor_Y2025 ],
+                [ void:class futuram:elvPetrol_elvEmbeddedElectronicsCables_Y2020 ],
+                [ void:class futuram:elvDiesel_elvEmbeddedElectronicsControllers_Y2025 ],
+                [ void:class futuram:elvPHEV_elvElectricMotor_Y2050 ],
+                [ void:class futuram:elvDiesel_elvCatalyticConverters_Y2050 ],
+                [ void:class futuram:elvOther_elvPowerElectronics_Y2050 ],
+                [ void:class futuram:elvOther_elvEmbeddedElectronicsControllers_Y2050 ],
+                [ void:class futuram:elvCatalyticConverters_Y2030 ],
+                [ void:class futuram:elvEmbeddedElectronicsHeadlights_Y2010 ],
+                [ void:class futuram:elvDiesel_elvGeneralComponents_Y2010 ],
+                [ void:class futuram:elvGeneralComponents_Y2020 ],
+                [ void:class futuram:elvPHEV_elvEmbeddedElectronicsActuators_Y2025 ],
+                [ void:class futuram:elvPHEV_elvGeneralComponents_Y2025 ],
+                [ void:class futuram:elvCatalyticConverters ],
+                [ void:class futuram:elvHEV_elvEmbeddedElectronicsActuators_Y2050 ],
+                [ void:class futuram:elvBEV_elvPowerElectronics_Y2030 ],
+                [ void:class futuram:elvDiesel_elvPowerElectronics_Y2050 ],
+                [ void:class futuram:elvDiesel_elvGeneralComponents_Y2025 ],
+                [ void:class futuram:elvDiesel_elvPowerElectronics_Y2020 ],
+                [ void:class futuram:elvPowerElectronics ],
+                [ void:class futuram:elvDiesel_elvEmbeddedElectronicsControllers_Y2030 ],
+                [ void:class futuram:elvHEV_elvEmbeddedElectronicsControllers_Y2020 ],
+                [ void:class futuram:elvEmbeddedElectronicsHeadlights ],
+                [ void:class futuram:elvDiesel_elvGeneralComponents_Y2030 ],
+                [ void:class futuram:elvBEV_elvEmbeddedElectronicsControllers_Y2030 ],
+                [ void:class futuram:elvBEV_elvGeneralComponents_Y2020 ],
+                [ void:class futuram:elvElectricMotor_Y2050 ],
+                [ void:class futuram:elvBEV_elvGeneralComponents_Y2025 ],
+                [ void:class futuram:elvGeneralComponents_Y2025 ],
+                [ void:class owl:Class ],
+                [ void:class futuram:elvOther_elvEmbeddedElectronicsHeadlights_Y2025 ],
+                [ void:class futuram:elvOther_elvGeneralComponents_Y2020 ],
+                [ void:class futuram:elvPetrol_elvEmbeddedElectronicsControllers_Y2050 ],
+                [ void:class futuram:elvPetrol_elvPowerElectronics_Y2010 ],
+                [ void:class futuram:elvDiesel_elvEmbeddedElectronicsCables_Y2050 ],
+                [ void:class futuram:elvDiesel_elvEmbeddedElectronicsHeadlights_Y2030 ],
+                [ void:class futuram:elvOther_elvEmbeddedElectronicsHeadlights_Y2010 ],
+                [ void:class futuram:elvPetrol_elvPowerElectronics_Y2020 ],
+                [ void:class futuram:elvPetrol_elvEmbeddedElectronicsHeadlights_Y2025 ],
+                [ void:class futuram:elvHEV_elvEmbeddedElectronicsActuators_Y2025 ],
+                [ void:class futuram:elvHEV_elvEmbeddedElectronicsControllers_Y2030 ],
+                [ void:class futuram:elvBEV_elvElectricMotor_Y2030 ],
+                [ void:class futuram:elvBEV_elvEmbeddedElectronicsActuators_Y2020 ],
+                [ void:class futuram:elvHEV_elvEmbeddedElectronicsHeadlights_Y2020 ],
+                [ void:class futuram:elvOther_elvGeneralComponents_Y2010 ],
+                [ void:class futuram:elvPHEV_elvEmbeddedElectronicsCables_Y2025 ],
+                [ void:class futuram:elvPHEV_elvEmbeddedElectronicsCables_Y2030 ],
+                [ void:class futuram:elvBEV_elvPowerElectronics_Y2050 ],
+                [ void:class futuram:elvHEV_elvElectricMotor_Y2025 ],
+                [ void:class futuram:elvGeneralComponents_Y2030 ],
+                [ void:class futuram:elvPHEV_elvEmbeddedElectronicsHeadlights_Y2020 ],
+                [ void:class futuram:elvPetrol_elvEmbeddedElectronicsHeadlights_Y2030 ],
+                [ void:class futuram:elvBEV_elvGeneralComponents_Y2010 ],
+                [ void:class futuram:elvOther_elvEmbeddedElectronicsActuators_Y2010 ],
+                [ void:class futuram:elvHEV_elvEmbeddedElectronicsCables_Y2010 ],
+                [ void:class futuram:elvEmbeddedElectronicsControllers_Y2010 ],
+                [ void:class futuram:elvPetrol_elvEmbeddedElectronicsCables_Y2050 ],
+                [ void:class futuram:elvDiesel_elvEmbeddedElectronicsCables_Y2030 ],
+                [ void:class futuram:elvElectricMotor_Y2020 ],
+                [ void:class futuram:elvEmbeddedElectronics ],
+                [ void:class futuram:elvHEV_elvEmbeddedElectronicsCables_Y2050 ],
+                [ void:class futuram:elvPHEV_elvGeneralComponents_Y2050 ],
+                [ void:class futuram:elvHEV_elvEmbeddedElectronicsControllers_Y2025 ],
+                [ void:class futuram:elvHEV_elvEmbeddedElectronicsHeadlights_Y2010 ],
+                [ void:class futuram:elvPetrol_elvEmbeddedElectronicsControllers_Y2020 ] ;
+            void:property fq:whole ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:double ] ;
+            void:property fq:amount ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+            void:property fq:unit ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:double ] ;
+            void:property fq:meanDataQuality ],
+        [ void:classPartition [ void:class futuram:UncertaintyRuleset ],
+                [ void:class owl:NamedIndividual ] ;
+            void:property fq:uncertaintyMethod ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:integer ] ;
+            void:property fq:dqs ],
+        [ void-ext:datatypePartition [ void-ext:datatype xsd:double ] ;
+            void:property fq:relativeUncertainty ],
+        [ void:classPartition [ void:class owl:Class ] ;
+            void:property fq:constituent ] .
+

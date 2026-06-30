@@ -1,0 +1,15 @@
+# EL-materialization: the inverse of futuram:hasDirectPart.
+#
+# futuram:hasDirectPart owl:inverseOf futuram:isDirectPartOf is an OWL axiom OUTSIDE
+# the EL profile — ELK (and the reasoner-free TDB2 serving layer) will NOT
+# materialise the inverse. The component-layer definitions quantify over
+# isDirectPartOf, so without this edge the top-down layer inference cannot fire.
+#
+# This CONSTRUCT asserts the inverse explicitly, so the conclusion is present as
+# data and no inverse-property reasoning is needed at query time. The owl:inverseOf
+# axiom stays in the TBox as the SPECIFICATION (HermiT / the test suite validate
+# it); this rule precomputes its one consequence.
+PREFIX futuram: <https://www.purl.org/futuram#>
+
+CONSTRUCT { ?part futuram:isDirectPartOf ?whole . }
+WHERE     { ?whole futuram:hasDirectPart ?part . }

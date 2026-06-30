@@ -1,0 +1,147 @@
+# Hand-maintained — the four special SPARQL competency-query questions of the
+# domain benchmark. Three reproduce the SI result tables (SI-5/6/7); the fourth is
+# the embedded-CONTROLLERS recycling-route question (its answer is the metal-wheel
+# recovery table / screenshot, given by class IRI: futuram:Copper, etc.).
+#
+# These questions ALREADY ask for the uncertainty in their own VERBATIM text, so each
+# is ONE case scoring uncertainty — there is NO separate `__valunc` twin (that would
+# fire a redundant second query and double-ask). The companion competency questions
+# (the SI's ten NL questions) live in domain-competency.yaml.
+cases:
+  - id: cu_by_bev_segment_2030
+    question: 'Rank all battery-electric vehicles projected to be produced in 2030 according to their copper content, reporting both the mean value and the associated uncertainty (e.g., standard deviation) in decreasing order.'
+    source: 'SI-5 (Cu by BEV segment, 2030)'
+    score_uncertainty: true
+    ranked: true   # "in decreasing order" — answer items must be in DESCENDING value order
+    # COMPLETED to all 13 BEV body segments (data-faithful): the SI-5 table printed
+    # only the top 10, but the live data has 13. The 3 smallest (JB/B/A = …0102,
+    # …0201, …0101) were added from the endpoint so "rank ALL" is scored against the
+    # full data. values + uncertainty are in DESCENDING order (the ranking).
+    expected:
+      unit: kg
+      values:
+        "https://www.purl.org/futuram#V0301030206_Y2030": 78.27
+        "https://www.purl.org/futuram#V0301030205_Y2030": 70.88
+        "https://www.purl.org/futuram#V0301030106_Y2030": 67.22
+        "https://www.purl.org/futuram#V0301030105_Y2030": 61.7
+        "https://www.purl.org/futuram#V0301030204_Y2030": 57.38
+        "https://www.purl.org/futuram#V0301030104_Y2030": 53.93
+        "https://www.purl.org/futuram#V0301030203_Y2030": 51.15
+        "https://www.purl.org/futuram#V0301030000_Y2030": 49.73
+        "https://www.purl.org/futuram#V0301030103_Y2030": 46.05
+        "https://www.purl.org/futuram#V0301030202_Y2030": 45.59
+        "https://www.purl.org/futuram#V0301030102_Y2030": 42.89
+        "https://www.purl.org/futuram#V0301030201_Y2030": 39.04
+        "https://www.purl.org/futuram#V0301030101_Y2030": 36.46
+      uncertainty:
+        "https://www.purl.org/futuram#V0301030206_Y2030": 9.01
+        "https://www.purl.org/futuram#V0301030205_Y2030": 8.04
+        "https://www.purl.org/futuram#V0301030106_Y2030": 6.23
+        "https://www.purl.org/futuram#V0301030105_Y2030": 5.71
+        "https://www.purl.org/futuram#V0301030204_Y2030": 6.52
+        "https://www.purl.org/futuram#V0301030104_Y2030": 5.17
+        "https://www.purl.org/futuram#V0301030203_Y2030": 6.01
+        "https://www.purl.org/futuram#V0301030000_Y2030": 3.22
+        "https://www.purl.org/futuram#V0301030103_Y2030": 4.68
+        "https://www.purl.org/futuram#V0301030202_Y2030": 5.65
+        "https://www.purl.org/futuram#V0301030102_Y2030": 4.52
+        "https://www.purl.org/futuram#V0301030201_Y2030": 4.86
+        "https://www.purl.org/futuram#V0301030101_Y2030": 2.46
+  - id: al5xxx_by_bev_segment_2020
+    question: 'Rank all battery-electric type vehicles produced in 2020 according to their 5xxxAlAlloy content, including both the mean value and the corresponding uncertainty (standard deviation) in decreasing order.'
+    source: 'SI-6 (5xxxAl by BEV segment, 2020)'
+    score_uncertainty: true
+    ranked: true   # "in decreasing order" — answer items must be in DESCENDING value order
+    expected:
+      unit: kg
+      values:
+        "https://www.purl.org/futuram#V0301030206_Y2020": 127.2
+        "https://www.purl.org/futuram#V0301030205_Y2020": 113.19
+        "https://www.purl.org/futuram#V0301030106_Y2020": 106.0
+        "https://www.purl.org/futuram#V0301030105_Y2020": 94.32
+        "https://www.purl.org/futuram#V0301030204_Y2020": 75.42
+        "https://www.purl.org/futuram#V0301030104_Y2020": 62.85
+        "https://www.purl.org/futuram#V0301030000_Y2020": 47.06
+        "https://www.purl.org/futuram#V0301030203_Y2020": 45.2
+        "https://www.purl.org/futuram#V0301030103_Y2020": 37.67
+        "https://www.purl.org/futuram#V0301030202_Y2020": 28.72
+        "https://www.purl.org/futuram#V0301030102_Y2020": 24.98
+        "https://www.purl.org/futuram#V0301030201_Y2020": 17.31
+        "https://www.purl.org/futuram#V0301030101_Y2020": 15.74
+      uncertainty:
+        "https://www.purl.org/futuram#V0301030206_Y2020": 22.03
+        "https://www.purl.org/futuram#V0301030205_Y2020": 19.6
+        "https://www.purl.org/futuram#V0301030106_Y2020": 18.36
+        "https://www.purl.org/futuram#V0301030105_Y2020": 16.34
+        "https://www.purl.org/futuram#V0301030204_Y2020": 13.06
+        "https://www.purl.org/futuram#V0301030104_Y2020": 10.56
+        "https://www.purl.org/futuram#V0301030203_Y2020": 7.82
+        "https://www.purl.org/futuram#V0301030000_Y2020": 6.79
+        "https://www.purl.org/futuram#V0301030103_Y2020": 6.52
+        "https://www.purl.org/futuram#V0301030202_Y2020": 4.97
+        "https://www.purl.org/futuram#V0301030102_Y2020": 4.33
+        "https://www.purl.org/futuram#V0301030201_Y2020": 3.0
+        "https://www.purl.org/futuram#V0301030101_Y2020": 2.73
+  - id: elements_embedded_electronics_std_bev_2030
+    question: 'List the projected elemental composition of embedded electronics of a standard, battery-electric vehicle produced in 2030, including both mean values and associated uncertainties for each element.'
+    source: 'SI-7 (embedded-electronics elements, std BEV 2030)'
+    score_uncertainty: true
+    expected:
+      unit: kg
+      values:
+        "https://www.purl.org/futuram#Copper": 11.9
+        "https://www.purl.org/futuram#Aluminium": 1.02
+        "https://www.purl.org/futuram#Iron": 0.0963
+        "https://www.purl.org/futuram#Silver": 0.0295
+        "https://www.purl.org/futuram#Gold": 0.0121
+        "https://www.purl.org/futuram#Palladium": 0.00206
+      uncertainty:
+        "https://www.purl.org/futuram#Copper": 1.41
+        "https://www.purl.org/futuram#Aluminium": 0.0937
+        "https://www.purl.org/futuram#Iron": 0.011
+        "https://www.purl.org/futuram#Silver": 0.00305
+        "https://www.purl.org/futuram#Gold": 0.00145
+        "https://www.purl.org/futuram#Palladium": 0.000248
+  # Special SPARQL question (NOT in the SI doc). Parallels the SI-9 embedded-
+  # electronics recycling question, but scoped to the embedded CONTROLLERS
+  # subcomponent. Answer = the metal-wheel recovery table, keyed by element class
+  # IRI (futuram:Copper, etc.). The recoverable quantity = the controllers'
+  # element mass; values data-verified
+  # against the served fq endpoint (std BEV V0301030000, 2025). Its verbatim text
+  # already asks for the uncertainty, so this is ONE uncertainty-scoring case too.
+  - id: crm_recovered_embedded_controllers_std_bev_2025
+    question: 'List the potential recycling routes in case of the embedded controllers in standard, battery-electric vehicle from 2025, together with the quantities of critical raw materials recovered, including both mean values and associated uncertainties.'
+    source: 'New SPARQL Q (embedded controllers recycling routes; screenshot/metal-wheel; values data-verified on the fq endpoint)'
+    score_uncertainty: true
+    expected:
+      unit: kg
+      values:
+        "https://www.purl.org/futuram#Copper": 0.795906
+        "https://www.purl.org/futuram#Aluminium": 0.122864
+        "https://www.purl.org/futuram#Palladium": 0.000432581
+      uncertainty:
+        "https://www.purl.org/futuram#Copper": 0.137855
+        "https://www.purl.org/futuram#Aluminium": 0.0212806
+        "https://www.purl.org/futuram#Palladium": 0.0000749253
+      routes:
+        - element:    "https://www.purl.org/futuram#Copper"
+          base_metal: "https://www.purl.org/futuram#Copper"
+          route:      "https://purl.org/metalwheel#smelt_refine"
+        - element:    "https://www.purl.org/futuram#Copper"
+          base_metal: "https://www.purl.org/futuram#Lead"
+          route:      "https://purl.org/metalwheel#roast-leach_electrowinning_RLE_smeltfumerefine"
+        - element:    "https://www.purl.org/futuram#Copper"
+          base_metal: "https://www.purl.org/futuram#Tin"
+          route:      "https://purl.org/metalwheel#smelt_fume_refine"
+        - element:    "https://www.purl.org/futuram#Copper"
+          base_metal: "https://www.purl.org/futuram#Zinc"
+          route:      "https://purl.org/metalwheel#roast-leach_electrowinning_RLE_smeltfumerefine"
+        - element:    "https://www.purl.org/futuram#Aluminium"
+          base_metal: "https://www.purl.org/futuram#Aluminium"
+          route:      "https://purl.org/metalwheel#electrolysis_remelt_refine"
+        - element:    "https://www.purl.org/futuram#Palladium"
+          base_metal: "https://www.purl.org/futuram#Copper"
+          route:      "https://purl.org/metalwheel#smelt_refine"
+        - element:    "https://www.purl.org/futuram#Palladium"
+          base_metal: "https://www.purl.org/futuram#Nickel"
+          route:      "https://purl.org/metalwheel#smelt_refine"

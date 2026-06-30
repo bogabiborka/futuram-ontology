@@ -1,0 +1,25 @@
+# Copper distributed across the (direct) components of a segment C BEV, 2025.
+# Each component scoped to THIS vehicle is a scope node that futuram:partOf the
+# vehicle and rdf:type a component class. We want the DIRECT components of the
+# vehicle (motor / embedded-electronics group / general), not their sub-components
+# — i.e. component classes that are a direct subClassOf Component (no intermediate
+# component parent). No list. kg = itemMass * fraction.
+# We report the SCOPE NODE (?node) itself as the answer identity: it is the
+# year+vehicle-scoped resource (fq:<component>_in_V0301030103_Y2025), unambiguous
+# about which vehicle and year these kg belong to — the bare component class is not.
+PREFIX fq:      <https://www.purl.org/futuram/query#>
+PREFIX futuram: <https://www.purl.org/futuram#>
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?node (?m*?f AS ?kg) WHERE {
+  ?node futuram:partOf futuram:V0301030103_Y2025 ;
+        rdf:type ?key ;
+        fq:itemMass ?m ;
+        fq:contains [ fq:constituent futuram:Copper ; fq:amount ?f ] .
+  ?key rdfs:subClassOf futuram:Component .
+  FILTER NOT EXISTS {
+    ?key rdfs:subClassOf ?mid . ?mid rdfs:subClassOf futuram:Component .
+    FILTER(?mid != futuram:Component)
+  }
+}
+ORDER BY DESC(?kg)

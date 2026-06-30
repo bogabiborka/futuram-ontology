@@ -1,0 +1,17 @@
+@prefix emmo: <https://w3id.org/emmo#> .
+@prefix futuram: <https://www.purl.org/futuram#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+futuram:Element rdfs:subClassOf emmo:EMMO_eb77076b_a104_42ac_a065_798b2d2809ad .
+
+futuram:Material rdfs:subClassOf emmo:EMMO_4207e895_8b83_4318_996a_72cfb32acd94 .
+
+futuram:Product rdfs:subClassOf emmo:EMMO_82fc8506_1f84_4add_9683_abea077bd1e3 .
+
+futuram:refersTo rdfs:subPropertyOf emmo:EMMO_27e8e2dd_78a5_433a_b522_a1f61a08aab4 .
+
+<https://www.purl.org/futuram/emmo-futuram-bridge> a owl:Ontology ;
+    rdfs:label "emmo-futuram-bridge" ;
+    rdfs:comment "FutuRaM -> EMMO alignment: the futuram roots (Product/Material/Element) and futuram:refersTo aligned under their EMMO parents. Moved out of composition-statement.ttl." .
+

@@ -1,0 +1,28 @@
+# Copper distributed across the direct components of a segment C BEV, 2025.
+# Each direct component of the vehicle contributes its copper kg = mass * f1 * f2 * f3.
+# ?key is the component class (direct subClassOf futuram:Component, no intermediate parent).
+PREFIX futuram: <https://www.purl.org/futuram#>
+PREFIX ex:      <https://www.purl.org/futuram/example#>
+PREFIX qudt:    <http://qudt.org/schema/qudt/>
+PREFIX dqv:     <http://www.w3.org/ns/dqv#>
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?key (SUM(?mass * ?f1 * ?f2 * ?f3) AS ?kg) WHERE {
+  ex:V0301030103_2025 futuram:itemMass/qudt:numericValue ?mass .
+  ex:V0301030103_2025 futuram:hasCompositionStatement/futuram:hasPartRelation ?pr1 .
+  ?pr1 futuram:refersTo ?comp ;
+       futuram:hasQuantity/futuram:hasBestValue/qudt:numericValue ?f1 .
+  ?comp rdf:type ?key .
+  ?key rdfs:subClassOf futuram:Component .
+  FILTER NOT EXISTS {
+    ?key rdfs:subClassOf ?mid . ?mid rdfs:subClassOf futuram:Component .
+    FILTER(?mid != futuram:Component)
+  }
+  ?comp futuram:hasCompositionStatement/futuram:hasPartRelation ?pr2 .
+  ?pr2 futuram:refersTo ?mat ;
+       futuram:hasQuantity/futuram:hasBestValue/qudt:numericValue ?f2 .
+  ?mat futuram:hasCompositionStatement/futuram:hasPartRelation ?pr3 .
+  ?pr3 futuram:refersTo ?elem ;
+       futuram:hasQuantity/futuram:hasBestValue/qudt:numericValue ?f3 .
+  ?elem rdf:type futuram:Copper .
+} GROUP BY ?key ORDER BY DESC(?kg)

@@ -1,0 +1,38 @@
+# Lift instance composition edges to one-step class edges. Two read channels: the
+# qualified-statement hop (hasCompositionStatement->hasPartRelation->refersTo) and
+# the bare-filler edge (?wholeInst futuram:fillerPart ?partInst) from complete-chains.
+PREFIX futuram: <https://www.purl.org/futuram#>
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl:     <http://www.w3.org/2002/07/owl#>
+
+CONSTRUCT {
+    ?wholeClass futuram:hasComposition ?partClass .
+}
+WHERE {
+    {
+        # (1) reified statement — NEW shape
+        ?wholeInst futuram:hasCompositionStatement ?stmt .
+        ?stmt a futuram:CompositionStatement ; futuram:hasPartRelation ?rel .
+        ?rel futuram:refersTo ?partInst .
+    }
+    UNION
+    {
+        # (2) bare filler edge from complete-chains — UNCHANGED channel
+        ?wholeInst futuram:fillerPart ?partInst .
+    }
+
+    ?wholeInst rdf:type ?wholeClass .
+    ?partInst  rdf:type ?partClass .
+
+    ?wholeClass rdfs:subClassOf* ?wholeRoot .
+    ?partClass  rdfs:subClassOf* ?partRoot .
+    VALUES (?wholeRoot ?wholeRank) {
+        (futuram:Product 0) (futuram:Component 1) (futuram:Material 2) }
+    VALUES (?partRoot ?partRank) {
+        (futuram:Product 0) (futuram:Component 1)
+        (futuram:Material 2) (futuram:Element 3) }
+
+    FILTER ( ?wholeClass != owl:Class && ?partClass != owl:Class )
+    FILTER ( ?partRank - ?wholeRank = 1 )
+}

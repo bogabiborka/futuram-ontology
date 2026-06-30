@@ -1,0 +1,24 @@
+{
+  "app_name": "FutuRaM Chat (PoC, live-computed)",
+  "app_org": "FutuRaM",
+  "app_topics": "the material, component and element composition of products via the query-optimized fq: dataset, COMPUTED LIVE by the Python oracle",
+  "example_questions": [
+    "How much copper is in elvBEV?",
+    "Which elements does elvBEV contain, and in what amounts?",
+    "What does V0301030105 contain at the Component level?",
+    "List all classes that contain Copper.",
+    "How much iron is in elvBEV?",
+    "How much of each element is in the elvElectricMotor?"
+  ],
+  "vectordb_url": "http://vectordb:6333",
+  "endpoints": [
+    {
+      "endpoint_url": "http://localhost:48060/",
+      "void_file": "/app/sparql-llm/futuram_void.ttl",
+      "examples_file": "/app/sparql-llm/futuram_examples.ttl",
+      "label": "FutuRaM live (PoC, computed in Python)",
+      "description": "PROOF OF CONCEPT — the SAME query-optimized fq: dataset as the futuram Fuseki endpoint, but the fq: graph is COMPUTED LIVE by the Python oracle on each request rather than precomputed and stored in Jena. Ask 'how much of <constituent> is in <class>' via the fq:contains pattern; declare the constituent KIND via the ontology: '?e rdfs:subClassOf futuram:Element' (or Component/Material). The unattributed remainder of every whole is a first-class futuram:unknown* constituent row, so each level's amounts sum to 1.0. NOTE: rdflib-endpoint serves the SPARQL protocol at the ROOT path, so the endpoint URL has no /query/sparql suffix.",
+      "homepage_url": "https://www.purl.org/futuram"
+    }
+  ]
+}

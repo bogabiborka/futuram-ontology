@@ -1,0 +1,20 @@
+# How can copper be recovered from a car? (SI competency Q10, para 57-58.)
+# A MEMBERSHIP answer: the metalwheel recovery-process individual IRIs through which
+# copper is genuinely recovered — all slots where copper is:
+#   - TargetedElement        → copper's OWN route (mw:smelt_refine)
+#   - MainlyRecoveredElement → copper accompanies another base metal:
+#       Pb/Zn → mw:roast-leach_electrowinning_RLE_smeltfumerefine
+#       Sn    → mw:smelt_fume_refine
+# SI prose mentions smelt_refine + Pb/Zn; Sn is present in the data and returned.
+PREFIX mw:      <https://purl.org/metalwheel#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX futuram: <https://www.purl.org/futuram#>
+PREFIX chebi:   <http://purl.obolibrary.org/obo/CHEBI_>
+SELECT DISTINCT ?route WHERE {
+  futuram:Copper rdfs:subClassOf ?chebiClass .
+  FILTER(CONTAINS(STR(?chebiClass), "CHEBI"))
+  ?chebiClass mw:hasRecoveryInformation ?ri .
+  ?ri mw:hasExpectedRecoveryEffectiveness ?eff ;
+      mw:hasRecoveryProcess ?route .
+  FILTER(?eff IN (mw:TargetedElement, mw:MainlyRecoveredElement))
+}

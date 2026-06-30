@@ -1,0 +1,21 @@
+# Rare-earth element content in the permanent-magnet motor of a segment B BEV, 2025.
+# VW ID.3 maps to segment B in this dataset. The motor scoped to THIS vehicle is the
+# scope node that futuram:partOf the vehicle and is rdf:type the motor component class.
+# A constituent is a RARE EARTH iff its ChEBI class is (transitively) a rare-earth
+# metal atom (CHEBI_33321) — navigate the ChEBI taxonomy, don't enumerate Nd/Dy/Pr.
+# Uncertainty = RSS via afn:sqrt.
+PREFIX fq:      <https://www.purl.org/futuram/query#>
+PREFIX futuram: <https://www.purl.org/futuram#>
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX afn:     <http://jena.apache.org/ARQ/function#>
+SELECT (SUM(?kg) AS ?total) (afn:sqrt(SUM(?sig*?sig)) AS ?unc) WHERE {
+  SELECT DISTINCT ?c (?m*?f AS ?kg) (?ru*?m*?f AS ?sig) WHERE {
+    ?node futuram:partOf futuram:V0301030102_Y2025 ;
+          rdf:type futuram:elvElectricMotor ;
+          fq:itemMass ?m ;
+          fq:contains [ fq:constituent ?c ;
+                        fq:amount ?f ; fq:relativeUncertainty ?ru ] .
+    ?c rdfs:subClassOf* <http://purl.obolibrary.org/obo/CHEBI_33321> .
+  }
+}
