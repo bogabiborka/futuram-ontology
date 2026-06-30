@@ -1,0 +1,159 @@
+@prefix futuram: <https://www.purl.org/futuram#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+futuram:S1TimeScopeShape a sh:NodeShape ;
+    rdfs:label "S1: instantiated Product/Component classes are time-scoped"@en ;
+    sh:severity sh:Violation ;
+    sh:sparql [ a sh:SPARQLConstraint ;
+            sh:message "S1: this Product/Component class has direct instances but does not carry exactly one of futuram:referenceYear / futuram:hasReferencePeriod." ;
+            sh:select """
+            PREFIX futuram: <https://www.purl.org/futuram#>
+            PREFIX ceonp: <http://w3id.org/CEON/ontology/product/>
+            PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT DISTINCT $this WHERE {
+                ?inst rdf:type $this .
+                $this rdfs:subClassOf* ?root .
+                ?root rdf:type futuram:TimeBasedClassFamily .
+                FILTER ($this != ?root)
+                # The component-granularity LAYER classes (MainComponent ..
+                # SubSubSubComponent) are punned: a component CLASS is asserted
+                # as their instance (e.g. elvGeneralComponents a MainComponent)
+                # to record its layer. They are abstract grouping classes, never
+                # time-scoped, so they are not S1 focus nodes.
+                FILTER ($this NOT IN (futuram:MainComponent, futuram:SubComponent,
+                                      futuram:SubSubComponent, futuram:SubSubSubComponent))
+                {
+                    FILTER NOT EXISTS { $this futuram:referenceYear ?y }
+                    FILTER NOT EXISTS { $this futuram:hasReferencePeriod ?p }
+                }
+                UNION
+                {
+                    $this futuram:referenceYear ?y2 ;
+                          futuram:hasReferencePeriod ?p2 .
+                }
+            }
+        """ ] ;
+    sh:targetObjectsOf rdf:type .
+
+futuram:S2InstanceValidityShape a sh:NodeShape ;
+    rdfs:label "S2: P/C/M instance has own statement or a class strategy"@en ;
+    sh:severity sh:Violation ;
+    sh:sparql [ a sh:SPARQLConstraint ;
+            sh:message "S2: this Product/Component/Material instance carries no own CompositionStatement and none of its classes declares an AggregationStrategy." ;
+            sh:select """
+            PREFIX futuram: <https://www.purl.org/futuram#>
+            PREFIX ceonp: <http://w3id.org/CEON/ontology/product/>
+            PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT DISTINCT $this WHERE {
+                $this rdf:type ?cls .
+                ?cls rdfs:subClassOf* ?root .
+                FILTER (?root IN (futuram:Product, futuram:Component,
+                                  futuram:Material))
+                FILTER NOT EXISTS { $this rdf:type/rdfs:subClassOf* futuram:Element }
+                FILTER NOT EXISTS { $this futuram:hasCompositionStatement ?st1 }
+                FILTER NOT EXISTS {
+                    $this rdf:type/rdfs:subClassOf* ?c2 .
+                    ?c2 futuram:hasAggregationStrategy ?strategy .
+                }
+            }
+        """ ] ;
+    sh:targetSubjectsOf rdf:type .
+
+futuram:S3StrategyCompletenessShape a sh:NodeShape ;
+    rdfs:label "S3: an AggregationStrategy declares all seven facets"@en ;
+    sh:property [ sh:message "S3: missing futuram:timeScopeAggregation." ;
+            sh:minCount 1 ;
+            sh:path futuram:timeScopeAggregation ],
+        [ sh:message "S3: missing futuram:massAggregation." ;
+            sh:minCount 1 ;
+            sh:path futuram:massAggregation ],
+        [ sh:message "S3: missing futuram:valueAggregation." ;
+            sh:minCount 1 ;
+            sh:path futuram:valueAggregation ],
+        [ sh:message "S3: missing futuram:uncertaintyAggregation." ;
+            sh:minCount 1 ;
+            sh:path futuram:uncertaintyAggregation ],
+        [ sh:message "S3: missing futuram:dqvAggregation." ;
+            sh:minCount 1 ;
+            sh:path futuram:dqvAggregation ],
+        [ sh:message "S3: missing futuram:remainderAggregation." ;
+            sh:minCount 1 ;
+            sh:path futuram:remainderAggregation ],
+        [ sh:message "S3: missing futuram:provenanceAggregation." ;
+            sh:minCount 1 ;
+            sh:path futuram:provenanceAggregation ] ;
+    sh:severity sh:Violation ;
+    sh:targetClass futuram:AggregationStrategy .
+
+futuram:S4StatementTemporalShape a sh:NodeShape ;
+    rdfs:label "S4: statement references P/C classes valid for its period"@en ;
+    sh:severity sh:Violation ;
+    sh:sparql [ a sh:SPARQLConstraint ;
+            sh:message "S4: this statement references a Product/Component whose class time scope does not cover the statement's validity start year." ;
+            sh:select """
+            PREFIX futuram: <https://www.purl.org/futuram#>
+            PREFIX ceonp: <http://w3id.org/CEON/ontology/product/>
+            PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX time: <http://www.w3.org/2006/time#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            SELECT DISTINCT $this WHERE {
+                $this futuram:hasValidityPeriod/time:hasBeginning/time:inXSDDate ?from .
+                BIND (SUBSTR(STR(?from), 1, 4) AS ?vy)
+                # property-alternative (whole OR part) instead of a UNION block:
+                # nesting a UNION inside an outer UNION made rdflib drop the
+                # failing binding when $this is pre-bound (the pyshacl case).
+                $this ceonp:compositionOf|(futuram:hasPartRelation/futuram:refersTo) ?node .
+                ?node rdf:type ?cls .
+                # A time-scoped class is a Product/Component time slice by
+                # construction (only P/C classes carry referenceYear/period —
+                # SHACL S1); checking the time scope directly avoids the
+                # rdfs:subClassOf* path, which rdflib also mis-evaluates when
+                # $this is pre-bound.
+                ?cls futuram:referenceYear ?ryLit .
+                FILTER (?vy != STR(?ryLit))
+            } """ ],
+        [ a sh:SPARQLConstraint ;
+            sh:message "S4: this statement references a Product/Component whose reference PERIOD does not cover the statement's validity start year." ;
+            sh:select """
+            PREFIX futuram: <https://www.purl.org/futuram#>
+            PREFIX ceonp: <http://w3id.org/CEON/ontology/product/>
+            PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+            PREFIX time: <http://www.w3.org/2006/time#>
+            SELECT DISTINCT $this WHERE {
+                $this futuram:hasValidityPeriod/time:hasBeginning/time:inXSDDate ?from .
+                BIND (SUBSTR(STR(?from), 1, 4) AS ?vy)
+                $this ceonp:compositionOf|(futuram:hasPartRelation/futuram:refersTo) ?node .
+                ?node rdf:type ?cls .
+                ?cls futuram:hasReferencePeriod ?clsPer .
+                ?clsPer time:hasBeginning/time:inXSDDate ?pb ;
+                        time:hasEnd/time:inXSDDate ?pe .
+                BIND (SUBSTR(STR(?pb), 1, 4) AS ?py0)
+                BIND (SUBSTR(STR(?pe), 1, 4) AS ?py1)
+                FILTER (?vy < ?py0 || ?vy > ?py1)
+            }
+        """ ] ;
+    sh:targetClass futuram:CompositionStatement .
+
+futuram:S5TimeScopedStrategyShape a sh:NodeShape ;
+    rdfs:label "S5: a time-scoped class without instances declares a strategy"@en ;
+    sh:severity sh:Violation ;
+    sh:sparql [ a sh:SPARQLConstraint ;
+            sh:message "S5: this time-scoped class has no direct instances and no futuram:hasAggregationStrategy." ;
+            sh:select """
+            PREFIX futuram: <https://www.purl.org/futuram#>
+            PREFIX ceonp: <http://w3id.org/CEON/ontology/product/>
+            PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+            SELECT DISTINCT $this WHERE {
+                FILTER NOT EXISTS { ?inst rdf:type $this }
+                FILTER NOT EXISTS { $this futuram:hasAggregationStrategy ?s }
+            }
+        """ ] ;
+    sh:targetSubjectsOf futuram:hasReferencePeriod,
+        futuram:referenceYear .
+

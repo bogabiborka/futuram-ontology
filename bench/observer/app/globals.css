@@ -1,0 +1,175 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+  Bench Observer — shadcn/ui (new-york) on Tailwind v4.
+  Light theme tuned to a warm "typeset paper" aesthetic: stone base,
+  serif headings, monospace data, near-square corners. No dark mode by default.
+*/
+
+:root {
+  --radius: 0.25rem;
+
+  --background: oklch(0.97 0.008 95);      /* warm paper */
+  --foreground: oklch(0.22 0.01 70);       /* near-black ink */
+
+  --card: oklch(0.985 0.006 95);
+  --card-foreground: var(--foreground);
+  --popover: oklch(0.985 0.006 95);
+  --popover-foreground: var(--foreground);
+
+  --primary: oklch(0.27 0.012 70);         /* ink */
+  --primary-foreground: oklch(0.97 0.008 95);
+
+  --secondary: oklch(0.93 0.01 90);
+  --secondary-foreground: var(--foreground);
+
+  --muted: oklch(0.93 0.008 90);
+  --muted-foreground: oklch(0.48 0.01 75);
+
+  --accent: oklch(0.92 0.012 90);
+  --accent-foreground: var(--foreground);
+
+  --destructive: oklch(0.46 0.13 28);      /* maroon */
+
+  --border: oklch(0.83 0.012 88);          /* hairline */
+  --input: oklch(0.83 0.012 88);
+  --ring: oklch(0.55 0.02 75);
+
+  /* semantic status (proofreader's-mark inks, not screen-neon) */
+  --ok: oklch(0.46 0.10 150);
+  --bad: oklch(0.46 0.13 28);
+  --warn: oklch(0.55 0.10 75);
+  --blue: oklch(0.45 0.09 250);
+
+  --chart-1: var(--ok);
+  --chart-2: var(--blue);
+  --chart-3: var(--warn);
+  --chart-4: var(--bad);
+  --chart-5: var(--muted-foreground);
+
+  --sidebar: oklch(0.955 0.008 95);
+  --sidebar-foreground: var(--foreground);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: var(--primary-foreground);
+  --sidebar-accent: var(--accent);
+  --sidebar-accent-foreground: var(--accent-foreground);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--ring);
+
+  --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+  --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", "Menlo", Consolas, monospace;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-ok: var(--ok);
+  --color-bad: var(--bad);
+  --color-warn: var(--warn);
+  --color-blue: var(--blue);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 2px);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --font-sans: var(--font-serif);
+  --font-serif: var(--font-serif);
+  --font-mono: var(--font-mono);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-serif);
+    font-feature-settings: "kern" 1, "liga" 1;
+  }
+  ::selection {
+    background: oklch(0.88 0.10 92);   /* highlighter tan */
+  }
+}
+
+/* Markdown rendered inside turns — keep it readable, typeset. */
+.md {
+  font-family: var(--font-serif);
+  line-height: 1.5;
+  font-size: 0.875rem;
+}
+.md :is(h1, h2, h3, h4) { font-weight: 600; margin: 0.6em 0 0.3em; }
+.md p { margin: 0.4em 0; }
+.md ul, .md ol { margin: 0.4em 0; padding-left: 1.2em; }
+.md li { margin: 0.15em 0; }
+.md code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background: var(--muted);
+  padding: 0.05em 0.3em;
+  border-radius: var(--radius-sm);
+}
+.md pre {
+  font-family: var(--font-mono);
+  font-size: 0.8em;
+  background: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.6em 0.75em;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.md pre code { background: none; padding: 0; }
+.md table { border-collapse: collapse; margin: 0.5em 0; font-size: 0.85em; }
+.md th, .md td { border: 1px solid var(--border); padding: 0.2em 0.5em; text-align: left; }
+.md a { color: var(--blue); text-decoration: underline; }
+
+.md-raw {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.45;
+  background: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.6em 0.75em;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: var(--foreground);
+}

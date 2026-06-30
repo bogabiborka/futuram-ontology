@@ -1,0 +1,66 @@
+name: deploy-viewer
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "bench/experiments/**"
+      - "viewer/**"
+      - ".github/workflows/deploy-viewer.yml"
+  workflow_dispatch:
+    inputs:
+      experiment:
+        description: "Experiment name to publish (default: latest by run timestamp)"
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: viewer/package-lock.json
+
+      - name: Bundle experiment data
+        run: python viewer/bundle_data.py ${{ github.event.inputs.experiment }}
+
+      - name: Install viewer dependencies
+        run: npm ci
+        working-directory: viewer
+
+      - name: Build viewer
+        run: npm run build
+        working-directory: viewer
+
+      - name: Copy data.json into dist
+        run: cp viewer/public/data.json viewer/dist/data.json
+
+      - uses: actions/configure-pages@v4
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: viewer/dist
+
+      - uses: actions/deploy-pages@v4
+        id: deployment

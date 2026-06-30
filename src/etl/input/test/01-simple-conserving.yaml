@@ -1,0 +1,81 @@
+id: "01_simple_conserving"
+title: "simple conserving car (fan-out at every level)"
+note: "happy path — car has two components, each component two materials, each material decomposes into the 2+ distinct elements it really contains. Everything conserves (no whole's min part-sum exceeds 1)."
+
+provenance:
+  source: "FutuRaM composition datasheet (test)"
+  agent: "FutuRaM test organisation"
+  production: "forming"
+  validFrom: "2020-01-01"
+  validUntil: "2026-12-31"
+
+# Every non-leaf whole fans out to >= 2 children. Elements are shared singletons
+# (one Copper, one Iron, ...); fan-out comes from materials containing several
+# DIFFERENT elements (Cu, Fe, Ni, C), not duplicated copies.
+nodes:
+  car: {level: Product, class: V0301030105_Y2020, itemMass: 1000.0}
+  motor: {level: Component, class: elvElectricMotor_Y2020, itemMass: 50.0}
+  harness: {level: Component, class: wiringHarness_Y2020, itemMass: 50.0}
+  winding: {level: Material, class: highCuAlloys}
+  steel: {level: Material, class: lowCarbonSteel}
+  cuwire: {level: Material, class: highCuAlloys}
+  sheath: {level: Material, class: plasticComposites}
+  cu: {level: Element, class: Copper}
+  fe: {level: Element, class: Iron}
+  ni: {level: Element, class: Nickel}
+  c: {level: Element, class: Carbon}
+
+statements:
+  # car -> 2 components
+- {whole: car, part: motor, best: 5.55, lo: 5.2, hi: 5.9, unit: gkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: car, part: harness, best: 2.05, lo: 1.9, hi: 2.2, unit: gkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+  # motor -> 2 materials
+- {whole: motor, part: winding, best: 0.15, lo: 0.14, hi: 0.16, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: motor, part: steel, best: 0.62, lo: 0.60, hi: 0.64, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+  # harness -> 2 materials
+- {whole: harness, part: cuwire, best: 0.6, lo: 0.58, hi: 0.62, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: harness, part: sheath, best: 0.38, lo: 0.36, hi: 0.40, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+  # winding (highCuAlloys) -> Cu + Ni  (canonical highCuAlloys composition)
+- {whole: winding, part: cu, best: 0.99, lo: 0.98, hi: 1.00, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: winding, part: ni, best: 0.01, lo: 0.005, hi: 0.02, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+  # steel (lowCarbonSteel) -> Fe + C  (canonical lowCarbonSteel composition)
+- {whole: steel, part: fe, best: 0.99, lo: 0.98, hi: 1.00, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: steel, part: c, best: 0.01, lo: 0.005, hi: 0.015, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+  # cuwire (highCuAlloys) -> Cu + Ni  (SAME canonical composition as winding)
+- {whole: cuwire, part: cu, best: 0.99, lo: 0.98, hi: 1.00, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: cuwire, part: ni, best: 0.01, lo: 0.005, hi: 0.02, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+  # sheath (plasticComposites) -> C + (trace) Cu
+- {whole: sheath, part: c, best: 0.675, lo: 0.60, hi: 0.75, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: sheath, part: cu, best: 0.003, lo: 0.001, hi: 0.005, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+subclass_of:
+  V0301030105_Y2020:
+  - V0301030105
+  - elvBEV_Y2020
+  elvElectricMotor_Y2020:
+  - elvElectricMotor
+  wiringHarness_Y2020:
+  - wiringHarness
+  elvBEV_Y2020:
+  - elvBEV
+class_time:
+  V0301030105_Y2020:
+    year: 2020
+    slices:
+    - parent: V0301030105
+      axis: year-slice-mean
+  elvElectricMotor_Y2020:
+    year: 2020
+    slices:
+    - parent: elvElectricMotor
+      axis: year-slice-mean
+  wiringHarness_Y2020:
+    year: 2020
+    slices:
+    - parent: wiringHarness
+      axis: year-slice-mean
+  elvBEV_Y2020:
+    year: 2020
+    strategy: equal-subclass-mean
+    slices:
+    - parent: elvBEV
+      axis: year-slice-mean

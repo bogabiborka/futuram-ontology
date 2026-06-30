@@ -1,0 +1,225 @@
+# FutuRaM data CI/CD — the GitHub Release IS the product.
+#
+# This is the concrete governance pipeline for the "living knowledge base"
+# (manuscript §2.x / reviewer Q20). It does NOT push into a live triple store:
+# instead it DERIVES the served view, VALIDATES it (SHACL + ROBOT consistency +
+# the competency-question regression), and PUBLISHES the verified Turtle as
+# immutable Release assets. Fuseki — or rdflib, or any store — is one optional
+# consumer that loads a release; it is not a deploy target.
+#
+# Versioning (config.json): two INDEPENDENT schema SemVers + one free-id dataset.
+#   * composition-statement schema  (core TBox + futuram-hierarchy)
+#   * futuram-query (fq:) schema     (query TBox + resolver/plugin deriver)
+#   * dataset id                     (free label, NOT a SemVer; pins the comp schema)
+# The served asset name makes the lineage visible:
+#   futuram-query-<qVer>-based-on-comp-<cVer>+<datasetId>
+#
+# Branches: PR into main = validation gate (nothing published).
+#           tag v* on main = build + verify + publish the release assets.
+# Manual dispatch can override the dataset selection so a SCALING run (a smaller
+# or larger drivetrain/year subset) is *possible* without changing config.json.
+
+name: deploy-data
+
+on:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'ontology/tbox/**'
+      - 'shapes/**'
+      - 'fuseki/futuram/data/**'
+      - 'src/**'
+      - 'config.json'
+      - '.github/workflows/deploy-data.yml'
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      dataset_id:
+        description: 'Ground-truth dataset id (e.g. elv-full, elv-bev-2020). Free label, not a schema version.'
+        required: false
+        default: ''
+      files:
+        description: 'Drivetrain subset for the build, space-separated (e.g. "BEV Petrol"). Empty = all. (Scaling knob.)'
+        required: false
+        default: ''
+      year_min:
+        description: 'Narrow the year window lower bound (optional).'
+        required: false
+        default: ''
+      year_max:
+        description: 'Narrow the year window upper bound (optional).'
+        required: false
+        default: ''
+
+# uv resolves the toolchain; no global pip. rdflib/pyshacl/owlrl come from the
+# scripts' inline metadata. ROBOT (Java) is installed for the consistency layer.
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    env:
+      # CI reasons with ELK (the script default) — an EL-profile reasoner that is
+      # fast and low-memory, so it fits a GitHub runner (~7 GB RAM). Do NOT pass
+      # --deep (HermiT) in CI: it is far heavier and would risk OOM. ELK over the
+      # TBox-only default targets stays well under this heap.
+      ROBOT_JAVA_ARGS: "-Xmx5g -Djdk.xml.totalEntitySizeLimit=0"
+      # The Python memory watchdog cap (rdflib parse) — keep below runner RAM.
+      BENCH_MEM_CAP_GB: "6"
+      # Pin ROBOT so a CI run is reproducible (not whatever 'latest' is that day).
+      ROBOT_VERSION: "v1.9.8"
+    steps:
+      - uses: actions/checkout@v4
+        # chebi_core.owl.gz (36 MB) is a plain tracked blob, not LFS — a normal
+        # checkout fetches the real bytes. The pre-built chebi-module.ttl is also
+        # committed, so ROBOT reuses it and never decompresses the 329 MB source.
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Set up Java (for ROBOT)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Install ROBOT (pinned)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          url="https://github.com/ontodev/robot/releases/download/${ROBOT_VERSION}/robot.jar"
+          echo "downloading ROBOT ${ROBOT_VERSION}"
+          # authenticated download avoids unauthenticated-API rate limits on runners
+          curl -fL -H "Authorization: Bearer ${GH_TOKEN}" -o /usr/local/bin/robot.jar "$url"
+          printf '#!/bin/sh\nexec java %s -jar /usr/local/bin/robot.jar "$@"\n' "${ROBOT_JAVA_ARGS}" \
+            | sudo tee /usr/local/bin/robot >/dev/null
+          sudo chmod +x /usr/local/bin/robot
+
+      - name: Verify toolchain + reasoning bases present
+        run: |
+          set -euo pipefail
+          robot --version
+          # fail fast if a base the consistency check needs is missing from the clone
+          # (emmo.ttl is the self-contained vendored EMMO the extract uses — no
+          # network owl:imports, unlike the emmo-full.ttl stub)
+          for f in ontology/sources/emmo/emmo.ttl \
+                   ontology/sources/ceon/ceon-base.owl \
+                   ontology/sources/chebi/chebi-term-file.txt \
+                   fuseki/futuram/data/query/chebi-module.ttl \
+                   ontology/sources/_support/dqv.ttl \
+                   ontology/sources/_support/prov-o.ttl; do
+            test -s "$f" || { echo "MISSING reasoning base: $f"; exit 1; }
+          done
+          echo "all reasoning bases present"
+
+      # STAGE 2 — consistency on the INPUT: composition TBox + raw composition
+      # ABox (the source of truth), BEFORE any derivation.
+      - name: "Stage 2 — consistency (input: composition statements)"
+        run: uv run scripts/robot_consistency.py --target input
+
+      # STAGE 3a — (re)DERIVE the fq: served view from the composition statements.
+      #
+      # The committed data (fuseki/futuram/data/composition + .../query) IS the
+      # product and is already a validated, in-sync pair — see the README
+      # ("the data is already in the repo; nothing is downloaded"). The ELV source
+      # CSVs are NOT committed (they are pulled from Zenodo on demand), so a bare
+      # `build_instances` in CI finds no inputs, deletes the committed elv-*.ttl,
+      # and emits an empty graph — leaving every fq:derivedFromStatement pointer
+      # dangling. We therefore only rebuild when the CSVs are actually present
+      # (a scaling run that downloaded them first); otherwise we validate and
+      # publish exactly what is committed.
+      - name: "Stage 3a — derive fq: view (resolver/plugin)"
+        # build_instances.py imports the src/ packages (etl, common, builder).
+        # Run directly (not via pytest), so put src/ on PYTHONPATH — the
+        # pyproject pythonpath only applies under pytest.
+        env:
+          PYTHONPATH: src
+        run: |
+          # Use the authoritative source check (elv_csvs() applies the strict
+          # ELV_1980_2050_<Drivetrain>.csv filter — a loose glob would match the
+          # committed *_known_limit_corrections.csv decoy and wrongly trigger a
+          # rebuild that wipes the committed data). The real per-drivetrain CSVs
+          # are Zenodo-only (gitignored), so on a tag release this finds none and
+          # we validate/publish the committed artifacts as-is.
+          N=$(uv run --with pandas python -c "from etl import elv_csvs; print(len(elv_csvs()))")
+          if [ "$N" -eq 0 ]; then
+            echo "No buildable ELV CSVs present — validating the committed data/"
+            echo "artifacts as-is (no rebuild). This is the normal tag-release path."
+            exit 0
+          fi
+          echo "$N ELV CSVs present — re-deriving."
+          ARGS="futuram"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            [ -n "${{ inputs.files }}" ]    && ARGS="$ARGS --files ${{ inputs.files }}"
+            [ -n "${{ inputs.year_min }}" ] && ARGS="$ARGS --year-min ${{ inputs.year_min }}"
+            [ -n "${{ inputs.year_max }}" ] && ARGS="$ARGS --year-max ${{ inputs.year_max }}"
+          fi
+          echo "ELV CSVs present — re-deriving: build_instances $ARGS"
+          uv run --with rdflib --with owlrl --with pyshacl \
+            --with pyyaml --with pandas --with openpyxl \
+            python tests/build_instances.py $ARGS
+
+      # STAGE 3b — consistency on the OUTPUT: the freshly DERIVED fq: view + the
+      # query TBox. Confirms the derivation introduced no inconsistency.
+      - name: "Stage 3b — consistency (output: derived fq: view)"
+        run: uv run scripts/robot_consistency.py --target output
+
+      # STAGE 3c — SHACL (Layer 1) + the served↔composition binding check over the
+      # derived graph. Exits non-zero on non-conformance or a dangling
+      # fq:derivedFromStatement pointer.
+      - name: "Stage 3c — SHACL + pair binding"
+        run: uv run scripts/ci_release_assets.py --validate-only
+
+      # Competency-question regression. Plain `pytest` (no -m override) so the
+      # slow Monte-Carlo / real-CSV suite is DESELECTED — those need the Zenodo
+      # CSVs (absent in CI) and the MC tests add many minutes for no release
+      # value. The full dep set is REQUIRED — without --with polars the SI
+      # competency/uncertainty tests silently skip.
+      - name: Competency-question tests (pytest)
+        run: |
+          uv run --with pytest --with pyyaml --with pyshacl --with rdflib \
+            --with pandas --with openpyxl --with requests --with polars \
+            --with owlrl python -m pytest --tb=line
+
+  release:
+    # Only on a version tag, and only after validation passes. The release is the
+    # product: the two served Fuseki datasets (baseline + query-optimized), each
+    # merged to one Turtle file and named by this tag, plus a content-hash manifest.
+    needs: validate
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Assemble + verify release assets
+        run: uv run scripts/ci_release_assets.py --out dist/ --version "${{ github.ref_name }}"
+
+      - name: Write release notes
+        run: |
+          cat > dist/RELEASE_NOTES.md <<EOF
+          Validated ontology datasets for the paper *A Semantic Knowledge Graph for
+          Mapping Composition and Recoverability of End-of-Life Products*.
+
+          Two self-contained Turtle datasets (load into Fuseki, \`rdflib\`, or any
+          triple store — no builder required):
+
+          - \`futuram-baseline-${{ github.ref_name }}.ttl\` — the **baseline** composition dataset
+          - \`futuram-query-optimized-${{ github.ref_name }}.ttl\` — the **query-optimized** dataset
+
+          \`manifest.json\` carries the version, per-asset sha256, and triple counts.
+
+          Browse the benchmark: https://bogabiborka.github.io/futuram-ontology/
+          EOF
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/*.ttl
+            dist/manifest.json
+          body_path: dist/RELEASE_NOTES.md

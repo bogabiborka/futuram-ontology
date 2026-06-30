@@ -1,0 +1,12 @@
+# Aluminium in a diesel Clio-class car (segment B diesel), 2025.
+# total = itemMass * fraction; uncertainty = RSS of (relUnc * itemMass * fraction).
+PREFIX fq:      <https://www.purl.org/futuram/query#>
+PREFIX futuram: <https://www.purl.org/futuram#>
+PREFIX afn:     <http://jena.apache.org/ARQ/function#>
+SELECT (SUM(?kg) AS ?total) (afn:sqrt(SUM(?sig*?sig)) AS ?unc) WHERE {
+  SELECT (?m*?f AS ?kg) (?ru*?m*?f AS ?sig) WHERE {
+    futuram:V0201020102_Y2025 fq:itemMass ?m ;
+        fq:contains [ fq:constituent futuram:Aluminium ;
+                      fq:amount ?f ; fq:relativeUncertainty ?ru ] .
+  }
+}

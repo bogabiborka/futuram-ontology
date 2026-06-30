@@ -1,0 +1,73 @@
+id: "10_component_ceiling"
+title: "coarse ceiling at the COMPONENT level (fans out)"
+note: "the coarse statement motor->Cu = 0.30 caps copper WITHIN the motor; the granular motor->winding->Cu accounts for 0.20, so unknown = 0.10 INSIDE the motor (the unknown is a motor-level unknownMaterial, NOT a car-level unknownComponent). Proves reconciliation works at the component level, not only product/element."
+
+provenance:
+  source: "FutuRaM composition datasheet (test)"
+  agent: "FutuRaM test organisation"
+  production: "forming"
+  validFrom: "2020-01-01"
+  validUntil: "2026-12-31"
+
+nodes:
+  car: {level: Product, class: V0301030105_Y2020, itemMass: 1000.0}
+  motor: {level: Component, class: elvElectricMotor_Y2020, itemMass: 50.0}
+  harness: {level: Component, class: wiringHarness_Y2020, itemMass: 50.0}
+  winding: {level: Material, class: pureCu}
+  steel: {level: Material, class: steelAndSteelAlloys}
+  cuwire: {level: Material, class: pureCu}
+  sheath: {level: Material, class: thermoplastics}
+  cu: {level: Element, class: Copper}
+  ni: {level: Element, class: Nickel}
+  fe: {level: Element, class: Iron}
+  c: {level: Element, class: Carbon}
+
+statements:
+  # car fans out into two components
+- {whole: car, part: motor, best: 0.5, lo: 0.5, hi: 0.5, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: car, part: harness, best: 0.5, lo: 0.5, hi: 0.5, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+  # motor fans into materials; granular Cu-in-motor via winding = 0.20
+- {whole: motor, part: winding, best: 0.2, lo: 0.2, hi: 0.2, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: motor, part: steel, best: 0.6, lo: 0.6, hi: 0.6, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: winding, part: cu, best: 1.0, lo: 1.0, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}         # motor->winding->Cu = 0.2*1.0 = 0.20
+- {whole: steel, part: fe, best: 1.0, lo: 1.0, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+  # harness fans into materials (its own copper, separate from the motor ceiling)
+- {whole: harness, part: cuwire, best: 0.6, lo: 0.6, hi: 0.6, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: harness, part: sheath, best: 0.4, lo: 0.4, hi: 0.4, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: cuwire, part: cu, best: 1.0, lo: 1.0, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: sheath, part: c, best: 1.0, lo: 1.0, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+  # COARSE at component level: motor -> Cu = 0.30 (caps copper in the motor)
+  # granular motor-Cu = 0.20 -> unknown 0.10 INSIDE the motor
+- {whole: motor, part: cu, best: 0.3, lo: 0.3, hi: 0.3, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+subclass_of:
+  V0301030105_Y2020:
+  - V0301030105
+  - elvBEV_Y2020
+  elvElectricMotor_Y2020:
+  - elvElectricMotor
+  wiringHarness_Y2020:
+  - wiringHarness
+  elvBEV_Y2020:
+  - elvBEV
+class_time:
+  V0301030105_Y2020:
+    year: 2020
+    slices:
+    - parent: V0301030105
+      axis: year-slice-mean
+  elvElectricMotor_Y2020:
+    year: 2020
+    slices:
+    - parent: elvElectricMotor
+      axis: year-slice-mean
+  wiringHarness_Y2020:
+    year: 2020
+    slices:
+    - parent: wiringHarness
+      axis: year-slice-mean
+  elvBEV_Y2020:
+    year: 2020
+    strategy: equal-subclass-mean
+    slices:
+    - parent: elvBEV
+      axis: year-slice-mean

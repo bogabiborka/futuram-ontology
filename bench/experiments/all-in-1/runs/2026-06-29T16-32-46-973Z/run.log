@@ -1,0 +1,52 @@
+# llm:   ollama:minimax-m3:cloud (from --model)
+# mcp:   http://bench-mcp:8888/
+# backends: ['fq', 'composition']
+# endpoints: {"fq": "http://bench-fuseki:3030/query/sparql", "composition": "http://bench-fuseki:3030/composition/sparql"}
+# cases: 14
+
+# live transcripts -> /repo/bench/experiments/all-in-1/runs/2026-06-29T16-32-46-973Z  (observer reads BENCH_LIVE_DIR; this is the canonical default)
+# MCP tools: ['get_classes_schema', 'get_resources_info', 'list_skills', 'find_candidate_classes', 'get_skill', 'search_sparql_docs', 'execute_sparql_query']
+# skills: ENABLED (list_skills/get_skill present)
+# transcripts -> /repo/bench/experiments/all-in-1/runs/2026-06-29T16-32-46-973Z/transcripts.zip (zip)
+
+
+#### BACKEND: fq (14 case(s)) ####
+
+# injected main skill `fq` (8850 chars)
+== al_diesel_clioclass_2025__valunc: What is the theoretical total mass of aluminum contained in a similar category car like a diesel Renault Clio produced in 2025?
+      [fq] a1 step 0 -> get_skill({"skill_id": "resolve-class", "endpoint_url": "http://bench-fuseki:3030/query/sparql"})
+      [fq] a1 step 0 -> search_sparql_docs({"question": "diesel Renault Clio 2025 aluminum mass", "potential_classes": ["Renault Clio", "diesel passenger car", "aluminum", "car 2025"], "steps": ["resolv…)
+      [fq] a1 step 0 -> get_skill({"skill_id": "writing-sparql", "endpoint_url": "http://bench-fuseki:3030/query/sparql"})
+      [fq] a1 step 1 -> execute_sparql_query({"endpoint_url": "http://bench-fuseki:3030/query/sparql"}, "sparql_query": 'PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX owl:  <http://www.w3.org/2002/07/owl#>\nPREFIX fq:   <https://www.purl.org/futuram/query#>\nSELECT DISTINCT ?cls ?label ?comment WHERE {\n  ?cls a owl:Class .\n  OPTIONAL { ?cls rdfs:label   ?label }\n  OPTIONAL { ?cls rdfs:comment ?comment }\n  FILTER( CONTAINS(LCASE(STR(?label)),   "diesel") &&\n          (CONTAINS(LCASE(STR(?label)),   "passenger car") ||\n           CONTAINS(LCASE(STR(?comment)), "diesel")) )\n}\nLIMIT 50')
+      [fq] a1 step 1 -> execute_sparql_query({"endpoint_url": "http://bench-fuseki:3030/query/sparql"}, "sparql_query": 'PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX owl:  <http://www.w3.org/2002/07/owl#>\nSELECT DISTINCT ?cls ?label ?comment WHERE {\n  ?cls a owl:Class .\n  OPTIONAL { ?cls rdfs:label   ?label }\n  OPTIONAL { ?cls rdfs:comment ?comment }\n  FILTER( CONTAINS(LCASE(STR(?label)),   "clio") ||\n          CONTAINS(LCASE(STR(?comment)), "clio") ||\n          CONTAINS(LCASE(STR(?label)),   "renault") ||\n          CONTAINS(LCASE(STR(?comment)), "renault") )\n}\nLIMIT 50')
+      [fq] a1 step 2 -> get_skill({"endpoint_url": "http://bench-fuseki:3030/query/sparql", "skill_id": "absolute-mass-fq"})
+      [fq] a1 step 2 -> execute_sparql_query({"endpoint_url": "http://bench-fuseki:3030/query/sparql"}, "sparql_query": 'PREFIX fq: <https://www.purl.org/futuram/query#>\nSELECT ?p ?o WHERE {\n  <https://www.purl.org/futuram#V0201020101_Y2025> ?p ?o .\n} LIMIT 200')
+      [fq] a1 step 2 -> execute_sparql_query({"endpoint_url": "http://bench-fuseki:3030/query/sparql"}, "sparql_query": 'PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX owl:  <http://www.w3.org/2002/07/owl#>\nPREFIX fq:   <https://www.purl.org/futuram/query#>\nSELECT DISTINCT ?cls ?label ?comment WHERE {\n  ?cls a owl:Class .\n  OPTIONAL { ?cls rdfs:label   ?label }\n  OPTIONAL { ?cls rdfs:comment ?comment }\n  FILTER( CONTAINS(LCASE(STR(?label)),   "aluminium") ||\n          CONTAINS(LCASE(STR(?label)),   "aluminum") ||\n          CONTAINS(LCASE(STR(?comment)), "aluminium") ||\n          CONTAINS(LCASE(STR(?comment)), "aluminum") )\n}\nLIMIT 50')
+      [fq] re-prompting (attempt 1): Your previous reply had no valid `ANSWER:` line. You MUST ru…
+      [fq] a2 step 0 -> list_skills({"endpoint_url": "http://bench-fuseki:3030/query/sparql"})
+      [fq] a2 step 0 -> search_sparql_docs({"question": "diesel Renault Clio 2025 aluminum mass", "potential_classes": ["Renault Clio", "diesel passenger car", "aluminum"], "steps": [], "endpoint_url": …)
+   … fq case failed (ProviderUnavailable: chat failed: Post "https://ollama.com:443/api/chat?ts=1782751767": read tcp 10.1) — retry 1 in 30s after the system recovers (will keep retrying)
+# llm:   ollama:minimax-m3:cloud (from --model)
+# mcp:   http://bench-mcp:8888/
+# backends: ['fq', 'composition']
+# endpoints: {"fq": "http://bench-fuseki:3030/query/sparql", "composition": "http://bench-fuseki:3030/composition/sparql"}
+# cases: 14
+
+# --continue: 0 case(s) already done, will skip them
+# live transcripts -> /repo/bench/experiments/all-in-1/runs/2026-06-29T16-32-46-973Z  (observer reads BENCH_LIVE_DIR; this is the canonical default)
+# MCP tools: ['get_classes_schema', 'get_resources_info', 'list_skills', 'find_candidate_classes', 'get_skill', 'search_sparql_docs', 'execute_sparql_query']
+# skills: ENABLED (list_skills/get_skill present)
+# transcripts -> /repo/bench/experiments/all-in-1/runs/2026-06-29T16-32-46-973Z/transcripts.zip (zip)
+
+
+#### BACKEND: fq (14 case(s)) ####
+
+# injected main skill `fq` (8850 chars)
+== al_diesel_clioclass_2025__valunc: What is the theoretical total mass of aluminum contained in a similar category car like a diesel Renault Clio produced in 2025?
+   … fq case failed (ProviderUnavailable: chat failed: Post "https://ollama.com:443/api/chat?ts=1782753488": dial tcp: loo) — retry 1 in 30s after the system recovers (will keep retrying)
+   … system still not healthy; waiting 30s more
+   … system still not healthy; waiting 30s more
+   … system still not healthy; waiting 30s more
+   … system still not healthy; waiting 30s more
+   … system still not healthy; waiting 30s more
+   … system still not healthy; waiting 30s more

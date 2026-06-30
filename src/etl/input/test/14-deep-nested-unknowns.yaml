@@ -1,0 +1,88 @@
+id: "14_deep_nested_unknowns"
+title: "deep nested chain with unknowns at EVERY layer (silver)"
+note: |
+  A deep chain car -> powertrain (subproduct) -> motor -> stator (subcomponent)
+  -> winding -> ag, with fan-out (>=2 children) at every non-leaf level, and a
+  COARSE silver bound at FOUR depths (stator, motor, powertrain, car), each above
+  the granular silver reaching it. The silver unknown therefore splits into a
+  STACK of disjoint chains by depth:
+    known      : car->powertrain->motor->stator->winding->ag      = 0.10
+    stator     : car->powertrain->motor->stator->unknownMaterial->ag        (stator coarse - known under stator)
+    motor      : car->powertrain->motor->unknownComponent->unknownMaterial->ag   (motor coarse - stator coarse)
+    powertrain : car->powertrain->unknownComponent->unknownComponent->unknownMaterial->ag  (pt coarse - motor coarse)
+    car        : car->unknownComponent->unknownComponent->unknownComponent->unknownMaterial->ag  (car coarse - pt coarse)
+  ALL the unknown nodes are absent from the Turtle; the pipeline must derive them.
+  The disjoint chains (known + every layer) must sum to the car coarse total.
+
+provenance:
+  source: "FutuRaM composition datasheet (test)"
+  agent: "FutuRaM test organisation"
+  production: "forming"
+  validFrom: "2020-01-01"
+  validUntil: "2026-12-31"
+
+nodes:
+  car: {level: Product, class: V0301030105_Y2020, itemMass: 1000.0}
+  powertrain: {level: Product, class: elvBEV_Y2020, itemMass: 1000.0}
+  chassis: {level: Product, class: elvBEV_Y2020, itemMass: 1000.0} # fan-out at car
+  motor: {level: Component, class: elvElectricMotor_Y2020, itemMass: 50.0}
+  inverter: {level: Component, class: elvPowerElectronics_Y2020, itemMass: 50.0} # fan-out at powertrain
+  stator: {level: Component, class: elvElectricMotor_Y2020, itemMass: 50.0}
+  rotor: {level: Component, class: elvElectricMotor_Y2020, itemMass: 50.0} # fan-out at motor
+  winding: {level: Material, class: AgAndAgAlloys}             # silver winding (known path)
+  laminate: {level: Material, class: steelAndSteelAlloys}      # fan-out at stator
+  ag: {level: Element, class: Silver}
+  cu: {level: Element, class: Copper}
+  fe: {level: Element, class: Iron}
+  c: {level: Element, class: Carbon}
+
+statements:
+  # --- structural chain with fan-out at every level (point values) ---
+- {whole: car, part: powertrain, best: 0.5, lo: 0.5, hi: 0.5, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: car, part: chassis, best: 0.4, lo: 0.4, hi: 0.4, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: powertrain, part: motor, best: 0.5, lo: 0.5, hi: 0.5, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: powertrain, part: inverter, best: 0.3, lo: 0.3, hi: 0.3, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: motor, part: stator, best: 0.5, lo: 0.5, hi: 0.5, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: motor, part: rotor, best: 0.4, lo: 0.4, hi: 0.4, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: stator, part: winding, best: 0.4, lo: 0.4, hi: 0.4, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: stator, part: laminate, best: 0.5, lo: 0.5, hi: 0.5, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+  # winding -> 2 elements; known silver = 0.5*0.5*0.5*0.4*1.0 = 0.05
+- {whole: winding, part: ag, best: 1.0, lo: 1.0, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: laminate, part: fe, best: 1.0, lo: 1.0, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: stator, part: ag, best: 0.5, lo: 0.50, hi: 0.50, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}             # stator-level unknown = 0.50-0.40 = 0.10
+  # granular Ag in motor    = motor->stator->winding->ag = 0.5*0.4 = 0.20 (known);
+  #   but stator coarse already covers 0.50 of stator-silver -> motor sees 0.5*0.50 = 0.25 via stator
+- {whole: motor, part: ag, best: 0.4, lo: 0.40, hi: 0.40, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}              # motor-level unknown = 0.40 - 0.25 = 0.15
+- {whole: powertrain, part: ag, best: 0.3, lo: 0.30, hi: 0.30, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}         # pt-level unknown   = 0.30 - 0.5*0.40 = 0.10
+- {whole: car, part: ag, best: 0.2, lo: 0.20, hi: 0.20, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}                # car-level unknown  = 0.20 - 0.5*0.30 = 0.05
+subclass_of:
+  V0301030105_Y2020:
+  - V0301030105
+  - elvBEV_Y2020
+  elvBEV_Y2020:
+  - elvBEV
+  elvElectricMotor_Y2020:
+  - elvElectricMotor
+  elvPowerElectronics_Y2020:
+  - elvPowerElectronics
+class_time:
+  V0301030105_Y2020:
+    year: 2020
+    slices:
+    - parent: V0301030105
+      axis: year-slice-mean
+  elvBEV_Y2020:
+    year: 2020
+    slices:
+    - parent: elvBEV
+      axis: year-slice-mean
+  elvElectricMotor_Y2020:
+    year: 2020
+    slices:
+    - parent: elvElectricMotor
+      axis: year-slice-mean
+  elvPowerElectronics_Y2020:
+    year: 2020
+    slices:
+    - parent: elvPowerElectronics
+      axis: year-slice-mean

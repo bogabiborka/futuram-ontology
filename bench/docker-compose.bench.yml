@@ -1,0 +1,227 @@
+# Benchmark stack — fq vs composition, head to head.
+#
+# Brings up ONE triplestore that serves BOTH vocabularies of the SAME data (the
+# futuram datasource — the real ELV fleet, full-CSV ETL output):
+#   /query/sparql        query-optimized fq: dataset           (the fq backend)
+#   /composition/sparql  baseline composition futuram: dataset (the composition backend)
+# plus Qdrant and a sparql-llm MCP server whose index covers BOTH backends, each
+# with its OWN VoID + examples (settings.bench.json). The Ollama agent loop
+# (bench/run_bench.py) connects to this MCP server and picks the endpoint per run.
+#
+# Run from the repo root (build images from the main compose once if needed):
+#   docker compose build futuram indexer mcp            # or: docker compose build
+#   docker compose -f bench/docker-compose.bench.yml up -d
+#
+# Then:  uv run bench/run_bench.py bench/testcases/domain.yaml
+#
+# Ports are deliberately DISTINCT from the default stack so both can coexist:
+#   bench Fuseki   :47040   (default futuram is :47031)
+#   bench Qdrant   :47343   (default is :47333)
+#   bench MCP      :47898   (default is :47888)
+
+services:
+  # One-shot: refresh the GENERATED artifacts that live alongside the data in the
+  # single source-of-truth dirs (query/ and composition/) from their CANONICAL
+  # ontology/tbox sources, then materialise the rdf:type subclass closure (the TDB2
+  # store has no reasoner) so `?inst a futuram:Product` both RETURNS data and passes
+  # schema validation. After the overlay fold there is ONE dir per backend (no
+  # *-bench overlay, no separate named graph); these files are committed under
+  # query/ and composition/ and this step just regenerates them in place. Runs
+  # before Fuseki. Deterministic + regenerable; the dirs are mounted read-write.
+  bench-materialize:
+    build:
+      context: ..
+      dockerfile: sparql-llm/Dockerfile
+    image: futuram-sparql-llm:latest
+    container_name: futuram-bench-materialize
+    entrypoint: ["bash", "-lc"]
+    command:
+      - |
+        set -e
+        # Refresh the FutuRaM TBox + FutuRaM->ChEBI element bridge from CANONICAL
+        # ontology/tbox sources into BOTH served dirs (composition serves the full
+        # reified shape; query serves the query-optimized fq: dataset + the ChEBI bridge so it
+        # classifies elements the same way).
+        cp /repo/ontology/tbox/futuram-chebi-bridge.ttl  /repo/composition/chebi-element-bridge.ttl
+        cp /repo/ontology/tbox/futuram-hierarchy.ttl     /repo/composition/tbox-futuram-hierarchy.ttl
+        cp /repo/ontology/tbox/composition-statement.ttl /repo/composition/tbox-composition-statement.ttl
+        # External-ontology alignment bridges (one home each: <onto>-futuram-bridge.ttl).
+        cp /repo/ontology/tbox/apollo-futuram-bridge.ttl /repo/composition/apollo-futuram-bridge.ttl
+        cp /repo/ontology/tbox/ceon-futuram-bridge.ttl   /repo/composition/ceon-futuram-bridge.ttl
+        cp /repo/ontology/tbox/emmo-futuram-bridge.ttl   /repo/composition/emmo-futuram-bridge.ttl
+        cp /repo/ontology/tbox/prov-futuram-bridge.ttl   /repo/composition/prov-futuram-bridge.ttl
+        cp /repo/ontology/tbox/futuram-chebi-bridge.ttl  /repo/query/chebi-element-bridge.ttl
+        # ChEBI module is a ROBOT/extract artifact built from ontology/sources by
+        # scripts/extract_chebi_module.sh (pre-staged + committed under the served
+        # dirs; regenerate with OUT_DIR=fuseki/futuram/data/composition). Mirror it
+        # into query/ so the query-optimized fq: dataset classifies elements too.
+        cp /repo/composition/chebi-module.ttl /repo/query/chebi-module.ttl
+        # Materialise the rdf:type subclass closure into the composition dir.
+        python /repo/bench/materialize_types.py /repo/composition \
+          -o /repo/composition/tbox-materialized-types.ttl
+    volumes:
+      - ./materialize_types.py:/repo/bench/materialize_types.py:ro
+      - ../ontology:/repo/ontology:ro                                     # canonical sources
+      - ../fuseki/futuram/data/composition:/repo/composition               # served dir (read-write)
+      - ../fuseki/futuram/data/query:/repo/query                           # served dir (read-write)
+    restart: "no"
+
+  bench-fuseki:
+    build:
+      context: ..
+      dockerfile: fuseki/Dockerfile
+    image: futuram-fuseki:latest
+    container_name: futuram-bench-fuseki
+    ports:
+      - "47040:3030"
+    environment:
+      ADMIN_PASSWORD: ${FUSEKI_ADMIN_PASSWORD:-admin}
+      JVM_ARGS: ${FUSEKI_JVM_ARGS:--Xmx1g}
+      RELOAD: ${RELOAD:-0}
+      # Single source-of-truth dir per backend now: composition/ holds the reified
+      # statements + TBox + materialised types + ChEBI module/bridge + criticality;
+      # query/ holds the query-optimized fq: dataset + ChEBI module/bridge + criticality. No
+      # EXTRA_*_DIRS overlay and no separate bench-overlay named graph — the
+      # entrypoint loads each dataset from its one dir.
+    volumes:
+      - ../fuseki/futuram/data:/staging:ro       # composition, query (one dir each)
+      - bench_tdb:/fuseki-base/databases
+    depends_on:
+      bench-materialize: { condition: service_completed_successfully }
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O-", "http://localhost:3030/composition/sparql?query=ASK%7B%7D"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+  bench-vectordb:
+    image: qdrant/qdrant:latest
+    container_name: futuram-bench-qdrant
+    ports:
+      - "47343:6333"
+    volumes:
+      - bench_qdrant:/qdrant/storage
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c ':> /dev/tcp/127.0.0.1/6333'"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+  # Regenerate BOTH VoID files from the actual served graphs (pure introspection).
+  # fq VoID from /query staging (scripts/gen_void.py); composition VoID from
+  # /composition staging (bench/gen_void_composition.py, folding TBox labels).
+  bench-void-gen:
+    build:
+      context: ..
+      dockerfile: sparql-llm/Dockerfile
+    image: futuram-sparql-llm:latest
+    container_name: futuram-bench-void-gen
+    env_file:
+      - ../sparql-llm/.env
+    entrypoint: ["bash", "-lc"]
+    command:
+      - |
+        set -e
+        python /repo/scripts/gen_void.py \
+          /repo/fuseki/futuram/data/query \
+          -o /repo/out/futuram_void.ttl
+        python /repo/bench/gen_void_composition.py \
+          /repo/fuseki/futuram/data/composition \
+          -t /repo/ontology/tbox/composition-statement.ttl \
+          -o /repo/out/futuram_void_composition.ttl
+    volumes:
+      - ../scripts:/repo/scripts:ro
+      - ../bench:/repo/bench:ro
+      - ../ontology:/repo/ontology:ro
+      - ../fuseki/futuram/data/query:/repo/fuseki/futuram/data/query:ro
+      - ../fuseki/futuram/data/composition:/repo/fuseki/futuram/data/composition:ro
+      - bench_void:/repo/out                     # generated VoID lands here
+    restart: "no"
+
+  bench-indexer:
+    image: futuram-sparql-llm:latest
+    container_name: futuram-bench-indexer
+    env_file:
+      - ../sparql-llm/.env
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      OLLAMA_HOST: ${OLLAMA_HOST:-http://host.docker.internal:11434}
+      SETTINGS_FILEPATH: /app/sparql-llm/settings.bench.json
+      VECTORDB_URL: http://bench-vectordb:6333
+      DOCS_COLLECTION_NAME: futuram_bench        # OWN collection — never touches "expasy"
+      FORCE_INDEX: "true"                        # rebuild the bench collection on up
+    volumes:
+      - ./settings.bench.json:/app/sparql-llm/settings.bench.json:ro
+      - ./futuram_examples_composition.ttl:/app/sparql-llm/futuram_examples_composition.ttl:ro
+      - ../sparql-llm/futuram_examples.ttl:/app/sparql-llm/futuram_examples.ttl:ro
+      - bench_void:/app/sparql-llm/_void:ro       # the generated VoID (see command)
+    # symlink the generated VoID into the paths settings.bench.json points at,
+    # then index. (The VoID is generated by bench-void-gen into the volume.)
+    entrypoint: ["bash", "-lc"]
+    command:
+      - |
+        set -e
+        cp /app/sparql-llm/_void/futuram_void.ttl /app/sparql-llm/futuram_void.ttl
+        cp /app/sparql-llm/_void/futuram_void_composition.ttl /app/sparql-llm/futuram_void_composition.ttl
+        python -m sparql_llm.indexing.index_resources
+    depends_on:
+      bench-vectordb: { condition: service_healthy }
+      bench-fuseki: { condition: service_healthy }
+      bench-void-gen: { condition: service_completed_successfully }
+    restart: "no"
+
+  bench-mcp:
+    image: futuram-sparql-llm:latest
+    container_name: futuram-bench-mcp
+    env_file:
+      - ../sparql-llm/.env
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      OLLAMA_HOST: ${OLLAMA_HOST:-http://host.docker.internal:11434}
+      SETTINGS_FILEPATH: /app/sparql-llm/settings.bench.json
+      VECTORDB_URL: http://bench-vectordb:6333
+      DOCS_COLLECTION_NAME: futuram_bench         # same OWN collection the indexer built
+      AUTO_INIT: "false"                          # indexer already built the collection
+      FASTMCP_HOST: 0.0.0.0                        # bind all interfaces so :47898 reaches it
+      FASTMCP_PORT: "8888"
+      # the observer runs run_bench INSIDE the network and reaches us by service
+      # name (http://bench-mcp:8888); the transport's DNS-rebinding guard would
+      # 421 that Host header, so trust the compose network (local bench tool).
+      FASTMCP_ALLOWED_HOSTS: "*"
+      BENCH_SKILLS_DIR: /app/bench/skills          # skill files -> MCP prompts
+      # Full JSONL log of EVERY execute_sparql_query (incl. failures) — written to
+      # the mounted ./_query_logs host dir so it survives + is analyzable. Both the
+      # chatbot and the bench run through this tool, so both are captured.
+      BENCH_QUERY_LOG: /app/out/query_log.jsonl
+    ports:
+      - "47898:8888"
+    volumes:
+      - ./settings.bench.json:/app/sparql-llm/settings.bench.json:ro
+      - ./futuram_examples_composition.ttl:/app/sparql-llm/futuram_examples_composition.ttl:ro
+      - ../sparql-llm/futuram_examples.ttl:/app/sparql-llm/futuram_examples.ttl:ro
+      - ./mcp_with_skills.py:/app/bench/mcp_with_skills.py:ro
+      - ./skills:/app/bench/skills:ro
+      - ./_query_logs:/app/out                     # JSONL query log lands here (host)
+      - bench_void:/app/sparql-llm/_void:ro
+    entrypoint: ["bash", "-lc"]
+    command:
+      - |
+        set -e
+        cp /app/sparql-llm/_void/futuram_void.ttl /app/sparql-llm/futuram_void.ttl
+        cp /app/sparql-llm/_void/futuram_void_composition.ttl /app/sparql-llm/futuram_void_composition.ttl
+        # Start the streamable-http MCP server bound to 0.0.0.0 (the upstream cli
+        # leaves FastMCP on 127.0.0.1) AND register the skill files as MCP
+        # prompts (bench/mcp_with_skills.py imports the configured `mcp` object).
+        exec python /app/bench/mcp_with_skills.py
+    depends_on:
+      bench-indexer: { condition: service_completed_successfully }
+    restart: unless-stopped
+
+volumes:
+  bench_tdb:
+  bench_qdrant:
+  bench_void:

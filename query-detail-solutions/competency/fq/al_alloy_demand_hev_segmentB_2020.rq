@@ -1,0 +1,15 @@
+# Aluminium demand by Al-alloy type in a B-segment HEV, 2020.
+# The Al alloys form a declared family: every alloy IS-A (rdfs:subClassOf*) the
+# family class AlAndAlAlloys. Select that subtree structurally (no list) and keep
+# the ones the vehicle actually contains. The process intermediates
+# (sheet/wrought/...) are in the subtree too but carry no constituent amount, so
+# they contribute no row. kg = itemMass * fraction.
+PREFIX fq:      <https://www.purl.org/futuram/query#>
+PREFIX futuram: <https://www.purl.org/futuram#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?key (?m*?f AS ?kg) WHERE {
+  futuram:V0401010102_Y2020 fq:itemMass ?m ;
+      fq:contains [ fq:constituent ?key ; fq:amount ?f ] .
+  ?key rdfs:subClassOf* futuram:AlAndAlAlloys .
+}
+ORDER BY DESC(?kg)

@@ -1,0 +1,40 @@
+# Isolation bench for the two recycling-route questions: SI competency Q9
+# (crm_recovered_embedded_electronics_std_bev_2025) and Q10 (cu_recovery_from_car).
+# Run this file to test these two cases in isolation without the full domain suite.
+cases:
+  # SI competency Q9 (para 280-281). Full answer: quantities + uncertainties + routes.
+  # Cu+Pd recovered via SmeltRefine; Al via ElectrolysisRemeltRefine.
+  - id: crm_recovered_embedded_electronics_std_bev_2025
+    question: 'List the potential recycling routes in case of the embedded electronics in standard, battery-electric vehicle from 2025, together with the quantities of critical raw materials recovered, including both mean values and associated uncertainties.'
+    source: 'SI competency Q9 (recycling routes, para 280-281)'
+    score_uncertainty: true
+    expected:
+      unit: kg
+      values:
+        "https://www.purl.org/futuram#Copper": 11.58
+        "https://www.purl.org/futuram#Aluminium": 0.980439
+        "https://www.purl.org/futuram#Palladium": 0.001995
+      uncertainty:
+        "https://www.purl.org/futuram#Copper": 1.38
+        "https://www.purl.org/futuram#Aluminium": 0.091
+        "https://www.purl.org/futuram#Palladium": 0.000243
+      routes:
+        "https://www.purl.org/futuram#Copper":    "https://purl.org/metalwheel#smelt_refine"
+        "https://www.purl.org/futuram#Aluminium": "https://purl.org/metalwheel#electrolysis_remelt_refine"
+        "https://www.purl.org/futuram#Palladium": "https://purl.org/metalwheel#smelt_refine"
+
+  # SI competency Q10 (para 57-58). Membership answer: the recovery-process class IRIs
+  # through which copper is recovered from a car.
+  # SI: "Cu recovery via smelt, refine. Additionally … such as in case of Pb and Zn."
+  # SmeltRefine = Cu's own targeted route. RLESmeltFumeRefine = Pb+Zn base-metal
+  # All processes where Cu is TargetedElement or MainlyRecoveredElement in the metal-wheel data.
+  # smelt_refine = Cu own route; roast-leach = Pb+Zn base metals; smelt_fume_refine = Sn.
+  - id: cu_recovery_from_car
+    question: 'How can copper be recovered from a car?'
+    source: 'SI competency Q10 (SI doc para 57-58); process class IRIs from metalwheel TBox'
+    expected:
+      unit: ''
+      names:
+        - "https://purl.org/metalwheel#smelt_refine"                                   # Cu own route (TargetedElement)
+        - "https://purl.org/metalwheel#roast-leach_electrowinning_RLE_smeltfumerefine" # Pb+Zn routes (MainlyRecoveredElement)
+        - "https://purl.org/metalwheel#smelt_fume_refine"                              # Sn route (MainlyRecoveredElement)

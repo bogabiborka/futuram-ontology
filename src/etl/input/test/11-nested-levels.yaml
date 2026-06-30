@@ -1,0 +1,75 @@
+id: "11_nested_levels"
+title: "nested sub-product and sub-component (fans out)"
+note: "product -> subproduct -> component -> subcomponent -> material -> element, with fan-out (>=2 children) at every non-leaf level. Tests that Product and Component levels may REPEAT/nest (pattern (Product)+ (Component)+ Material Element), with exactly one Material and Element at the bottom of each chain."
+
+provenance:
+  source: "FutuRaM composition datasheet (test)"
+  agent: "FutuRaM test organisation"
+  production: "forming"
+  validFrom: "2020-01-01"
+  validUntil: "2026-12-31"
+
+nodes:
+  car: {level: Product, class: V0301030105_Y2020, itemMass: 1000.0}
+  powertrain: {level: Product, class: elvBEV_Y2020, itemMass: 1000.0} # sub-product
+  chassis: {level: Product, class: elvBEV_Y2020, itemMass: 1000.0} # second sub-product (fan-out)
+  motor: {level: Component, class: elvElectricMotor_Y2020, itemMass: 50.0}
+  inverter: {level: Component, class: elvPowerElectronics_Y2020, itemMass: 50.0} # 2nd component
+  stator: {level: Component, class: elvElectricMotor_Y2020, itemMass: 50.0} # sub-component
+  rotor: {level: Component, class: elvElectricMotor_Y2020, itemMass: 50.0} # 2nd sub-component
+  winding: {level: Material, class: pureCu}
+  laminate: {level: Material, class: steelAndSteelAlloys}
+  cu: {level: Element, class: Copper}
+  ni: {level: Element, class: Nickel}
+  fe: {level: Element, class: Iron}
+  c: {level: Element, class: Carbon}
+
+statements:
+  # car -> 2 sub-products
+- {whole: car, part: powertrain, best: 0.4, lo: 0.4, hi: 0.4, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: car, part: chassis, best: 0.5, lo: 0.5, hi: 0.5, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+  # powertrain -> 2 components
+- {whole: powertrain, part: motor, best: 0.5, lo: 0.5, hi: 0.5, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: powertrain, part: inverter, best: 0.3, lo: 0.3, hi: 0.3, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+  # motor -> 2 sub-components
+- {whole: motor, part: stator, best: 0.5, lo: 0.5, hi: 0.5, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: motor, part: rotor, best: 0.4, lo: 0.4, hi: 0.4, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+  # stator -> 2 materials
+- {whole: stator, part: winding, best: 0.3, lo: 0.3, hi: 0.3, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: stator, part: laminate, best: 0.6, lo: 0.6, hi: 0.6, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+  # materials -> 2 elements
+- {whole: winding, part: cu, best: 0.98, lo: 0.98, hi: 0.98, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: winding, part: ni, best: 0.02, lo: 0.02, hi: 0.02, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: laminate, part: fe, best: 0.99, lo: 0.99, hi: 0.99, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: laminate, part: c, best: 0.01, lo: 0.01, hi: 0.01, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+subclass_of:
+  V0301030105_Y2020:
+  - V0301030105
+  - elvBEV_Y2020
+  elvBEV_Y2020:
+  - elvBEV
+  elvElectricMotor_Y2020:
+  - elvElectricMotor
+  elvPowerElectronics_Y2020:
+  - elvPowerElectronics
+class_time:
+  V0301030105_Y2020:
+    year: 2020
+    slices:
+    - parent: V0301030105
+      axis: year-slice-mean
+  elvBEV_Y2020:
+    year: 2020
+    slices:
+    - parent: elvBEV
+      axis: year-slice-mean
+  elvElectricMotor_Y2020:
+    year: 2020
+    slices:
+    - parent: elvElectricMotor
+      axis: year-slice-mean
+  elvPowerElectronics_Y2020:
+    year: 2020
+    slices:
+    - parent: elvPowerElectronics
+      axis: year-slice-mean

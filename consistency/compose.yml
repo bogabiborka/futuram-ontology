@@ -1,0 +1,26 @@
+# Optional EMMO / CEON / ChEBI consistency check (default-off, second-line).
+#
+# SHACL (src/common/pipeline.py validate()) stays the always-on first-line gate.
+# This runs only when you ask for it:
+#
+#   ELK over the full TBox + ABox, both input + output targets:
+#     docker compose -f consistency/compose.yml run --rm check
+#
+#   A single target / ad-hoc file — pass args after the service name:
+#     docker compose -f consistency/compose.yml run --rm check --target input
+#
+# The repo root is mounted at /work so the script sees the live graph and the
+# copied base ontologies under ontology/base-ontologies + ontology/term-files.
+services:
+  check:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ..:/work
+    working_dir: /work
+    environment:
+      # Lift XML entity-size limits (ChEBI module) and give the reasoner heap.
+      - ROBOT_JAVA_ARGS=-Djdk.xml.maxGeneralEntitySizeLimit=0 -Djdk.xml.totalEntitySizeLimit=0 -Xmx24g
+    entrypoint: ["uv", "run", "scripts/robot_consistency.py"]
+    command: ["--target", "both"]

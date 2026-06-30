@@ -1,0 +1,39 @@
+# Recoverable CRM quantities + recovery routes in embedded electronics, std BEV 2025.
+# The embedded-electronics scope node (partOf the vehicle, type elvEmbeddedElectronics)
+# carries itemMass and fq:contains entries. Only CRMs are kept (crit:remark flag).
+#
+# Recovery route logic: for each CRM constituent, find the metal-wheel slot where it
+# is recovered (TargetedElement or MainlyRecoveredElement) via a base metal that is
+# itself a CRM also present in the same component. This naturally handles:
+#   - Cu  via Cu's own TargetedElement slot      → mw:smelt_refine
+#   - Al  via Al's own TargetedElement slot      → mw:electrolysis_remelt_refine
+#   - Pd  via Cu's MainlyRecoveredElement slot   → mw:smelt_refine
+# No UNION or fallback needed: the base-metal join on co-present CRMs does the work.
+PREFIX fq:      <https://www.purl.org/futuram/query#>
+PREFIX futuram: <https://www.purl.org/futuram#>
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX crit:    <http://purl.org/futuram/criticality#>
+PREFIX mw:      <https://purl.org/metalwheel#>
+SELECT DISTINCT ?key (?m*?f AS ?kg) ?route WHERE {
+  # Scope: embedded electronics in std BEV 2025
+  ?node futuram:partOf futuram:V0301030000_Y2025 ;
+        rdf:type futuram:elvEmbeddedElectronics ;
+        fq:itemMass ?m ;
+        fq:contains [ fq:constituent ?key ; fq:amount ?f ] .
+  # key must be a critical element
+  ?key rdfs:subClassOf ?chebi .
+  FILTER(CONTAINS(STR(?chebi), "CHEBI"))
+  ?chebi crit:remark ?flag .
+  # Another CRM in the same component (may be the element itself for TargetedElement)
+  ?node fq:contains [ fq:constituent ?baseCrm ] .
+  ?baseCrm rdfs:subClassOf ?baseChebi .
+  FILTER(CONTAINS(STR(?baseChebi), "CHEBI"))
+  ?baseChebi crit:remark ?baseFlag .
+  # Recovery slot: this element is recovered via that base-CRM's process
+  ?chebi mw:hasRecoveryInformation ?ri .
+  ?ri mw:hasBaseMetal ?baseChebi ;
+      mw:hasExpectedRecoveryEffectiveness ?eff ;
+      mw:hasRecoveryProcess ?route .
+  FILTER(?eff IN (mw:TargetedElement, mw:MainlyRecoveredElement))
+}

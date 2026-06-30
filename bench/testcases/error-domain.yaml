@@ -1,0 +1,83 @@
+# Hand-maintained — DATA-DERIVED truths. The COMBINED domain benchmark: the union
+# of domain-competency.yaml (the SI's ten NL competency questions) and
+# domain-sparql.yaml (the four special SPARQL-query questions, SI-5/6/7 + embedded
+# controllers). This file = the two split files concatenated; the splits exist so an
+# experiment can target one half. Questions never name an ontology class; the LLM
+# must resolve them. A question whose verbatim text already asks for the ± is a
+# single uncertainty-scoring case (no __valunc twin). A "rank … in decreasing order"
+# case carries `ranked: true` (the answer order is scored). Whole = elvBEV (2249 kg).
+cases:
+- id: ree_in_motor_bev_segmentB_2025__valunc
+  question: What is the total rare earth element content (e.g., Nd, Dy,etc,) in a
+    permanent magnet-containing motor from the similar category as a battery electric
+    VW ID.3 produced in 2025?
+  source: SI competency Q (ree_in_motor_bev_segmentB_2025)
+  score_uncertainty: true
+  expected:
+    unit: kg
+    value: 0.84
+    uncertainty: 0.06
+- id: cu_distribution_bev_segmentC_2025__valunc
+  question: How is copper distributed across vehicle components (motor, wiring, electronics)
+    in case of segment C, battery electric car produced in 2025?
+  source: SI competency Q (cu_distribution_bev_segmentC_2025); "battery, " removed
+    — no battery component in the data (SI answer omits it too)
+  score_uncertainty: true
+  expected:
+    unit: kg
+    values:
+      https://www.purl.org/futuram#elvElectricMotor: 31.185
+      https://www.purl.org/futuram#elvEmbeddedElectronics: 10.43
+      https://www.purl.org/futuram#elvGeneralComponents: 3.97
+    uncertainty:
+      https://www.purl.org/futuram#elvElectricMotor: 4.5
+      https://www.purl.org/futuram#elvEmbeddedElectronics: 1.19
+      https://www.purl.org/futuram#elvGeneralComponents: 0.4
+  expected_by_backend:
+    fq:
+      unit: kg
+      values:
+        https://www.purl.org/futuram/query#elvElectricMotor_in_V0301030103_Y2025: 31.185
+        https://www.purl.org/futuram/query#elvEmbeddedElectronics_in_V0301030103_Y2025: 10.43
+        https://www.purl.org/futuram/query#elvGeneralComponents_in_V0301030103_Y2025: 3.97
+      uncertainty:
+        https://www.purl.org/futuram/query#elvElectricMotor_in_V0301030103_Y2025: 4.5
+        https://www.purl.org/futuram/query#elvEmbeddedElectronics_in_V0301030103_Y2025: 1.19
+        https://www.purl.org/futuram/query#elvGeneralComponents_in_V0301030103_Y2025: 0.4
+- id: al5xxx_by_bev_segment_2020
+  question: Rank all battery-electric type vehicles produced in 2020 according to
+    their 5xxxAlAlloy content, including both the mean value and the corresponding
+    uncertainty (standard deviation) in decreasing order.
+  source: SI-6 (5xxxAl by BEV segment, 2020)
+  score_uncertainty: true
+  ranked: true
+  expected:
+    unit: kg
+    values:
+      https://www.purl.org/futuram#V0301030206_Y2020: 127.2
+      https://www.purl.org/futuram#V0301030205_Y2020: 113.19
+      https://www.purl.org/futuram#V0301030106_Y2020: 106.0
+      https://www.purl.org/futuram#V0301030105_Y2020: 94.32
+      https://www.purl.org/futuram#V0301030204_Y2020: 75.42
+      https://www.purl.org/futuram#V0301030104_Y2020: 62.85
+      https://www.purl.org/futuram#V0301030000_Y2020: 47.06
+      https://www.purl.org/futuram#V0301030203_Y2020: 45.2
+      https://www.purl.org/futuram#V0301030103_Y2020: 37.67
+      https://www.purl.org/futuram#V0301030202_Y2020: 28.72
+      https://www.purl.org/futuram#V0301030102_Y2020: 24.98
+      https://www.purl.org/futuram#V0301030201_Y2020: 17.31
+      https://www.purl.org/futuram#V0301030101_Y2020: 15.74
+    uncertainty:
+      https://www.purl.org/futuram#V0301030206_Y2020: 22.03
+      https://www.purl.org/futuram#V0301030205_Y2020: 19.6
+      https://www.purl.org/futuram#V0301030106_Y2020: 18.36
+      https://www.purl.org/futuram#V0301030105_Y2020: 16.34
+      https://www.purl.org/futuram#V0301030204_Y2020: 13.06
+      https://www.purl.org/futuram#V0301030104_Y2020: 10.56
+      https://www.purl.org/futuram#V0301030203_Y2020: 7.82
+      https://www.purl.org/futuram#V0301030000_Y2020: 6.79
+      https://www.purl.org/futuram#V0301030103_Y2020: 6.52
+      https://www.purl.org/futuram#V0301030202_Y2020: 4.97
+      https://www.purl.org/futuram#V0301030102_Y2020: 4.33
+      https://www.purl.org/futuram#V0301030201_Y2020: 3.0
+      https://www.purl.org/futuram#V0301030101_Y2020: 2.73

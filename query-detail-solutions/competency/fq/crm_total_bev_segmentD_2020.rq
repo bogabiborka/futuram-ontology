@@ -1,0 +1,18 @@
+# Total critical raw material content of a segment D BEV, 2020.
+# CRM = constituents whose ChEBI class carries a CRITICAL criticality flag.
+# Copper IS critical (authoritative ABox); Carbon is NOT (graphite/coking-coal
+# are the CRMs, not the element) — carbon is unflagged in the criticality ABox.
+PREFIX fq:      <https://www.purl.org/futuram/query#>
+PREFIX futuram: <https://www.purl.org/futuram#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX crit:    <http://purl.org/futuram/criticality#>
+PREFIX afn:     <http://jena.apache.org/ARQ/function#>
+SELECT (SUM(?kg) AS ?total) (afn:sqrt(SUM(?sig*?sig)) AS ?unc) WHERE {
+  SELECT DISTINCT ?c (?m*?f AS ?kg) (?ru*?m*?f AS ?sig) WHERE {
+    futuram:V0301030104_Y2020 fq:itemMass ?m ;
+        fq:contains [ fq:constituent ?c ;
+                      fq:amount ?f ; fq:relativeUncertainty ?ru ] .
+    ?c rdfs:subClassOf ?chebi . FILTER(CONTAINS(STR(?chebi), "CHEBI"))
+    ?chebi crit:remark/crit:importance crit:CRITICAL .
+  }
+}

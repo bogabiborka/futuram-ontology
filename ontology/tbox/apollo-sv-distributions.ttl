@@ -1,0 +1,103 @@
+@prefix obo: <http://purl.obolibrary.org/obo/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+obo:APOLLO_SV_00000036 a owl:Class ;
+    rdfs:label "normal distribution"@en ;
+    obo:IAO_0000115 "A continuous parametric probability distribution that is uniform; centered around the mean, parameter μ​; and whose spread of standard deviations, parameter σ​, adheres to the empirical rule."@en ;
+    rdfs:subClassOf obo:APOLLO_SV_00000251 .
+
+obo:APOLLO_SV_00000078 a owl:Class ;
+    rdfs:label "beta distribution"@en ;
+    rdfs:subClassOf obo:APOLLO_SV_00000251 .
+
+obo:APOLLO_SV_00000080 a owl:Class ;
+    rdfs:label "uniform distribution"@en ;
+    rdfs:subClassOf obo:APOLLO_SV_00000251 .
+
+obo:APOLLO_SV_00000081 a owl:Class ;
+    rdfs:label "triangular distribution"@en ;
+    rdfs:subClassOf obo:APOLLO_SV_00000251 .
+
+obo:APOLLO_SV_00000082 a owl:Class ;
+    rdfs:label "Bayesian network"@en ;
+    rdfs:subClassOf obo:APOLLO_SV_00000246 .
+
+obo:APOLLO_SV_00000216 a owl:Class ;
+    rdfs:label "discrete probability distribution"@en ;
+    obo:IAO_0000115 "A probability distribution over a discrete random variable"@en ;
+    rdfs:subClassOf obo:APOLLO_SV_00000215 .
+
+obo:APOLLO_SV_00000245 a owl:Class ;
+    rdfs:label "conditional probability distribution"@en ;
+    obo:IAO_0000115 "A probability distribution of two jointly distributed random variables X and Y, where Y is know to be a particular value."@en ;
+    rdfs:subClassOf obo:APOLLO_SV_00000215 .
+
+obo:APOLLO_SV_00000250 a owl:Class ;
+    rdfs:label "discrete parametric probability distribution"@en ;
+    rdfs:subClassOf obo:APOLLO_SV_00000477 .
+
+obo:APOLLO_SV_00000252 a owl:Class ;
+    rdfs:label "discrete nonparametric probability distribution"@en ;
+    rdfs:subClassOf obo:STATO_0000321 .
+
+obo:APOLLO_SV_00000253 a owl:Class ;
+    rdfs:label "continuous nonparametric probability distribution"@en ;
+    rdfs:subClassOf obo:STATO_0000321 .
+
+obo:APOLLO_SV_00000254 a owl:Class ;
+    rdfs:label "log normal distribution"@en ;
+    obo:IAO_0000115 "A continuous parametric probability distribution that takes as its input a normally-distributed logarithmic function with mean μ and standard deviation σ."@en ;
+    rdfs:subClassOf obo:APOLLO_SV_00000251 .
+
+obo:APOLLO_SV_00000255 a owl:Class ;
+    rdfs:label "gamma distribution"@en ;
+    obo:IAO_0000115 "A gamma distribution is a two-parameter family of continuous probability distributions"@en ;
+    rdfs:subClassOf obo:APOLLO_SV_00000251 .
+
+obo:APOLLO_SV_00000256 a owl:Class ;
+    rdfs:label "Weibull Distribution"@en ;
+    obo:IAO_0000115 "A continuous parametric probability distribution that gives the distribution of lifetimes of objects. It was originally proposed to quantify fatigue data, but it is also used in analysis of systems involving a \"weakest link.\""@en ;
+    rdfs:subClassOf obo:APOLLO_SV_00000251 .
+
+obo:APOLLO_SV_00000257 a owl:Class ;
+    rdfs:label "continuous uniform distribution"@en ;
+    obo:IAO_0000115 "A continuous uniform distribution or rectangular distribution is a family of symmetric probability distributions such that for each member of the family, all intervals of the same length on the distribution's support are equally probable."@en ;
+    rdfs:subClassOf obo:APOLLO_SV_00000251 .
+
+obo:IAO_0000115 a owl:AnnotationProperty ;
+    rdfs:label "definition"@en .
+
+<https://www.purl.org/futuram/apollo-sv-distributions> a owl:Ontology ;
+    rdfs:label "APOLLO-SV probability-distribution subtree (extract)"@en ;
+    rdfs:comment "A faithful extract of the probability-distribution branch of the Apollo Structured Vocabulary (APOLLO_SV), obtained by loading apollo_sv.owl into rdflib and keeping the 'probability distribution' class (APOLLO_SV_00000215) and all classes transitively below it via rdfs:subClassOf, with their labels, IAO definitions and subClassOf edges. Used as the value vocabulary for futuram:hasDistribution so each composition statement's Monte-Carlo distribution kind (triangular, continuous uniform, normal, log-normal, ...) is a class from a standard ontology rather than a bespoke enumeration. Source: http://purl.obolibrary.org/obo/apollo_sv.owl (CC-BY)."@en ;
+    owl:imports obo:apollo_sv.owl .
+
+obo:APOLLO_SV_00000246 a owl:Class ;
+    rdfs:label "joint probability distribution"@en ;
+    obo:IAO_0000115 "In the study of probability, given at least two random variables X, Y, ..., that are defined on a probability space, the joint probability distribution for X, Y, ... is a probability distribution that gives the probability that each of X, Y, ... falls in any particular range or discrete set of values specified for that variable."@en ;
+    rdfs:subClassOf obo:APOLLO_SV_00000215 .
+
+obo:APOLLO_SV_00000247 a owl:Class ;
+    rdfs:label "unconditional probability distribution"@en ;
+    obo:IAO_0000115 "An unconditional probability distribution is the probability distribution of an uncertain variable, U, implicitly incorporating the uncertainty introduced by any other relevant variables. Mathematically, U’s unconditional probability distribution is written {U | E}, where E represents the background state of information under which the distribution is assessed."@en ;
+    rdfs:subClassOf obo:APOLLO_SV_00000215 .
+
+obo:APOLLO_SV_00000477 a owl:Class ;
+    rdfs:label "parametric probability distribution"@en ;
+    obo:IAO_0000115 "A probability distribution where the probability of each outcome is the range of a function (whose domain is the outcomes) that is calculated using one or more constant values (called parameters)."@en ;
+    rdfs:subClassOf obo:APOLLO_SV_00000215 .
+
+obo:STATO_0000321 a owl:Class ;
+    rdfs:label "non-parametric distribution" ;
+    obo:IAO_0000115 "Probability distribution estimated empirically on the data without assumptions on the shape of the probability distribution." ;
+    rdfs:subClassOf obo:APOLLO_SV_00000247 .
+
+obo:APOLLO_SV_00000215 a owl:Class ;
+    rdfs:label "probability distribution"@en ;
+    obo:IAO_0000115 "An information content entity that assigns a probability to each measurable subset of the possible outcomes of a random experiment, survey, or procedure of statistical inference."@en .
+
+obo:APOLLO_SV_00000251 a owl:Class ;
+    rdfs:label "continuous parametric probability distribution"@en ;
+    rdfs:subClassOf obo:APOLLO_SV_00000477 .
+

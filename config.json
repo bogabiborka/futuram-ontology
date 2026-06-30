@@ -1,0 +1,51 @@
+{
+  "comment": "Two INDEPENDENT schema SemVers + one free-id ground dataset. The served fq: view is named to make its lineage visible: it is futuram-query <fqSchema.version> applied to (composition-statement <compositionSchema.version> + dataset <dataset.id>). Each schema bumps on its own: PATCH = clarifying/non-semantic; MINOR = additive (backward-compatible); MAJOR = breaking change existing queries depend on.",
+
+  "compositionSchema": {
+    "version": "1.0.0",
+    "comment": "The composition-statement model + the FutuRaM class hierarchy: the ground vocabulary the composition statements are written in.",
+    "modules": [
+      "ontology/tbox/composition-statement.ttl",
+      "ontology/tbox/futuram-hierarchy.ttl",
+      "ontology/tbox/uncertainty-ruleset.ttl",
+      "ontology/tbox/apollo-sv-distributions.ttl",
+      "ontology/tbox/futuram-chebi-bridge.ttl",
+      "ontology/tbox/apollo-futuram-bridge.ttl",
+      "ontology/tbox/ceon-futuram-bridge.ttl",
+      "ontology/tbox/emmo-futuram-bridge.ttl",
+      "ontology/tbox/prov-futuram-bridge.ttl"
+    ],
+    "shapes": [
+      "shapes/composition-statement-shapes.ttl",
+      "shapes/item-mass-shapes.ttl",
+      "shapes/time-strategy-shapes.ttl",
+      "shapes/hierarchy-abox-shapes.ttl",
+      "shapes/hierarchy-label-shapes.ttl"
+    ]
+  },
+
+  "querySchema": {
+    "version": "1.0.0",
+    "comment": "The futuram-query (fq:) projection: the query TBox AND the resolver/plugin layer (src/builder/resolver/) that DERIVES the served view. Versioned independently because a plugin or the fq: TBox can change the served output without the composition schema changing.",
+    "modules": [
+      "ontology/tbox/composition-query.ttl"
+    ],
+    "shapes": [
+      "shapes/composition-query-shapes.ttl"
+    ],
+    "deriver": "src/builder/resolver/"
+  },
+
+  "dataset": {
+    "comment": "The active ground-truth composition set. id is a FREE label (NOT a schema SemVer). selection defines its content as a subset of the real ELV data via the existing build_instances knobs (files = drivetrains; years/window). pinnedCompositionSchema records which composition-statement schema version the statements are written against. A scaling-test run just changes the selection and the id.",
+    "id": "elv-full",
+    "pinnedCompositionSchema": "1.0.0",
+    "selection": {
+      "files": null,
+      "yearMin": null,
+      "yearMax": null,
+      "years": null,
+      "width": 20
+    }
+  }
+}

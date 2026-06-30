@@ -1,0 +1,24 @@
+{
+  "app_name": "FutuRaM Chat",
+  "app_org": "FutuRaM",
+  "app_topics": "the material, component and element composition of products (e.g. end-of-life vehicles) via the query-optimized fq: dataset",
+  "example_questions": [
+    "How much copper is in V0301030105?",
+    "Which elements does elvBEV contain, and in what amounts?",
+    "How much aluminium is in the elvEVbattery?",
+    "What does V0301030105 contain at the Component level?",
+    "List all classes that contain Copper.",
+    "How much of each element is in the elvElectricMotor?"
+  ],
+  "vectordb_url": "http://vectordb:6333",
+  "endpoints": [
+    {
+      "endpoint_url": "http://localhost:47031/query/sparql",
+      "void_file": "/app/sparql-llm/futuram_void.ttl",
+      "examples_file": "/app/sparql-llm/futuram_examples.ttl",
+      "label": "FutuRaM (ELV fleet)",
+      "description": "Real ELV end-of-life-vehicle fleet data across 6 drivetrains (elvBEV, elvDiesel, elvHEV, elvPHEV, elvPetrol, elvOther), 1980-2050, as the query-optimized fq: dataset. Ask 'how much of <constituent> is in <class>' via the fq:contains pattern; declare the constituent KIND via the ontology: '?e rdfs:subClassOf futuram:Element' (or Component/Material). The unattributed remainder of every whole is a first-class futuram:unknown* constituent row, so each level's amounts sum to 1.0.",
+      "homepage_url": "https://www.purl.org/futuram"
+    }
+  ]
+}

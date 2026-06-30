@@ -1,0 +1,166 @@
+@prefix futuram: <https://www.purl.org/futuram#> .
+@prefix obo: <http://purl.obolibrary.org/obo/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+futuram:Actinium rdfs:subClassOf obo:CHEBI_33337 .
+
+futuram:Aluminium rdfs:subClassOf obo:CHEBI_28984 .
+
+futuram:Antimony rdfs:subClassOf obo:CHEBI_30513 .
+
+futuram:Astatine rdfs:subClassOf obo:CHEBI_30415 .
+
+futuram:Barium rdfs:subClassOf obo:CHEBI_32594 .
+
+futuram:Beryllium rdfs:subClassOf obo:CHEBI_30501 .
+
+futuram:Bismuth rdfs:subClassOf obo:CHEBI_33301 .
+
+futuram:Boron rdfs:subClassOf obo:CHEBI_27560 .
+
+futuram:Cadmium rdfs:subClassOf obo:CHEBI_22977 .
+
+futuram:Calcium rdfs:subClassOf obo:CHEBI_22984 .
+
+futuram:Carbon rdfs:subClassOf obo:CHEBI_27594 .
+
+futuram:Cerium rdfs:subClassOf obo:CHEBI_33369 .
+
+futuram:Chlorine rdfs:subClassOf obo:CHEBI_23116 .
+
+futuram:Chromium rdfs:subClassOf obo:CHEBI_28073 .
+
+futuram:Cobalt rdfs:subClassOf obo:CHEBI_27638 .
+
+futuram:Copper rdfs:subClassOf obo:CHEBI_28694 .
+
+futuram:Dysprosium rdfs:subClassOf obo:CHEBI_33377 .
+
+futuram:Element rdfs:subClassOf obo:CHEBI_33250 .
+
+futuram:Fluorine rdfs:subClassOf obo:CHEBI_24061 .
+
+futuram:Gallium rdfs:subClassOf obo:CHEBI_49631 .
+
+futuram:Germanium rdfs:subClassOf obo:CHEBI_30441 .
+
+futuram:Gold rdfs:subClassOf obo:CHEBI_29287 .
+
+futuram:Hafnium rdfs:subClassOf obo:CHEBI_33343 .
+
+futuram:Hassium rdfs:subClassOf obo:CHEBI_33357 .
+
+futuram:Helium rdfs:subClassOf obo:CHEBI_30217 .
+
+futuram:Hydrogen rdfs:subClassOf obo:CHEBI_49637 .
+
+futuram:Indium rdfs:subClassOf obo:CHEBI_30430 .
+
+futuram:Iridium rdfs:subClassOf obo:CHEBI_49666 .
+
+futuram:Iron rdfs:subClassOf obo:CHEBI_18248 .
+
+futuram:Krypton rdfs:subClassOf obo:CHEBI_49696 .
+
+futuram:Lanthanum rdfs:subClassOf obo:CHEBI_33336 .
+
+futuram:Lawrencium rdfs:subClassOf obo:CHEBI_33397 .
+
+futuram:Lead rdfs:subClassOf obo:CHEBI_25016 .
+
+futuram:Lithium rdfs:subClassOf obo:CHEBI_30145 .
+
+futuram:Lutetium rdfs:subClassOf obo:CHEBI_33382 .
+
+futuram:Magnesium rdfs:subClassOf obo:CHEBI_25107 .
+
+futuram:Manganese rdfs:subClassOf obo:CHEBI_18291 .
+
+futuram:Material rdfs:subClassOf obo:CHEBI_24431 .
+
+futuram:Mercury rdfs:subClassOf obo:CHEBI_25195 .
+
+futuram:Molybdenum rdfs:subClassOf obo:CHEBI_28685 .
+
+futuram:Neodymium rdfs:subClassOf obo:CHEBI_33372 .
+
+futuram:Neon rdfs:subClassOf obo:CHEBI_33310 .
+
+futuram:Nickel rdfs:subClassOf obo:CHEBI_28112 .
+
+futuram:Niobium rdfs:subClassOf obo:CHEBI_33344 .
+
+futuram:Nitrogen rdfs:subClassOf obo:CHEBI_25555 .
+
+futuram:Osmium rdfs:subClassOf obo:CHEBI_30687 .
+
+futuram:Oxygen rdfs:subClassOf obo:CHEBI_25805 .
+
+futuram:Palladium rdfs:subClassOf obo:CHEBI_33363 .
+
+futuram:Phosphorus rdfs:subClassOf obo:CHEBI_28659 .
+
+futuram:Platinum rdfs:subClassOf obo:CHEBI_33364 .
+
+futuram:Plutonium rdfs:subClassOf obo:CHEBI_33388 .
+
+futuram:Polonium rdfs:subClassOf obo:CHEBI_33313 .
+
+futuram:Potassium rdfs:subClassOf obo:CHEBI_26216 .
+
+futuram:Praseodymium rdfs:subClassOf obo:CHEBI_49828 .
+
+futuram:Radium rdfs:subClassOf obo:CHEBI_33325 .
+
+futuram:Rhenium rdfs:subClassOf obo:CHEBI_49882 .
+
+futuram:Rhodium rdfs:subClassOf obo:CHEBI_33359 .
+
+futuram:Rubidium rdfs:subClassOf obo:CHEBI_33322 .
+
+futuram:Ruthenium rdfs:subClassOf obo:CHEBI_30682 .
+
+futuram:Scandium rdfs:subClassOf obo:CHEBI_33330 .
+
+futuram:Selenium rdfs:subClassOf obo:CHEBI_27568 .
+
+futuram:Silicon rdfs:subClassOf obo:CHEBI_27573 .
+
+futuram:Silver rdfs:subClassOf obo:CHEBI_30512 .
+
+futuram:Strontium rdfs:subClassOf obo:CHEBI_33324 .
+
+futuram:Sulfur rdfs:subClassOf obo:CHEBI_26833 .
+
+futuram:Tantalum rdfs:subClassOf obo:CHEBI_33348 .
+
+futuram:Tellurium rdfs:subClassOf obo:CHEBI_30452 .
+
+futuram:Tennessine rdfs:subClassOf obo:CHEBI_194539 .
+
+futuram:Terbium rdfs:subClassOf obo:CHEBI_33376 .
+
+futuram:Thallium rdfs:subClassOf obo:CHEBI_30440 .
+
+futuram:Thorium rdfs:subClassOf obo:CHEBI_33385 .
+
+futuram:Thulium rdfs:subClassOf obo:CHEBI_33380 .
+
+futuram:Tin rdfs:subClassOf obo:CHEBI_27007 .
+
+futuram:Titanium rdfs:subClassOf obo:CHEBI_33341 .
+
+futuram:Tungsten rdfs:subClassOf obo:CHEBI_27998 .
+
+futuram:Vanadium rdfs:subClassOf obo:CHEBI_27698 .
+
+futuram:Xenon rdfs:subClassOf obo:CHEBI_49957 .
+
+futuram:Ytterbium rdfs:subClassOf obo:CHEBI_33381 .
+
+futuram:Yttrium rdfs:subClassOf obo:CHEBI_33331 .
+
+futuram:Zinc rdfs:subClassOf obo:CHEBI_27363 .
+
+futuram:Zirconium rdfs:subClassOf obo:CHEBI_33342 .
+

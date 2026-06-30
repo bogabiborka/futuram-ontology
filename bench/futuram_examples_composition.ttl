@@ -1,0 +1,191 @@
+@prefix ex: <https://www.purl.org/futuram/composition/examples#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+#  Teaching queries for the RAW COMPOSITION endpoint (/composition).
+#
+#  This endpoint serves ONLY the reified futuram:CompositionStatement model on
+#  INSTANCES. There is NO precomputed aggregate of any kind — no flattened
+#  "contains/amount" view. Every amount lives in the SHAPE of the statement
+#  tree:
+#
+#     ?whole futuram:hasCompositionStatement ?stmt .       # the parent individual
+#     ?stmt  a futuram:CompositionStatement ;
+#            futuram:hasPartRelation ?pr .                  # one per qualified part
+#     ?pr    a futuram:PartRelation ;
+#            futuram:refersTo ?partInstance ;               # the constituent individual
+#            futuram:hasQuantity [ futuram:hasBestValue [ qudt:numericValue ?v ;
+#                                                         qudt:unit ?u ] ] .
+#
+#  The whole (subject of hasCompositionStatement) and the part (object of
+#  futuram:refersTo on a PartRelation) are INDIVIDUALS, each typed (rdf:type)
+#  into a constituent CLASS (a product/component/material/element class). The
+#  amount and its uncertainty hang off the PartRelation, NOT off the statement.
+#
+#  WHERE THE NAMES LIVE — this matters:
+#    * INSTANCES carry rdfs:label.
+#    * CLASSES do NOT carry rdfs:label on this endpoint. So you CANNOT resolve a
+#      class a user names by a class label — that returns nothing.
+#  To start from a class a user names, match the CLASS IRI LOCAL-NAME and walk
+#  rdf:type/rdfs:subClassOf* to its instances (see ex:instancesOfClass), THEN read
+#  the statements. The label-based examples below only work because they start
+#  from an INSTANCE whose own label is known. The literal terms in the example
+#  FILTERs are placeholders — substitute the term from the user's question.
+#
+#  UNITS ARE MIXED: amounts come in more than one qudt:unit (some are 1/1000 of
+#  others; itemMass is an absolute mass, not a fraction). A correct amount MUST
+#  normalise each value by its own unit's factor before any math — do not assume
+#  a single unit (see ex:normaliseUnit).
+#
+#  These examples cover the SINGLE-HOP facts the raw graph answers directly. The
+#  hard questions (a constituent's share of a whole several hops up) require
+#  RECURSIVELY multiplying fractions down the hasCompositionStatement ->
+#  hasPartRelation -> refersTo tree AND summing over multiple paths AND
+#  normalising units — work this endpoint does NOT do for you. Where a question
+#  needs that, the honest query here returns the per-hop statements, not a single
+#  aggregated number.
+
+ex:directConstituents a sh:SPARQLExecutable,
+        sh:SPARQLSelectExecutable ;
+    rdfs:comment "The DIRECT (one hop) constituents of a whole and their stated best amounts, with units. Starts from an INSTANCE whose label is known (instances carry labels; classes do not). The whole reaches its statement via futuram:hasCompositionStatement; each part is a futuram:PartRelation (hasPartRelation) whose futuram:refersTo names the constituent and whose futuram:hasQuantity carries the amount. NOTE the unit column: amounts come in more than one qudt:unit — do not compare them without normalising each by its unit's factor. The FILTER literal is a placeholder; substitute the user's term." ;
+    sh:prefixes ex: ;
+    sh:select """PREFIX futuram: <https://www.purl.org/futuram#>
+PREFIX ceonq: <http://w3id.org/CEON/ontology/quantity/>
+PREFIX qudt: <http://qudt.org/schema/qudt/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?partLabel ?best ?unit WHERE {
+  ?whole rdfs:label ?wholeLabel .
+  FILTER(LCASE(STR(?wholeLabel)) = "<instance-label>")   # the whole instance's label
+  ?whole futuram:hasCompositionStatement ?stmt .
+  ?stmt  futuram:hasPartRelation ?pr .
+  ?pr    futuram:refersTo ?part ;
+         futuram:hasQuantity/futuram:hasBestValue ?bv .
+  ?bv qudt:numericValue ?best ; qudt:unit ?unit .
+  ?part rdfs:label ?partLabel .
+} ORDER BY DESC(?best)""" .
+
+ex:normaliseUnit a sh:SPARQLExecutable,
+        sh:SPARQLSelectExecutable ;
+    rdfs:comment "Read each stated amount WITH its qudt:unit and NORMALISE to one common base before any math. Do not assume a single unit: amounts come in more than one unit and some are a fixed fraction (e.g. 1/1000) of others. Branch on the ?unit you actually observe and apply that unit's own factor — never hardcode one unit IRI. itemMass is an absolute mass, not a fraction." ;
+    sh:prefixes ex: ;
+    sh:select """PREFIX futuram: <https://www.purl.org/futuram#>
+PREFIX qudt: <http://qudt.org/schema/qudt/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?partLabel ?v ?u WHERE {
+  ?whole rdfs:label ?wl . FILTER(LCASE(STR(?wl)) = "<instance-label>")
+  ?whole futuram:hasCompositionStatement ?stmt .
+  ?stmt  futuram:hasPartRelation ?pr .
+  ?pr    futuram:refersTo ?part ;
+         futuram:hasQuantity/futuram:hasBestValue [ qudt:numericValue ?v ; qudt:unit ?u ] .
+  ?part rdfs:label ?partLabel .
+  # then in your reasoning: normalised = ?v * factor(?u)   # factor from the unit
+} ORDER BY DESC(?v)""" .
+
+ex:amountWithInterval a sh:SPARQLExecutable,
+        sh:SPARQLSelectExecutable ;
+    rdfs:comment "A direct constituent's best amount PLUS its uncertainty interval (the included minimum/maximum endpoints of the QuantityInterval). The best value is futuram:hasBestValue; the spread is ceonq:hasMinimalValueIncludedOfInterval / ceonq:hasMaximalValueIncludedOfInterval. Each is a qudt:QuantityValue with its own numericValue + unit. The amount hangs off the PartRelation (hasPartRelation -> refersTo the part, hasQuantity the interval)." ;
+    sh:prefixes ex: ;
+    sh:select """PREFIX futuram: <https://www.purl.org/futuram#>
+PREFIX ceonq: <http://w3id.org/CEON/ontology/quantity/>
+PREFIX qudt: <http://qudt.org/schema/qudt/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?best ?low ?high ?unit WHERE {
+  ?whole rdfs:label ?wl . FILTER(LCASE(STR(?wl)) = "<whole-instance-label>")
+  ?part  rdfs:label ?pl . FILTER(LCASE(STR(?pl)) = "<part-instance-label>")
+  ?whole futuram:hasCompositionStatement ?stmt .
+  ?stmt  futuram:hasPartRelation ?pr .
+  ?pr    futuram:refersTo ?part ;
+         futuram:hasQuantity ?qi .
+  ?qi futuram:hasBestValue [ qudt:numericValue ?best ; qudt:unit ?unit ] .
+  OPTIONAL { ?qi ceonq:hasMinimalValueIncludedOfInterval [ qudt:numericValue ?low ] }
+  OPTIONAL { ?qi ceonq:hasMaximalValueIncludedOfInterval [ qudt:numericValue ?high ] }
+}""" .
+
+ex:instancesOfClass a sh:SPARQLExecutable,
+        sh:SPARQLSelectExecutable ;
+    rdfs:comment "Resolve a class a user NAMES to its INSTANCES — the entry point for any class-level question on this endpoint. CLASSES carry NO rdfs:label here, so match the CLASS IRI LOCAL-NAME (not a label), then reach instances through rdf:type/rdfs:subClassOf* (per-year slices subClassOf the base). These instances are the wholes you traverse from via futuram:hasCompositionStatement. A class-level number is an AGGREGATE over them; this endpoint does not store it. The FILTER literal is a placeholder — substitute the user's term." ;
+    sh:prefixes ex: ;
+    sh:select """PREFIX futuram: <https://www.purl.org/futuram#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT DISTINCT ?cls ?inst WHERE {
+  ?inst a ?leaf .
+  ?leaf rdfs:subClassOf* ?cls .
+  FILTER(CONTAINS(LCASE(STR(?cls)), "<term>"))   # match the CLASS IRI local-name
+  ?inst futuram:hasCompositionStatement ?stmt .   # keep instances that are wholes
+}""" .
+
+ex:instanceByLabel a sh:SPARQLExecutable,
+        sh:SPARQLSelectExecutable ;
+    rdfs:comment "INSTANCES (not classes) carry rdfs:label here. If you already know an instance's label, find it directly and read its rdf:type to learn its class. Use this only when you have an instance label; to start from a class a user names, use ex:instancesOfClass instead. The FILTER literal is a placeholder." ;
+    sh:prefixes ex: ;
+    sh:select """PREFIX futuram: <https://www.purl.org/futuram#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?inst ?label ?class WHERE {
+  ?inst rdfs:label ?label ; a ?class .
+  FILTER(LCASE(STR(?label)) = "<instance-label>")
+}""" .
+
+ex:elementShareOfWhole a sh:SPARQLExecutable,
+        sh:SPARQLSelectExecutable ;
+    rdfs:comment "The amount of a constituent in a whole TWO HOPS down (whole -> middle -> target), computed by MULTIPLYING the two stated fractions after normalising units, then SUMMING parallel paths. This is the manual aggregation the raw composition endpoint forces on you — and it only covers a FIXED two-hop depth. The full answer needs EVERY path from the whole down to the target constituent, recursively, summed, and then meaned over the class's instances — SPARQL 1.1 cannot do unbounded recursive arithmetic in one query, so fix the depth (as here) or pull the statement tree out and aggregate client-side. Each hop is hasCompositionStatement -> hasPartRelation -> refersTo, and the middle part of hop 1 is the whole of hop 2. The literals are placeholders: <instance-label> the whole, <ConstituentIRI> the target class; convert by each unit's own factor." ;
+    sh:prefixes ex: ;
+    sh:select """PREFIX futuram: <https://www.purl.org/futuram#>
+PREFIX qudt: <http://qudt.org/schema/qudt/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?v1 ?u1 ?v2 ?u2 WHERE {
+  ?whole rdfs:label ?wl . FILTER(LCASE(STR(?wl)) = "<instance-label>")
+  ?whole futuram:hasCompositionStatement ?st1 .
+  ?st1   futuram:hasPartRelation ?pr1 .
+  ?pr1   futuram:refersTo ?mid ;
+         futuram:hasQuantity/futuram:hasBestValue [ qudt:numericValue ?v1 ; qudt:unit ?u1 ] .
+  ?mid   futuram:hasCompositionStatement ?st2 .
+  ?st2   futuram:hasPartRelation ?pr2 .
+  ?pr2   futuram:refersTo ?leaf ;
+         futuram:hasQuantity/futuram:hasBestValue [ qudt:numericValue ?v2 ; qudt:unit ?u2 ] .
+  ?leaf a <ConstituentIRI> .
+  # in your reasoning: f1=?v1*factor(?u1); f2=?v2*factor(?u2); contribution=f1*f2; sum over paths
+}""" .
+
+ex:itemMassOfInstance a sh:SPARQLExecutable,
+        sh:SPARQLSelectExecutable ;
+    rdfs:comment "The absolute mass of one item, in kilograms, when measured on the instance: futuram:itemMass -> a qudt:QuantityValue (numericValue + unit:KiloGM). Only Product/Component instances carry it. Multiply a kg/kg fraction by this to get absolute kg." ;
+    sh:prefixes ex: ;
+    sh:select """PREFIX futuram: <https://www.purl.org/futuram#>
+PREFIX qudt: <http://qudt.org/schema/qudt/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?label ?kg ?unit WHERE {
+  ?inst futuram:itemMass [ qudt:numericValue ?kg ; qudt:unit ?unit ] ;
+        rdfs:label ?label .
+} ORDER BY DESC(?kg)""" .
+
+ex:wholesContaining a sh:SPARQLExecutable,
+        sh:SPARQLSelectExecutable ;
+    rdfs:comment "Which wholes DIRECTLY contain a given constituent class (one hop)? Find instances of the class (substitute <ConstituentIRI>), then the statements whose PartRelation futuram:refersTo one of them, then the whole that hasCompositionStatement that statement. Returns the immediate parents only — not the transitive ancestors." ;
+    sh:prefixes ex: ;
+    sh:select """PREFIX futuram: <https://www.purl.org/futuram#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT DISTINCT ?wholeLabel WHERE {
+  ?part a <ConstituentIRI> .
+  ?pr   futuram:refersTo ?part .
+  ?stmt futuram:hasPartRelation ?pr .
+  ?whole futuram:hasCompositionStatement ?stmt ;
+         rdfs:label ?wholeLabel .
+} ORDER BY ?wholeLabel""" .
+
+ex:qualityOfPartRelation a sh:SPARQLExecutable,
+        sh:SPARQLSelectExecutable ;
+    rdfs:comment "The data-quality metadata on a composition part: the DQV quality measurements (Accuracy/Completeness scores via dqv:hasQualityMeasurement -> dqv:isMeasurementOf + dqv:value) carried on the futuram:PartRelation, plus the statement's futuram:hasValidityPeriod (the time scope) and PROV provenance (prov:hadPrimarySource / prov:wasAttributedTo) on the statement. This metadata is one reason the composition model is richer than a flat precomputed view. (There is no per-statement confidence score in this model — quality is the DQV measurements.)" ;
+    sh:prefixes ex: ;
+    sh:select """PREFIX futuram: <https://www.purl.org/futuram#>
+PREFIX dqv: <http://www.w3.org/ns/dqv#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?wholeLabel ?partLabel ?metric ?score WHERE {
+  ?whole futuram:hasCompositionStatement ?stmt ;
+         rdfs:label ?wholeLabel .
+  ?stmt  futuram:hasPartRelation ?pr .
+  ?pr    futuram:refersTo ?part .
+  ?part  rdfs:label ?partLabel .
+  OPTIONAL {
+    ?pr dqv:hasQualityMeasurement [ dqv:isMeasurementOf ?metric ; dqv:value ?score ] .
+  }
+} ORDER BY ?wholeLabel ?partLabel""" .

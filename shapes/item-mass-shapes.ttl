@@ -1,0 +1,74 @@
+@prefix sh:      <http://www.w3.org/ns/shacl#> .
+@prefix futuram: <https://www.purl.org/futuram#> .
+@prefix qudt:    <http://qudt.org/schema/qudt/> .
+@prefix unit:    <http://qudt.org/vocab/unit/> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+#################################################################
+#
+#    itemMass shapes — the absolute-kg reference anchor.
+#    CORE SHACL only (no sh:sparql), so they run under the
+#    project's validator (pyshacl advanced=False) with
+#    inference="rdfs": a node typed into a subclass of
+#    futuram:Product / futuram:Component is targeted via the
+#    rdfs-closed rdf:type edges.
+#
+#    itemMass is carried per Product/Component INSTANCE (a measured
+#    fact); the CLASS-level value is derived by the class's
+#    aggregation strategy and is NOT required here.
+#
+#################################################################
+
+
+# Shape A — well-formed value: any futuram:itemMass object must be a
+# qudt:QuantityValue with a positive numericValue in kilograms.
+futuram:ItemMassValueShape a sh:NodeShape ;
+    rdfs:label "itemMass is a positive QUDT kilogram quantity"@en ;
+    sh:severity sh:Violation ;
+    sh:targetObjectsOf futuram:itemMass ;
+    sh:class qudt:QuantityValue ;
+    sh:property [
+        sh:path qudt:numericValue ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:double ;
+        sh:minExclusive 0.0 ;
+        sh:message "futuram:itemMass value must carry exactly one positive qudt:numericValue (kg)." ;
+    ] ;
+    sh:property [
+        sh:path qudt:unit ;
+        sh:minCount 1 ;
+        sh:hasValue unit:KiloGM ;
+        sh:message "futuram:itemMass value must use qudt:unit unit:KiloGM." ;
+    ] .
+
+
+# Shape B — mandatory on instances: every Product instance carries exactly
+# one itemMass. (Targets futuram:Product; with rdfs inference an instance of
+# any subclass is an instance of futuram:Product.)
+futuram:ProductItemMassRequiredShape a sh:NodeShape ;
+    rdfs:label "every Product instance carries an itemMass"@en ;
+    sh:severity sh:Violation ;
+    sh:targetClass futuram:Product ;
+    sh:property [
+        sh:path futuram:itemMass ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "Every Product instance MUST carry exactly one futuram:itemMass (the absolute-kg reference anchor)." ;
+    ] .
+
+
+# Shape C — mandatory on instances: every Component instance carries exactly
+# one itemMass.
+futuram:ComponentItemMassRequiredShape a sh:NodeShape ;
+    rdfs:label "every Component instance carries an itemMass"@en ;
+    sh:severity sh:Violation ;
+    sh:targetClass futuram:Component ;
+    sh:property [
+        sh:path futuram:itemMass ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "Every Component instance MUST carry exactly one futuram:itemMass (the absolute-kg reference anchor)." ;
+    ] .

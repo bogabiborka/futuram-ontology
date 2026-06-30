@@ -1,0 +1,39 @@
+@prefix ceonm: <http://w3id.org/CEON/ontology/material/> .
+@prefix ceonp: <http://w3id.org/CEON/ontology/product/> .
+@prefix ceonr: <http://w3id.org/CEON/ontology/resourceODP/> .
+@prefix ceonst: <http://w3id.org/CEON/ontology/statement/> .
+@prefix futuram: <https://www.purl.org/futuram#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+futuram:ClassCompositionStatement rdfs:subClassOf ceonst:ProductCompositionStatement .
+
+futuram:Component rdfs:subClassOf ceonp:Product,
+        ceonr:Constituent .
+
+futuram:CompositionStatement rdfs:subClassOf ceonp:Composition,
+        ceonst:ProductCompositionStatement .
+
+futuram:Element rdfs:subClassOf ceonm:ChemicalElement,
+        ceonr:Constituent .
+
+futuram:Material rdfs:subClassOf ceonm:Material,
+        ceonr:Constituent .
+
+futuram:Product rdfs:subClassOf ceonp:Product,
+        ceonr:Constituent .
+
+futuram:hasCompositionStatement rdfs:subPropertyOf ceonp:hasComposition .
+
+futuram:hasPart rdfs:subPropertyOf ceonr:hasPart .
+
+futuram:hasQuantity rdfs:subPropertyOf ceonst:hasQuantityInterval .
+
+futuram:statementPartClass rdfs:subPropertyOf ceonst:statementAbout .
+
+futuram:statementWholeClass rdfs:subPropertyOf ceonst:statementAbout .
+
+<https://www.purl.org/futuram/ceon-futuram-bridge> a owl:Ontology ;
+    rdfs:label "ceon-futuram-bridge" ;
+    rdfs:comment "FutuRaM -> CEON alignment: the futuram roots and composition/statement terms rdfs:subClassOf / rdfs:subPropertyOf their CEON parents (CEON product-composition ODP). Pure alignment; CEON-typed domain/range stay on the property declarations in composition-statement.ttl. Moved out of composition-statement.ttl." .
+

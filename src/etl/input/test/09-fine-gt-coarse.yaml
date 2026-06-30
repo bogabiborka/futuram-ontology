@@ -1,0 +1,73 @@
+id: "09_fine_gt_coarse"
+title: "granular copper exceeds the coarse ceiling (cross-level overshoot, fans out)"
+note: "the granular copper paths sum to 0.5 but the coarse car->Cu ceiling is only 0.3. The fine decomposition claims more copper than the direct measurement allows -> cross-level VIOLATION. Same fan-out as 07/08; only the coarse ceiling is set below the granular total."
+
+provenance:
+  source: "FutuRaM composition datasheet (test)"
+  agent: "FutuRaM test organisation"
+  production: "forming"
+  validFrom: "2020-01-01"
+  validUntil: "2026-12-31"
+
+nodes:
+  car: {level: Product, class: V0301030105_Y2020_2026, itemMass: 1000.0}
+  motor: {level: Component, class: elvElectricMotor_Y2020_2026, itemMass: 50.0}
+  harness: {level: Component, class: wiringHarness_Y2020_2026, itemMass: 50.0}
+  winding: {level: Material, class: pureCu}
+  steel: {level: Material, class: steelAndSteelAlloys}
+  cuwire: {level: Material, class: pureCu}
+  sheath: {level: Material, class: thermoplastics}
+  cu: {level: Element, class: Copper}
+  ni: {level: Element, class: Nickel}
+  fe: {level: Element, class: Iron}
+  c: {level: Element, class: Carbon}
+
+statements:
+- {whole: car, part: motor, best: 0.5, lo: 0.5, hi: 0.5, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: car, part: harness, best: 0.5, lo: 0.5, hi: 0.5, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: motor, part: winding, best: 0.4, lo: 0.4, hi: 0.4, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: motor, part: steel, best: 0.6, lo: 0.6, hi: 0.6, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: harness, part: cuwire, best: 0.6, lo: 0.6, hi: 0.6, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: harness, part: sheath, best: 0.4, lo: 0.4, hi: 0.4, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: winding, part: cu, best: 1.0, lo: 1.0, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}         # 0.20
+- {whole: steel, part: fe, best: 1.0, lo: 1.0, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: cuwire, part: cu, best: 1.0, lo: 1.0, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}          # 0.30
+- {whole: sheath, part: c, best: 1.0, lo: 1.0, hi: 1.0, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+  # granular Cu total = 0.50; COARSE ceiling = 0.30 -> 0.50 > 0.30 -> VIOLATION
+- {whole: car, part: cu, best: 0.3, lo: 0.3, hi: 0.3, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+subclass_of:
+  V0301030105_Y2020_2026:
+  - V0301030105
+  - elvBEV_Y2020_2026
+  elvElectricMotor_Y2020_2026:
+  - elvElectricMotor
+  wiringHarness_Y2020_2026:
+  - wiringHarness
+  elvBEV_Y2020_2026:
+  - elvBEV
+class_time:
+  V0301030105_Y2020_2026:
+    start: 2020
+    end: 2026
+    slices:
+    - parent: V0301030105
+      axis: year-slice-mean
+  elvElectricMotor_Y2020_2026:
+    start: 2020
+    end: 2026
+    slices:
+    - parent: elvElectricMotor
+      axis: year-slice-mean
+  wiringHarness_Y2020_2026:
+    start: 2020
+    end: 2026
+    slices:
+    - parent: wiringHarness
+      axis: year-slice-mean
+  elvBEV_Y2020_2026:
+    start: 2020
+    end: 2026
+    strategy: equal-subclass-mean
+    slices:
+    - parent: elvBEV
+      axis: year-slice-mean

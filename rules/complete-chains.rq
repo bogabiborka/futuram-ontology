@@ -1,0 +1,63 @@
+# Complete a COARSE (level-skipping) composition statement with one GENERIC unknown
+# filler per strictly-skipped level (typed unknownComponent/Material so reconcile
+# recognises them). Levels come from the futuram-hierarchy subClassOf chain (RDFS-closed).
+# Explicit CONSTRUCT branches (no recursion):
+#   Product   -> Element  (skips Component + Material): unknownComponent + unknownMaterial
+#   Product   -> Material (skips Component):            unknownComponent
+#   Component -> Element  (skips Material):             unknownMaterial
+
+PREFIX futuram: <https://www.purl.org/futuram#>
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+
+CONSTRUCT {
+    # Product -> unknownComponent -> unknownMaterial -> Element
+    ?wPE      futuram:fillerPart ?uCompPE .
+    ?uCompPE  rdf:type futuram:unknownComponent .
+    ?uCompPE  futuram:fillerPart ?uMatPE .
+    ?uMatPE   rdf:type futuram:unknownMaterial .
+    ?uMatPE   futuram:fillerPart ?partPE .
+
+    # Product -> unknownComponent -> Material
+    ?wPM      futuram:fillerPart ?uCompPM .
+    ?uCompPM  rdf:type futuram:unknownComponent .
+    ?uCompPM  futuram:fillerPart ?partPM .
+
+    # Component -> unknownMaterial -> Element
+    ?wCE      futuram:fillerPart ?uMatCE .
+    ?uMatCE   rdf:type futuram:unknownMaterial .
+    ?uMatCE   futuram:fillerPart ?partCE .
+}
+WHERE {
+    {
+        # ---- Product -> Element coarse: insert two fillers ----
+        ?wPE futuram:hasCompositionStatement ?csPE .
+        ?csPE a futuram:CompositionStatement ; futuram:hasPartRelation ?sPE .
+        ?sPE futuram:refersTo ?partPE .
+        ?wPE   a futuram:Product .
+        ?partPE a futuram:Element .
+        # one filler chain per coarse RELATION, made unique by its IRI
+        BIND( IRI(CONCAT(STR(?sPE), "-unknownComponent")) AS ?uCompPE )
+        BIND( IRI(CONCAT(STR(?sPE), "-unknownMaterial"))  AS ?uMatPE )
+    }
+    UNION
+    {
+        # ---- Product -> Material coarse: insert one component filler ----
+        ?wPM futuram:hasCompositionStatement ?csPM .
+        ?csPM a futuram:CompositionStatement ; futuram:hasPartRelation ?sPM .
+        ?sPM futuram:refersTo ?partPM .
+        ?wPM   a futuram:Product .
+        ?partPM a futuram:Material .
+        BIND( IRI(CONCAT(STR(?sPM), "-unknownComponent")) AS ?uCompPM )
+    }
+    UNION
+    {
+        # ---- Component -> Element coarse: insert one material filler ----
+        ?wCE futuram:hasCompositionStatement ?csCE .
+        ?csCE a futuram:CompositionStatement ; futuram:hasPartRelation ?sCE .
+        ?sCE futuram:refersTo ?partCE .
+        ?wCE   a futuram:Component .
+        ?partCE a futuram:Element .
+        BIND( IRI(CONCAT(STR(?sCE), "-unknownMaterial")) AS ?uMatCE )
+    }
+}

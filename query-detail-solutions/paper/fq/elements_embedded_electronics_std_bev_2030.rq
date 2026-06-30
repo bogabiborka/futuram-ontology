@@ -1,0 +1,20 @@
+# Elemental composition (kg) of the embedded electronics in a standard BEV, 2030.
+# The embedded-electronics group, scoped to this vehicle, is ONE scope node that
+# futuram:partOf the vehicle and rdf:type the embedded-electronics group class.
+# A constituent is an ELEMENT iff it is rdfs:subClassOf* futuram:Element; exclude
+# the unattributed remainder (rdfs:subClassOf* futuram:unknownElement) which the SI
+# does not itemise. kg = itemMass * fraction. No list — navigate the taxonomy.
+PREFIX fq:      <https://www.purl.org/futuram/query#>
+PREFIX futuram: <https://www.purl.org/futuram#>
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?key (?m*?f AS ?kg) (?ru*?m*?f AS ?unc) WHERE {
+  ?node futuram:partOf futuram:V0301030000_Y2030 ;
+        rdf:type futuram:elvEmbeddedElectronics ;
+        fq:itemMass ?m ;
+        fq:contains [ fq:constituent ?key ; fq:amount ?f ;
+                      fq:relativeUncertainty ?ru ] .
+  ?key rdfs:subClassOf* futuram:Element .
+  FILTER NOT EXISTS { ?key rdfs:subClassOf* futuram:unknownElement }
+}
+ORDER BY DESC(?kg)

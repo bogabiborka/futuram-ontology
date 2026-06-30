@@ -1,0 +1,422 @@
+@prefix dqv:     <http://www.w3.org/ns/dqv#> .
+@prefix futuram: <https://www.purl.org/futuram#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+futuram:uncertainty-ruleset a owl:Ontology ;
+    rdfs:label "FutuRaM uncertainty-estimation ruleset"@en ;
+    rdfs:comment """The data-quality -> uncertainty rule of the FutuRaM project, modelled as RDF
+so it is INSPECTABLE and EDITABLE as data, not hidden in code (Roesslein et al,
+2026; B. Boga et al, 2025; Wolf et al, 2007).
+
+The module carries TWO parallel data-quality bandings, used for DIFFERENT outputs:
+
+  A. LIMIT banding -- the AUTHORITATIVE path that produces the SERVED uncertainty.
+     The rectangular uncertaintyLimit is RECOMPUTED from the six DQ scores by a
+     WEIGHTED SUM banded to a limit (futuram:hasDimensionWeight + futuram:hasLimitBand
+     on the ruleset): weightedSum = Validity + Accuracy + Consistency + Completeness
+     + 0.5*Integrity + 1.5*Timeliness, banded 9.5->0.20, 10.5->0.25, 14.5->0.30,
+     15.5->0.35 (lower-quality layers extend 6.0->0.10, 8.0->0.15). The served
+     relative uncertainty (sigma) = limit / sqrt(3); lo/hi = best * (1 -/+ limit).
+     This reproduces the reference dataset's hand-authored per-material limit EXACTLY
+     on its source table. The plugin reads limitBand off the ruleset; nothing stored.
+
+  B. DQS banding -- a coarser DESCRIPTIVE grade, served as fq:dqs / fq:meanDataQuality
+     (NOT the uncertainty). The statement's mean data quality (futuram:DqvAggregation,
+     the 7-term FutuRaM weighted mean) falls into a DqsBand (futuram:hasBand):
+         mean < 1.3 -> DQS 1 ; 1.3 <= mean < 2.3 -> DQS 2 ; 2.3 <= mean < 3.3 -> DQS 3 ; mean >= 3.3 -> DQS 4
+     with the Eq.(2) percentages (10/20/40/60-80 %) per FutuRaM Deliverable D1.1 Table 2.
+
+  Eq.(3) COMBINATION -- several statements' uncertainties combine into one aggregate
+     by the ruleset's futuram:combinationMethod (futuram:RootSumOfSquares): the
+     contribution-weighted RSS of the ABSOLUTE uncertainties sigma_i = u_i * v_i,
+     u_aggregate = sqrt(sum (u_i*v_i)^2) / sum v_i. For element-in-product (and other
+     aggregated) amounts this combines the LEAF element terms over the composition
+     reach tree (see docs/plan-uncertainty-aggregation.md).
+
+GROUND TRUTH = the six DQ indicators on each composition statement. Everything else
+(limit, sigma, DQS, mean) is a pure RECOMPUTE from them; no uncertainty value is ever
+ingested. The mean-of-dimensions step (futuram:DqvAggregation) is the IRI-identified
+form of the dqvAggregation facet every futuram:AggregationStrategy declares -- code
+dispatches on the individual, never a string.
+
+TBox + ABox in one module: the classes/properties define the rule SHAPE; the
+futuram:FuturamDQS individual is the concrete rule of the cited papers."""@en ;
+    futuram:presentedBy "0000-0001-8569-6630" .
+
+
+# ============================================================================
+# TBox  --  the SHAPE of an uncertainty ruleset
+# ============================================================================
+
+futuram:UncertaintyRuleset a owl:Class ;
+    rdfs:label "uncertainty ruleset"@en ;
+    rdfs:comment "A named, self-contained rule that turns a composition statement's data-quality assessment into a relative uncertainty, and combines per-statement uncertainties into an aggregate's uncertainty. Carries the Eq.(1) bands (futuram:hasBand), the Eq.(3) combination method (futuram:combinationMethod), and the default per-dimension DQ aggregation (futuram:defaultDqvAggregation) used for statements whose strategy declares none."@en .
+
+futuram:DqsBand a owl:Class ;
+    rdfs:label "DQS band"@en ;
+    rdfs:comment "One row of the Eq.(1)/Eq.(2) table: a half-open interval of MEAN data quality [futuram:meanLowerBound, futuram:meanUpperBound) that maps to a discrete Data Quality Score (futuram:dqsValue) and, via Eq.(2), to a relative uncertainty (futuram:uncertaintyValue, or the futuram:uncertaintyLowerBound/UpperBound range when the score gives a range as DQS 4 does)."@en .
+
+futuram:DqvAggregation a owl:Class ;
+    rdfs:label "DQV aggregation rule"@en ;
+    rdfs:comment "HOW a statement's per-dimension DQ scores combine into one mean data-quality number (Eq.1, first arrow) and what to do when an expected dimension is absent. The IRI-identified form of the futuram:dqvAggregation string facet carried on every AggregationStrategy. Reusable: several strategies may point at the SAME rule (futuram:dqvAggregationRule)."@en .
+
+futuram:LimitBand a owl:Class ;
+    rdfs:label "uncertainty-limit band"@en ;
+    rdfs:comment "One row of the data-quality -> rectangular-half-width table: a half-open interval of MEAN data quality [futuram:meanLowerBound, futuram:meanUpperBound) that maps to a futuram:uncertaintyLimit (the relative half-width of the RectangularDistribution). This is how the served uncertainty is DERIVED from the data-quality indicators alone -- limit = band(dataQualityMean), then sigma = limit / sqrt(3). It approximates the FutuRaM reference dataset's hand-authored per-material limit: the source's limit IS a function of the full DQ vector but NOT of any symmetric mean (two vectors with the same mean carry different limits, 0.30 vs 0.35), so a mean-banding reproduces ~68% of rows exactly and collapses the rest by one step. The limit is thus a transparent recompute from quality, not a stored field."@en .
+
+futuram:MissingDimensionPolicy a owl:Class ;
+    rdfs:label "missing-dimension policy"@en ;
+    rdfs:comment "What a futuram:DqvAggregation does when a statement does not carry a score for one of its futuram:expectsDimension dimensions. An IRI, not a code branch, so the policy is data."@en .
+
+
+# ---- ruleset -> band / method / default ------------------------------------
+
+futuram:hasBand a owl:ObjectProperty ;
+    rdfs:label "has band"@en ;
+    rdfs:comment "Links an UncertaintyRuleset to one of its DQS bands (the Eq.1/Eq.2 table rows)."@en ;
+    rdfs:domain futuram:UncertaintyRuleset ;
+    rdfs:range futuram:DqsBand .
+
+futuram:combinationMethod a owl:ObjectProperty ;
+    rdfs:label "combination method"@en ;
+    rdfs:comment "The Eq.(3) rule for combining several statements' uncertainties into one aggregate uncertainty. The futuram:RootSumOfSquares individual is the contribution-weighted error-propagation sqrt(sum of (u_i*v_i)^2) / sum v_i of Wolf et al (2007) -- RSS of the ABSOLUTE uncertainties, served back as a relative fraction."@en ;
+    rdfs:domain futuram:UncertaintyRuleset ;
+    rdfs:range futuram:CombinationMethod .
+
+futuram:defaultDqvAggregation a owl:ObjectProperty ;
+    rdfs:label "default DQV aggregation"@en ;
+    rdfs:comment "The futuram:DqvAggregation a ruleset falls back to for a statement whose AggregationStrategy declares no futuram:dqvAggregationRule (the common case of a plain measured leaf statement that just carries raw per-dimension scores). Makes the mean-of-dimensions step always IRI-identified and deterministic."@en ;
+    rdfs:domain futuram:UncertaintyRuleset ;
+    rdfs:range futuram:DqvAggregation .
+
+futuram:CombinationMethod a owl:Class ;
+    rdfs:label "uncertainty combination method"@en ;
+    rdfs:comment "How per-statement uncertainties combine into one (Eq.3). Identified by IRI so the resolver dispatches on the method individual, not a string."@en .
+
+
+# ---- tree propagation (how per-edge uncertainty reaches an aggregate amount) -
+
+futuram:UncertaintyPropagation a owl:Class ;
+    rdfs:label "uncertainty propagation"@en ;
+    rdfs:comment "How per-EDGE uncertainties propagate through the composition REACH TREE to an aggregate amount (element-in-product, element-in-component). An element amount is sum-over-paths of product-over-edges (the same walk the best value uses); this individual declares (a) whether a MULTIPLYING edge along a path injects its own uncertainty into that path's term (futuram:pathProductCompounds), and (b) by which futuram:CombinationMethod the path terms combine (futuram:pathSumMethod). Data, not code: change the individual and the served aggregate uncertainty changes."@en .
+
+futuram:uncertaintyPropagation a owl:ObjectProperty ;
+    rdfs:label "uncertainty propagation"@en ;
+    rdfs:comment "Links an UncertaintyRuleset to the futuram:UncertaintyPropagation discipline its aggregate amounts follow. Absent -> the resolver treats only direct (whole,part) statements (no tree propagation)."@en ;
+    rdfs:domain futuram:UncertaintyRuleset ;
+    rdfs:range futuram:UncertaintyPropagation .
+
+futuram:pathProductCompounds a owl:DatatypeProperty ;
+    rdfs:label "path-product compounds"@en ;
+    rdfs:comment "true -> a multiplying edge (e.g. product->component, component->material) contributes its OWN relative uncertainty to a path's term by quadrature (the textbook first-order Gaussian propagation of a product). false -> only the LEAF (element) edge's uncertainty enters; multiplying edges add their VALUE to the path product but NOT their uncertainty (the FutuRaM reference method, proven exact on SI-5)."@en ;
+    rdfs:domain futuram:UncertaintyPropagation ;
+    rdfs:range xsd:boolean .
+
+futuram:pathSumMethod a owl:ObjectProperty ;
+    rdfs:label "path-sum method"@en ;
+    rdfs:comment "The futuram:CombinationMethod by which the several root-to-leaf PATH terms reaching one element combine into the element's aggregate uncertainty (the sum side of sum-of-products). Normally futuram:RootSumOfSquares, weighted by each path's contribution value."@en ;
+    rdfs:domain futuram:UncertaintyPropagation ;
+    rdfs:range futuram:CombinationMethod .
+
+
+# ---- the data-quality -> uncertaintyLimit rule (weighted sum + bands) ------
+
+futuram:hasDimensionWeight a owl:ObjectProperty ;
+    rdfs:label "has dimension weight"@en ;
+    rdfs:comment "Links the ruleset to one futuram:DimensionWeight: the multiplier a DQ dimension carries in the weighted sum that bands to the rectangular uncertaintyLimit. Reproduces the FutuRaM reference dataset's hand-authored per-material limit EXACTLY on its source table."@en ;
+    rdfs:domain futuram:UncertaintyRuleset ;
+    rdfs:range futuram:DimensionWeight .
+
+futuram:DimensionWeight a owl:Class ;
+    rdfs:label "dimension weight"@en ;
+    rdfs:comment "A (dqv:Dimension, weight) pair for the uncertainty-limit weighted sum. Integrity is down-weighted (0.5) because it can be inferred from the other indicators (per the SI text); Timeliness is up-weighted (1.5) as a strong independent quality signal; the rest weigh 1."@en .
+
+futuram:weightDimension a owl:ObjectProperty ;
+    rdfs:label "weight dimension"@en ;
+    rdfs:domain futuram:DimensionWeight ;
+    rdfs:range dqv:Dimension .
+
+futuram:weightValue a owl:DatatypeProperty ;
+    rdfs:label "weight value"@en ;
+    rdfs:domain futuram:DimensionWeight ;
+    rdfs:range xsd:double .
+
+futuram:hasLimitBand a owl:ObjectProperty ;
+    rdfs:label "has limit band"@en ;
+    rdfs:comment "Links the ruleset to one futuram:LimitBand: a weighted-sum interval that maps to a rectangular uncertaintyLimit."@en ;
+    rdfs:domain futuram:UncertaintyRuleset ;
+    rdfs:range futuram:LimitBand .
+
+futuram:weightedSumLowerBound a owl:DatatypeProperty ;
+    rdfs:label "weighted-sum lower bound"@en ;
+    rdfs:comment "Inclusive lower edge of a futuram:LimitBand's weighted-sum interval. The band applies when weightedSumLowerBound <= weightedSum < weightedSumUpperBound."@en ;
+    rdfs:domain futuram:LimitBand ;
+    rdfs:range xsd:double .
+
+futuram:weightedSumUpperBound a owl:DatatypeProperty ;
+    rdfs:label "weighted-sum upper bound"@en ;
+    rdfs:domain futuram:LimitBand ;
+    rdfs:range xsd:double .
+
+futuram:bandUncertaintyLimit a owl:DatatypeProperty ;
+    rdfs:label "band uncertainty limit"@en ;
+    rdfs:comment "The rectangular uncertaintyLimit (relative half-width) a futuram:LimitBand assigns to weighted sums in its interval."@en ;
+    rdfs:domain futuram:LimitBand ;
+    rdfs:range xsd:double .
+
+
+# ---- band facets -----------------------------------------------------------
+
+futuram:meanLowerBound a owl:DatatypeProperty ;
+    rdfs:label "mean lower bound"@en ;
+    rdfs:comment "Inclusive lower edge of a DQS band's MEAN-data-quality interval (Eq.1). The band applies when meanLowerBound <= mean < meanUpperBound."@en ;
+    rdfs:domain futuram:DqsBand ;
+    rdfs:range xsd:double .
+
+futuram:meanUpperBound a owl:DatatypeProperty ;
+    rdfs:label "mean upper bound"@en ;
+    rdfs:comment "Exclusive upper edge of a DQS band's MEAN-data-quality interval (Eq.1). Omit (or set to a sentinel above the scale max) for the open top band."@en ;
+    rdfs:domain futuram:DqsBand ;
+    rdfs:range xsd:double .
+
+futuram:dqsValue a owl:DatatypeProperty ;
+    rdfs:label "DQS value"@en ;
+    rdfs:comment "The discrete Data Quality Score this band assigns (Eq.1: 1–4, where 1=Very reliable and 4=Dubious per FutuRaM D1.1 Table 2)."@en ;
+    rdfs:domain futuram:DqsBand ;
+    rdfs:range xsd:integer .
+
+futuram:uncertaintyValue a owl:DatatypeProperty ;
+    rdfs:label "uncertainty value"@en ;
+    rdfs:comment "The relative uncertainty (a fraction, e.g. 0.10 for 10 %) this band's DQS maps to (Eq.2). Use futuram:uncertaintyLowerBound/UpperBound instead when the score maps to a RANGE."@en ;
+    rdfs:domain futuram:DqsBand ;
+    rdfs:range xsd:double .
+
+futuram:uncertaintyLowerBound a owl:DatatypeProperty ;
+    rdfs:label "uncertainty lower bound"@en ;
+    rdfs:comment "Lower edge of the relative-uncertainty RANGE of a band whose DQS maps to a range rather than a point (Eq.2 DQS 4 -> 60-80 %: lower = 0.60)."@en ;
+    rdfs:domain futuram:DqsBand ;
+    rdfs:range xsd:double .
+
+futuram:uncertaintyUpperBound a owl:DatatypeProperty ;
+    rdfs:label "uncertainty upper bound"@en ;
+    rdfs:comment "Upper edge of the relative-uncertainty RANGE of a band whose DQS maps to a range (Eq.2 DQS 4 -> 60-80 %: upper = 0.80)."@en ;
+    rdfs:domain futuram:DqsBand ;
+    rdfs:range xsd:double .
+
+
+# ---- DQV-aggregation facets (Eq.1 first arrow, IRI-identified) -------------
+
+futuram:dqvAggregationRule a owl:ObjectProperty ;
+    rdfs:label "DQV aggregation rule"@en ;
+    rdfs:comment "Points an AggregationStrategy at the futuram:DqvAggregation individual that defines, by IRI, HOW its statements' per-dimension DQ scores combine into a mean data quality (Eq.1, first arrow). The IRI-identified counterpart of the legacy futuram:dqvAggregation string token: code dispatches on this individual, never on the string. Absent -> the ruleset's futuram:defaultDqvAggregation applies."@en ;
+    rdfs:domain futuram:AggregationStrategy ;
+    rdfs:range futuram:DqvAggregation .
+
+futuram:combination a owl:DatatypeProperty ;
+    rdfs:label "combination"@en ;
+    rdfs:comment "The arithmetic a DqvAggregation applies across the per-dimension scores it sees (e.g. \"arithmetic-mean\"). A controlled token NAMING the operation; the resolver reads the IRI of the owning DqvAggregation, this is documentation of which operation that IRI denotes."@en ;
+    rdfs:domain futuram:DqvAggregation ;
+    rdfs:range xsd:string .
+
+futuram:expectsDimension a owl:ObjectProperty ;
+    rdfs:label "expects dimension"@en ;
+    rdfs:comment "A dqv:Dimension the DqvAggregation expects a score for. The canonical set the mean is defined over (the six FutuRaM dimensions). What happens when a statement omits one is governed by futuram:onMissingDimension."@en ;
+    rdfs:domain futuram:DqvAggregation ;
+    rdfs:range dqv:Dimension .
+
+futuram:onMissingDimension a owl:ObjectProperty ;
+    rdfs:label "on missing dimension"@en ;
+    rdfs:comment "The futuram:MissingDimensionPolicy a DqvAggregation follows when a statement carries no score for an expected dimension. Keeps 'what to do about partial DQ data' on the rule (data), not in the plugin."@en ;
+    rdfs:domain futuram:DqvAggregation ;
+    rdfs:range futuram:MissingDimensionPolicy .
+
+futuram:extraWeightDimension a owl:ObjectProperty ;
+    rdfs:label "extra-weight dimension"@en ;
+    rdfs:comment "A dqv:Dimension that a futuram:DqvAggregation counts with EXTRA weight. The FutuRaM mean (source generator VehicleComponentDataset.Rmd line 1081) is the mean of the six dimensions PLUS a seventh synthetic term = mean(Accuracy, Consistency, Completeness): dataQualityMean = mean(Validity, Accuracy, Consistency, Integrity, Timeliness, Completeness, mean(Accuracy, Consistency, Completeness)). So Accuracy/Consistency/Completeness are the extra-weight dimensions; the rule averages the six dims and the mean-of-these-three as a 7th element."@en ;
+    rdfs:domain futuram:DqvAggregation ;
+    rdfs:range dqv:Dimension .
+
+
+# ---- per-statement results (the rule's output stamped on each PartRelation) -
+
+futuram:hasMeanDataQuality a owl:DatatypeProperty ;
+    rdfs:label "has mean data quality"@en ;
+    rdfs:comment "The mean of a composition statement's per-dimension DQ scores (Eq.1, first arrow), stamped on the PartRelation by the resolver. On the 1-4 scale (1=best, 4=dubious); the continuous quantity futuram:hasDataQualityScore bands."@en ;
+    rdfs:domain futuram:PartRelation ;
+    rdfs:range xsd:double .
+
+futuram:hasDataQualityScore a owl:DatatypeProperty ;
+    rdfs:label "has data quality score"@en ;
+    rdfs:comment "The Data Quality Score (DQS, integer 1-4) of a composition statement: the band of the uncertainty ruleset its mean data quality falls into (Eq.1). Stamped on the PartRelation by the resolver."@en ;
+    rdfs:domain futuram:PartRelation ;
+    rdfs:range xsd:integer .
+
+futuram:hasRelativeUncertainty a owl:DatatypeProperty ;
+    rdfs:label "has relative uncertainty"@en ;
+    rdfs:comment "The relative uncertainty of a composition statement (a fraction, e.g. 0.20 = +/-20 %): its DQS mapped to a percentage (Eq.2). Stamped on the PartRelation by the resolver; combined across statements by the ruleset's combination method (Eq.3) for the served fq:Amount."@en ;
+    rdfs:domain futuram:PartRelation ;
+    rdfs:range xsd:double .
+
+
+# ============================================================================
+# ABox  --  the concrete FutuRaM rule of the cited papers
+# ============================================================================
+
+# ---- combination method (Eq.3) ---------------------------------------------
+
+futuram:RootSumOfSquares a owl:NamedIndividual, futuram:CombinationMethod ;
+    rdfs:label "root sum of squares"@en ;
+    rdfs:comment "Eq.(3) error propagation (Wolf et al, 2007 numerical propagation, the project's complexity-reducing choice over full analytical/Monte-Carlo). The resulting uncertainty of an aggregate value V = sum v_i is sqrt(sum sigma_i^2) over the contributing statements' ABSOLUTE uncertainties sigma_i = u_i * v_i. Served as a RELATIVE fraction by dividing by the total: u_V = sqrt(sum (u_i*v_i)^2) / sum v_i — the CONTRIBUTION-WEIGHTED relative RSS. Weighting by v_i is essential: a bare sqrt(sum u_i^2) over the per-statement relatives grows as sqrt(N) and exceeds 100 % for many statements; each statement governs only its share v_i of the total, so it enters scaled by that share. One statement -> its own u."@en ;
+    futuram:presentedBy "0000-0001-8569-6630" .
+
+
+# ---- tree-propagation disciplines (Eq.3 over the composition reach tree) ----
+
+futuram:LeafContributionRSS a owl:NamedIndividual, futuram:UncertaintyPropagation ;
+    rdfs:label "leaf-contribution RSS"@en ;
+    rdfs:comment "The FutuRaM reference discipline (proven EXACT on SI-5, e.g. JF Copper 2030 = 78.27 kg ± 9.01 kg). Only LEAF (element-edge) uncertainties enter; the multiplying edges (product->component->material) contribute their VALUE to the path product but NOT their uncertainty. Path terms combine by futuram:pathSumMethod (RootSumOfSquares), each weighted by its contribution value v_path = product of the path's best fractions. i.e. sigma(E in W) = sqrt( sum over root->leaf-E paths of (v_path * u_leaf)^2 ), u_leaf = the leaf element edge's rectangular limit / sqrt(3)." ;
+    futuram:pathProductCompounds false ;
+    futuram:pathSumMethod futuram:RootSumOfSquares ;
+    futuram:presentedBy "0000-0001-8569-6630" .
+
+futuram:FullQuadraturePropagation a owl:NamedIndividual, futuram:UncertaintyPropagation ;
+    rdfs:label "full quadrature propagation"@en ;
+    rdfs:comment "The textbook first-order Gaussian alternative: EVERY edge along a path (multiplying edges included) injects its relative uncertainty into the path term by quadrature (relative variances add along a product). Kept nameable for completeness and experimentation; it OVERSHOOTS the FutuRaM reference (measured 19.97 % vs 11.51 % on JF Copper). futuram:FuturamDQS does NOT use this — it points at futuram:LeafContributionRSS." ;
+    futuram:pathProductCompounds true ;
+    futuram:pathSumMethod futuram:RootSumOfSquares ;
+    futuram:presentedBy "0000-0001-8569-6630" .
+
+
+# ---- missing-dimension policy ----------------------------------------------
+
+futuram:RequireAllDimensions a owl:NamedIndividual, futuram:MissingDimensionPolicy ;
+    rdfs:label "require all dimensions"@en ;
+    rdfs:comment "When a statement omits an expected dimension, treat it as a data error: no mean DQ, hence no uncertainty, is produced for that statement. All FutuRaM DqvAggregation rules use this (the ETL fills the full six-dimension vector and SHACL enforces it on every PartRelation)."@en .
+
+
+# ---- the per-dimension DQ aggregation (Eq.1, first arrow) ------------------
+
+futuram:EqualMeanPerDimension a owl:NamedIndividual, futuram:DqvAggregation ;
+    rdfs:label "equal mean per dimension"@en ;
+    rdfs:comment "The arithmetic mean of the per-dimension DQ scores, equally weighted (Eq.1: \"the overall data quality was estimated based on the arithmetic average of the six dimensions\"). The IRI-identified form of the legacy futuram:dqvAggregation \"equal-mean-per-dimension\" string. Expects the six FutuRaM dimensions and REQUIRES all of them (futuram:RequireAllDimensions)."@en ;
+    futuram:combination "arithmetic-mean" ;
+    futuram:expectsDimension dqv:Validity, dqv:Accuracy, dqv:Consistency,
+                             dqv:Timeliness, dqv:Completeness, dqv:Integrity ;
+    futuram:onMissingDimension futuram:RequireAllDimensions ;
+    futuram:presentedBy "0000-0001-8569-6630" .
+
+futuram:FuturamWeightedMean a owl:NamedIndividual, futuram:DqvAggregation ;
+    rdfs:label "FutuRaM weighted mean (7-term)"@en ;
+    rdfs:comment "The FutuRaM project's actual dataQualityMean (source generator VehicleComponentDataset.Rmd line 1081): the mean of the six DQ dimensions PLUS a seventh term equal to mean(Accuracy, Consistency, Completeness). Those three dimensions (futuram:extraWeightDimension) are thus up-weighted. Concretely dataQualityMean = (Validity + Accuracy + Consistency + Integrity + Timeliness + Completeness + mean(Accuracy, Consistency, Completeness)) / 7. This is the rule futuram:FuturamDQS uses to band the DQS; it reproduces the reference dataQuality column exactly."@en ;
+    futuram:combination "futuram-weighted-mean" ;
+    futuram:expectsDimension dqv:Validity, dqv:Accuracy, dqv:Consistency,
+                             dqv:Timeliness, dqv:Completeness, dqv:Integrity ;
+    futuram:extraWeightDimension dqv:Accuracy, dqv:Consistency, dqv:Completeness ;
+    futuram:onMissingDimension futuram:RequireAllDimensions ;
+    futuram:presentedBy "0000-0001-8569-6630" .
+
+futuram:MassWeightedMeanPerDimension a owl:NamedIndividual, futuram:DqvAggregation ;
+    rdfs:label "mass-weighted mean per dimension"@en ;
+    rdfs:comment "The MASS-weighted mean of the per-dimension DQ scores: the rule of the material rollup (MassWeightedRollupStrategy), where a subclass's contribution to its parent's quality is weighted by its mass share (the material asymmetry). The IRI-identified form of the legacy futuram:dqvAggregation \"mass-weighted-mean-per-dimension\" string. Same expected dimensions and missing-dimension policy as the equal-mean rule; only the weighting differs."@en ;
+    futuram:combination "mass-weighted-mean" ;
+    futuram:expectsDimension dqv:Validity, dqv:Accuracy, dqv:Consistency,
+                             dqv:Timeliness, dqv:Completeness, dqv:Integrity ;
+    futuram:onMissingDimension futuram:RequireAllDimensions ;
+    futuram:presentedBy "0000-0001-8569-6630" .
+
+
+# ---- promote the legacy dqvAggregation string tokens to IRI-identified rules
+# Each AggregationStrategy already declares a futuram:dqvAggregation STRING
+# ("equal-mean-per-dimension", "mass-weighted-mean-per-dimension"); these triples
+# add the IRI-identified futuram:dqvAggregationRule the resolver dispatches on, so
+# code never branches on the string. RemainderStrategy declares no rule on purpose
+# (its DQ is inherited from the coarse statement it derives) and falls back to the
+# ruleset's futuram:defaultDqvAggregation.
+
+futuram:EqualSubclassMeanStrategy futuram:dqvAggregationRule futuram:EqualMeanPerDimension .
+futuram:YearSliceMeanStrategy     futuram:dqvAggregationRule futuram:EqualMeanPerDimension .
+futuram:DrivetrainMeanStrategy    futuram:dqvAggregationRule futuram:EqualMeanPerDimension .
+futuram:MassWeightedRollupStrategy futuram:dqvAggregationRule futuram:MassWeightedMeanPerDimension .
+
+
+# ---- the ruleset: bands (Eq.1) + percentages (Eq.2) + method (Eq.3) --------
+
+futuram:FuturamDQS a owl:NamedIndividual, futuram:UncertaintyRuleset ;
+    rdfs:label "FutuRaM Data Quality Score ruleset"@en ;
+    rdfs:comment "The uncertainty-estimation rule used in the FutuRaM project (Roesslein et al, 2026; B. Boga et al, 2025): mean of the six DQ dimensions -> DQS band (Eq.1) -> relative uncertainty (Eq.2), combined by root-sum-of-squares of the RELATIVE uncertainties (Eq.3). Uncertainty is RECOMPUTED from the data-quality indicators carried on each composition statement; it is never an ingested field. The data-quality scores are the ground truth, the uncertainty is a pure function of them."@en ;
+    rdfs:comment "HOW the rectangular uncertaintyLimit is RECOMPUTED from the data-quality indicators (so it is never stored): a weighted sum of the six DQ dimensions (futuram:hasDimensionWeight) banded to a limit (futuram:hasLimitBand). The weights reproduce the FutuRaM reference dataset's hand-authored per-material limit (Data/33_VehicleComponentAdditionalInformation.xlsx) EXACTLY on its source table -- Integrity weighs 0.5 (the SI text: integrity 'can be inferred from the other indicators'), Timeliness weighs 1.5 (a strong independent signal), the rest 1.0. So weightedSum = Validity+Accuracy+Consistency+Completeness + 0.5*Integrity + 1.5*Timeliness, banded: 9.5->0.20, 10.5->0.25, 14.5->0.30, 15.5->0.35 (lower-quality layers extend 6.0->0.10, 8.0->0.15). NB: the EXPLODED reference CSV (ELV_1980_2050_*.csv) mixes composition LAYERS, so the same weighted sum can appear with two limits there (a layer artefact); on the AUTHORED source table the rule is 1-to-1. The DQS bands (Eq.1/Eq.2 above) are a separate, coarser descriptive grade."@en ;
+    futuram:defaultDqvAggregation futuram:FuturamWeightedMean ;
+    futuram:combinationMethod futuram:RootSumOfSquares ;
+    futuram:uncertaintyPropagation futuram:LeafContributionRSS ;
+    futuram:hasBand futuram:FuturamDQS_band1,
+                    futuram:FuturamDQS_band2,
+                    futuram:FuturamDQS_band3,
+                    futuram:FuturamDQS_band4 ;
+    futuram:hasDimensionWeight futuram:weight_Validity, futuram:weight_Accuracy,
+                    futuram:weight_Consistency, futuram:weight_Integrity,
+                    futuram:weight_Timeliness, futuram:weight_Completeness ;
+    futuram:hasLimitBand futuram:limitBand_10, futuram:limitBand_15,
+                    futuram:limitBand_20, futuram:limitBand_25,
+                    futuram:limitBand_30, futuram:limitBand_35 ;
+    futuram:presentedBy "0000-0001-8569-6630" .
+
+# the per-dimension weights of the uncertainty-limit weighted sum
+futuram:weight_Validity     a futuram:DimensionWeight ; futuram:weightDimension dqv:Validity ;     futuram:weightValue 1.0e0 .
+futuram:weight_Accuracy     a futuram:DimensionWeight ; futuram:weightDimension dqv:Accuracy ;     futuram:weightValue 1.0e0 .
+futuram:weight_Consistency  a futuram:DimensionWeight ; futuram:weightDimension dqv:Consistency ;  futuram:weightValue 1.0e0 .
+futuram:weight_Completeness a futuram:DimensionWeight ; futuram:weightDimension dqv:Completeness ; futuram:weightValue 1.0e0 .
+# Integrity down-weighted (inferable from other indicators, per the SI text)
+futuram:weight_Integrity    a futuram:DimensionWeight ; futuram:weightDimension dqv:Integrity ;    futuram:weightValue 0.5e0 .
+# Timeliness up-weighted (a strong independent data-age signal)
+futuram:weight_Timeliness   a futuram:DimensionWeight ; futuram:weightDimension dqv:Timeliness ;   futuram:weightValue 1.5e0 .
+
+# the weighted-sum -> uncertaintyLimit bands. Half-open [lower, upper); the
+# thresholds are the midpoints between the source's observed weighted sums
+# (6, 8, 9.5, 10.5, 14.5, 15.5).
+futuram:limitBand_10 a futuram:LimitBand ; futuram:weightedSumLowerBound 0.0e0  ; futuram:weightedSumUpperBound 7.0e0  ; futuram:bandUncertaintyLimit 0.10e0 .
+futuram:limitBand_15 a futuram:LimitBand ; futuram:weightedSumLowerBound 7.0e0  ; futuram:weightedSumUpperBound 9.0e0  ; futuram:bandUncertaintyLimit 0.15e0 .
+futuram:limitBand_20 a futuram:LimitBand ; futuram:weightedSumLowerBound 9.0e0  ; futuram:weightedSumUpperBound 10.0e0 ; futuram:bandUncertaintyLimit 0.20e0 .
+futuram:limitBand_25 a futuram:LimitBand ; futuram:weightedSumLowerBound 10.0e0 ; futuram:weightedSumUpperBound 14.0e0 ; futuram:bandUncertaintyLimit 0.25e0 .
+futuram:limitBand_30 a futuram:LimitBand ; futuram:weightedSumLowerBound 14.0e0 ; futuram:weightedSumUpperBound 15.0e0 ; futuram:bandUncertaintyLimit 0.30e0 .
+futuram:limitBand_35 a futuram:LimitBand ; futuram:weightedSumLowerBound 15.0e0 ; futuram:weightedSumUpperBound 99.0e0 ; futuram:bandUncertaintyLimit 0.35e0 .
+
+# Eq.(1): mean data quality < 1.3 -> DQS 1 ;  Eq.(2): DQS 1 -> 10 %
+futuram:FuturamDQS_band1 a owl:NamedIndividual, futuram:DqsBand ;
+    rdfs:label "DQS 1 (mean DQ < 1.3)"@en ;
+    futuram:meanLowerBound 1.0e0 ;
+    futuram:meanUpperBound 1.3e0 ;
+    futuram:dqsValue 1 ;
+    futuram:uncertaintyValue 0.10e0 .
+
+# Eq.(1): 1.3 <= mean data quality < 2.3 -> DQS 2 ;  Eq.(2): DQS 2 -> 20 %
+futuram:FuturamDQS_band2 a owl:NamedIndividual, futuram:DqsBand ;
+    rdfs:label "DQS 2 (1.3 <= mean DQ < 2.3)"@en ;
+    futuram:meanLowerBound 1.3e0 ;
+    futuram:meanUpperBound 2.3e0 ;
+    futuram:dqsValue 2 ;
+    futuram:uncertaintyValue 0.20e0 .
+
+# Eq.(1): 2.3 <= mean data quality < 3.3 -> DQS 3 ;  Eq.(2): DQS 3 -> 40 %.
+# The source R generator (external/VehicleComposition, VehicleComponentDataset.Rmd
+# line 1085) bands DQS 3 as [2.3, 3.3) -- the top edge is 3.3, NOT 3.0, so a mean at
+# the 0-3 scale max (3.0) is DQS 3. (mean >= 3.3 -> DQS 4, unreachable on the 0-3
+# scale but kept faithful to the source.)
+futuram:FuturamDQS_band3 a owl:NamedIndividual, futuram:DqsBand ;
+    rdfs:label "DQS 3 (2.3 <= mean DQ < 3.3)"@en ;
+    futuram:meanLowerBound 2.3e0 ;
+    futuram:meanUpperBound 3.3e0 ;
+    futuram:dqsValue 3 ;
+    futuram:uncertaintyValue 0.40e0 .
+
+# Eq.(1): mean data quality >= 3.3 -> DQS 4 ;  Eq.(2): DQS 4 -> 60-80 %
+# (FutuRaM D1.1 Table 2: "Dubious"). No rows in the current ELV dataset carry DQS 4,
+# but it is a valid band on the 1-4 scale.
+futuram:FuturamDQS_band4 a owl:NamedIndividual, futuram:DqsBand ;
+    rdfs:label "DQS 4 (dubious, mean DQ >= 3.3)"@en ;
+    futuram:meanLowerBound 3.3e0 ;
+    futuram:dqsValue 4 ;
+    futuram:uncertaintyLowerBound 0.60e0 ;
+    futuram:uncertaintyUpperBound 0.80e0 .

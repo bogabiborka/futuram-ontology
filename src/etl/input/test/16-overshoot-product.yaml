@@ -1,0 +1,75 @@
+id: "16_overshoot_product"
+title: "car components overshoot 1.0 (PRODUCT-level violation)"
+note: "the car's two COMPONENTS sum to a minimum of 1.1 (>1) — a conservation VIOLATION at the PRODUCT level. Each component's own materials conserve, so the overshoot is isolated to the car (Product). Mirror of scenario 04 one level up: proves the rule fires on a Product whole, not only a Component."
+
+provenance:
+  source: "FutuRaM composition datasheet (test)"
+  agent: "FutuRaM test organisation"
+  production: "forming"
+  validFrom: "2020-01-01"
+  validUntil: "2026-12-31"
+
+nodes:
+  car: {level: Product, class: V0301030105_Y2020, itemMass: 1000.0}
+  motor: {level: Component, class: elvElectricMotor_Y2020, itemMass: 50.0}
+  harness: {level: Component, class: wiringHarness_Y2020, itemMass: 50.0}
+  winding: {level: Material, class: highCuAlloys}
+  steel: {level: Material, class: lowCarbonSteel}
+  cuwire: {level: Material, class: highCuAlloys}
+  sheath: {level: Material, class: plasticComposites}
+  cu: {level: Element, class: Copper}
+  ni: {level: Element, class: Nickel}
+  fe: {level: Element, class: Iron}
+  c: {level: Element, class: Carbon}
+
+statements:
+  # car -> 2 components; min 0.55 + 0.55 = 1.10 > 1.0 -> OVERSHOOT at PRODUCT level
+- {whole: car, part: motor, best: 0.575, lo: 0.55, hi: 0.60, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: car, part: harness, best: 0.575, lo: 0.55, hi: 0.60, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+  # motor -> 2 materials (conserve)
+- {whole: motor, part: winding, best: 0.32, lo: 0.30, hi: 0.34, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: motor, part: steel, best: 0.62, lo: 0.60, hi: 0.64, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+  # harness -> 2 materials (conserve)
+- {whole: harness, part: cuwire, best: 0.6, lo: 0.58, hi: 0.62, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: harness, part: sheath, best: 0.38, lo: 0.36, hi: 0.40, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+  # materials -> elements (conserve)
+- {whole: winding, part: cu, best: 0.99, lo: 0.985, hi: 0.995, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: winding, part: ni, best: 0.01, lo: 0.005, hi: 0.015, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: steel, part: fe, best: 0.99, lo: 0.985, hi: 0.995, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: steel, part: c, best: 0.01, lo: 0.005, hi: 0.015, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: cuwire, part: cu, best: 0.99, lo: 0.985, hi: 0.995, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: cuwire, part: ni, best: 0.01, lo: 0.005, hi: 0.015, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: sheath, part: c, best: 0.99, lo: 0.985, hi: 0.995, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: sheath, part: cu, best: 0.01, lo: 0.005, hi: 0.015, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+subclass_of:
+  V0301030105_Y2020:
+  - V0301030105
+  - elvBEV_Y2020
+  elvElectricMotor_Y2020:
+  - elvElectricMotor
+  wiringHarness_Y2020:
+  - wiringHarness
+  elvBEV_Y2020:
+  - elvBEV
+class_time:
+  V0301030105_Y2020:
+    year: 2020
+    slices:
+    - parent: V0301030105
+      axis: year-slice-mean
+  elvElectricMotor_Y2020:
+    year: 2020
+    slices:
+    - parent: elvElectricMotor
+      axis: year-slice-mean
+  wiringHarness_Y2020:
+    year: 2020
+    slices:
+    - parent: wiringHarness
+      axis: year-slice-mean
+  elvBEV_Y2020:
+    year: 2020
+    strategy: equal-subclass-mean
+    slices:
+    - parent: elvBEV
+      axis: year-slice-mean

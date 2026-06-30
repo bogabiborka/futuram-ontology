@@ -1,0 +1,86 @@
+id: "19_overshoot_all_but_one"
+title: "every level overshoots EXCEPT one (Component conserves)"
+note: |
+  A deep chain car -> powertrain (sub-Product) -> motor (Component) -> winding
+  (Material) -> elements, with fan-out (>=2 children) at every non-leaf level.
+  Conservation is VIOLATED at every non-leaf level EXCEPT the Component:
+    PRODUCT      car        components min 0.55 + 0.55 = 1.10 > 1  -> OVERSHOOT
+    sub-PRODUCT  powertrain components min 0.60 + 0.55 = 1.15 > 1  -> OVERSHOOT
+    COMPONENT    motor      materials  min 0.50 + 0.45 = 0.95 < 1  -> conserves (the lone good layer)
+    MATERIAL     winding    elements   min 0.60 + 0.55 = 1.15 > 1  -> OVERSHOOT
+  Inverse of scenario 18: proves the rule flags exactly the violating wholes
+  {car, powertrain, winding} and leaves the single conserving level (motor) —
+  and all the conserving fan-out siblings — UNflagged.
+
+provenance:
+  source: "FutuRaM composition datasheet (test)"
+  agent: "FutuRaM test organisation"
+  production: "forming"
+  validFrom: "2020-01-01"
+  validUntil: "2026-12-31"
+
+nodes:
+  car: {level: Product, class: V0301030105_Y2020, itemMass: 1000.0}
+  powertrain: {level: Product, class: elvBEV_Y2020, itemMass: 1000.0}
+  chassis: {level: Product, class: elvBEV_Y2020, itemMass: 1000.0} # fan-out at car
+  motor: {level: Component, class: elvElectricMotor_Y2020, itemMass: 50.0}
+  inverter: {level: Component, class: elvPowerElectronics_Y2020, itemMass: 50.0} # fan-out at powertrain
+  winding: {level: Material, class: pureCu}
+  laminate: {level: Material, class: steelAndSteelAlloys}      # fan-out at motor
+  cu: {level: Element, class: Copper}
+  ni: {level: Element, class: Nickel}
+  fe: {level: Element, class: Iron}
+  c: {level: Element, class: Carbon}
+
+statements:
+  # PRODUCT overshoot: car components min 0.55 + 0.55 = 1.10 > 1
+- {whole: car, part: powertrain, best: 0.575, lo: 0.55, hi: 0.60, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: car, part: chassis, best: 0.575, lo: 0.55, hi: 0.60, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+  # sub-PRODUCT overshoot: powertrain components min 0.60 + 0.55 = 1.15 > 1
+- {whole: powertrain, part: motor, best: 0.625, lo: 0.60, hi: 0.65, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: powertrain, part: inverter, best: 0.575, lo: 0.55, hi: 0.60, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+  # COMPONENT conserves: motor materials min 0.50 + 0.45 = 0.95 < 1 (the lone good layer)
+- {whole: motor, part: winding, best: 0.52, lo: 0.50, hi: 0.54, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: motor, part: laminate, best: 0.465, lo: 0.45, hi: 0.48, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+  # MATERIAL overshoot: winding elements min 0.60 + 0.55 = 1.15 > 1
+- {whole: winding, part: cu, best: 0.625, lo: 0.60, hi: 0.65, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: winding, part: ni, best: 0.575, lo: 0.55, hi: 0.60, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+  # laminate elements conserve (NOT flagged)
+- {whole: laminate, part: fe, best: 0.98, lo: 0.97, hi: 0.99, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: laminate, part: c, best: 0.0075, lo: 0.005, hi: 0.01, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+  # chassis / inverter conserve so they are not themselves flagged
+- {whole: chassis, part: laminate, best: 0.925, lo: 0.90, hi: 0.95, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: chassis, part: winding, best: 0.03, lo: 0.02, hi: 0.04, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: inverter, part: winding, best: 0.32, lo: 0.30, hi: 0.34, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: inverter, part: laminate, best: 0.62, lo: 0.60, hi: 0.64, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+subclass_of:
+  V0301030105_Y2020:
+  - V0301030105
+  - elvBEV_Y2020
+  elvBEV_Y2020:
+  - elvBEV
+  elvElectricMotor_Y2020:
+  - elvElectricMotor
+  elvPowerElectronics_Y2020:
+  - elvPowerElectronics
+class_time:
+  V0301030105_Y2020:
+    year: 2020
+    slices:
+    - parent: V0301030105
+      axis: year-slice-mean
+  elvBEV_Y2020:
+    year: 2020
+    slices:
+    - parent: elvBEV
+      axis: year-slice-mean
+  elvElectricMotor_Y2020:
+    year: 2020
+    slices:
+    - parent: elvElectricMotor
+      axis: year-slice-mean
+  elvPowerElectronics_Y2020:
+    year: 2020
+    slices:
+    - parent: elvPowerElectronics
+      axis: year-slice-mean

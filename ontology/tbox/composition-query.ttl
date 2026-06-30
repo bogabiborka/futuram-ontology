@@ -1,0 +1,165 @@
+@prefix fq: <https://www.purl.org/futuram/query#> .
+@prefix futuram: <https://www.purl.org/futuram#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+fq: a owl:Ontology ;
+    rdfs:label "FutuRaM composition query ontology"@en ;
+    rdfs:comment "Query-optimized, LLM-facing projection of the FutuRaM class-level composition results. Flat, fixed-depth (<=2 hops), class-only subjects. Every fq: triple is projected by the serving resolver from the internal futuram:ClassCompositionStatement aggregate (the frozen oracle), and linked back via fq:derivedFrom. Designed so a generic SPARQL LLM can answer 'how much element E in class X' without traversing the rich CEON/QUDT reification."@en .
+
+fq:aggregationStrategy a owl:ObjectProperty ;
+    rdfs:label "aggregation strategy"@en ;
+    rdfs:comment "HOW a served class's amounts were aggregated: the futuram:AggregationStrategy individual (equal-subclass-mean within a slice, year-slice mean for a timeless base, mass-weighted rollup for materials, remainder for unknown holders). Follow it into the futuram: graph for the per-facet declarations (value, uncertainty, DQV, remainder, provenance, time scope)."@en .
+
+fq:amount a owl:DatatypeProperty ;
+    rdfs:label "amount"@en ;
+    rdfs:comment "The HEADLINE best value: how much of the element is in the class, in kg/kg (the central estimate / Monte-Carlo median). The one number a caller reads when one number is needed."@en ;
+    rdfs:domain fq:Amount ;
+    rdfs:range xsd:double .
+
+fq:amountHigh a owl:DatatypeProperty ;
+    rdfs:label "amount high"@en ;
+    rdfs:comment "Upper bound of the served interval — the 95th percentile of the Monte-Carlo ensemble (kg/kg)."@en ;
+    rdfs:domain fq:Amount ;
+    rdfs:range xsd:double .
+
+fq:amountLow a owl:DatatypeProperty ;
+    rdfs:label "amount low"@en ;
+    rdfs:comment "Lower bound of the served interval — the 5th percentile of the Monte-Carlo ensemble (kg/kg). With fq:amountHigh gives a 90% credible interval."@en ;
+    rdfs:domain fq:Amount ;
+    rdfs:range xsd:double .
+
+fq:constituent a owl:ObjectProperty ;
+    rdfs:label "constituent"@en ;
+    rdfs:comment "Which constituent class the amount is about (e.g. futuram:Copper). Level-neutral: the target may be an Element, Material or Component. Its KIND is NOT encoded here — it is declared on the target itself via rdfs:subClassOf to its level class (futuram:Element / futuram:Material / futuram:Component). Query for a kind by constraining the target's class, not this property's name."@en ;
+    rdfs:domain fq:Amount .
+
+fq:contains a owl:ObjectProperty ;
+    rdfs:label "contains"@en ;
+    rdfs:comment "The served edge: this CLASS contains this much of an element. Subject is ALWAYS a class (Product/Component/Material), never an instance (SERVING-SPEC §3). The single hop an LLM follows from a queried class to its composition amounts."@en ;
+    rdfs:range fq:Amount .
+
+fq:dqs a owl:DatatypeProperty ;
+    rdfs:label "data quality score"@en ;
+    rdfs:comment "The Data Quality Score (DQS, an integer 1-4) of this amount: which band of the uncertainty ruleset the amount's mean data quality falls into (Eq.1). For a leaf amount it is the band of the single source statement; for an aggregate it is the band of the worst (numerically highest) contributing statement, the conservative summary. Follow fq:uncertaintyMethod into the futuram: graph for the band table."@en ;
+    rdfs:domain fq:Amount ;
+    rdfs:range xsd:integer .
+
+fq:meanDataQuality a owl:DatatypeProperty ;
+    rdfs:label "mean data quality"@en ;
+    rdfs:comment "The arithmetic mean of the per-dimension DQ scores behind this amount (Eq.1, first arrow), on the 0-3 scale, computed by the amount's strategy's futuram:DqvAggregation rule. The continuous quantity fq:dqs bands. For an aggregate, the mean over the contributing statements' mean data qualities."@en ;
+    rdfs:domain fq:Amount ;
+    rdfs:range xsd:double .
+
+fq:relativeUncertainty a owl:DatatypeProperty ;
+    rdfs:label "relative uncertainty"@en ;
+    rdfs:comment "The relative uncertainty of this amount as a fraction (e.g. 0.20 = +/-20 %), DERIVED from the data-quality indicators (never an ingested number): each contributing statement's six-dimension DQ scores -> mean -> DQS (Eq.1) -> relative uncertainty (Eq.2), combined across the statements feeding this amount by the ruleset's combination method (Eq.3): the CONTRIBUTION-WEIGHTED relative root-sum-of-squares u = sqrt(sum (u_i*v_i)^2) / sum v_i, where v_i is each statement's value contribution (so it does not blow past 100 % as a bare sqrt(sum u_i^2) would). RELATIVE on purpose: the absolute uncertainty of a concrete query is this fraction APPLIED TO THE itemMass asked for -- absolute_kg = fq:relativeUncertainty x fq:itemMass(of the queried Product/Component) x fq:amount -- so one derived relative number serves any item mass, and no absolute kg is frozen into the graph. The data-quality scores are the ground truth; the uncertainty is a pure function of them. The rectangular limit is recomputed from the six DQ scores by futuram:FuturamDQS's weighted-sum bands, so this derivation reproduces the FutuRaM reference dataset's published uncertainty: the served Supplementary-Information competency tables are matched (SI-5 Cu/BEV2030 means to 2dp and per-segment uncertainties within ~1 %, SI-6 5xxx-Al/BEV2020 means)."@en ;
+    rdfs:domain fq:Amount ;
+    rdfs:range xsd:double .
+
+fq:uncertaintyMethod a owl:ObjectProperty ;
+    rdfs:label "uncertainty method"@en ;
+    rdfs:comment "The futuram:UncertaintyRuleset (e.g. futuram:FuturamDQS) that produced fq:dqs and fq:relativeUncertainty. The bridge to the rule: follow it into the futuram: graph for the DQS bands (Eq.1), the percentage mapping (Eq.2) and the combination method (Eq.3)."@en ;
+    rdfs:domain fq:Amount ;
+    rdfs:range futuram:UncertaintyRuleset .
+
+fq:derivedFrom a owl:ObjectProperty ;
+    rdfs:label "derived from"@en ;
+    rdfs:comment "The BRIDGE to the rich internal model: the futuram:ClassCompositionStatement (and ultimately the source instance statements) this flat amount was projected from. An LLM that wants full provenance, distribution kinds or validation follows this into the futuram: graph."@en ;
+    rdfs:domain fq:Amount ;
+    rdfs:subPropertyOf prov:wasDerivedFrom .
+
+fq:derivedFromStatement a owl:ObjectProperty ;
+    rdfs:label "derived from statement"@en ;
+    rdfs:comment "Class-level provenance pointer from a served aggregate to the exact futuram:CompositionStatement individuals (stable content-hashed IRIs) underneath its descendant leaf classes — the source statements its value and on-demand Monte-Carlo are computed from. Complements fq:derivedFrom (which points at the subclass leaf CLASSES)."@en ;
+    rdfs:subPropertyOf prov:wasDerivedFrom .
+
+fq:distribution a owl:ObjectProperty ;
+    rdfs:label "distribution"@en ;
+    rdfs:comment "The Monte-Carlo summary shape of this amount — always an fq:Empirical (percentile-based), never a parametric claim."@en ;
+    rdfs:domain fq:Amount ;
+    rdfs:range fq:Empirical .
+
+fq:itemMass a owl:DatatypeProperty ;
+    rdfs:label "item mass"@en ;
+    rdfs:comment "The absolute mass of ONE item of this Product/Component class, in KILOGRAMS — the REFERENCE ANCHOR that turns the kg/kg composition into absolute amounts: the absolute kg of a constituent in one item = fq:itemMass x fq:amount. The flat projection of futuram:itemMass (derived per class from the instances by the class's aggregation strategy). Subject is a class; only Product/Component classes carry it (Material/Element are bulk matter with no item mass)."@en ;
+    rdfs:range xsd:double .
+
+fq:mcAvailable a owl:DatatypeProperty ;
+    rdfs:label "Monte-Carlo available"@en ;
+    rdfs:comment "Marker on an AGGREGATE class (one that rolls up subclasses) that a real Monte-Carlo interval is COMPUTABLE but not materialised here. Percentiles do not commute with averaging, so a band cannot be rolled up from served children; instead follow fq:derivedFrom / fq:derivedFromStatement to the underlying leaves' instances and resample on demand. Leaf classes carry their own fq:amountLow/High directly and do not set this."@en ;
+    rdfs:range xsd:boolean .
+
+fq:p a owl:DatatypeProperty ;
+    rdfs:label "p"@en ;
+    rdfs:comment "The percentile (0..100) of a percentile point."@en ;
+    rdfs:domain fq:Percentile ;
+    rdfs:range xsd:double .
+
+fq:percentile a owl:ObjectProperty ;
+    rdfs:label "percentile"@en ;
+    rdfs:comment "An optional extra percentile point of the empirical curve (beyond the headline low/median/high), for callers that want the full distribution."@en ;
+    rdfs:domain fq:Empirical ;
+    rdfs:range fq:Percentile .
+
+fq:periodEnd a owl:DatatypeProperty ;
+    rdfs:label "period end"@en ;
+    rdfs:comment "Last year of a served class's reference period. Always paired with fq:periodStart."@en ;
+    rdfs:range xsd:integer .
+
+fq:periodStart a owl:DatatypeProperty ;
+    rdfs:label "period start"@en ;
+    rdfs:comment "First year of a served class's reference period (projected from futuram:hasReferencePeriod, or DERIVED as the earliest slice year for a base class served under the year-slice-mean strategy). Always paired with fq:periodEnd."@en ;
+    rdfs:range xsd:integer .
+
+fq:referenceYear a owl:DatatypeProperty ;
+    rdfs:label "reference year"@en ;
+    rdfs:comment "The reference / production year of a served time-slice class (projected from futuram:referenceYear). A served Product/Component class carries exactly one of fq:referenceYear or fq:periodStart+fq:periodEnd."@en ;
+    rdfs:range xsd:integer .
+
+fq:sampleCount a owl:DatatypeProperty ;
+    rdfs:label "sample count"@en ;
+    rdfs:comment "Number of Monte-Carlo samples used to produce this amount (from the aggregation config), for reproducibility."@en ;
+    rdfs:domain fq:Amount ;
+    rdfs:range xsd:integer .
+
+fq:sliceAxis a owl:ObjectProperty ;
+    rdfs:label "slice axis" ;
+    rdfs:comment "The AGGREGATION AXIS a fq:sliceOf edge runs along, identified by the IRI of the futuram:AggregationStrategy that combines that dimension (futuram:YearSliceMeanStrategy for the year axis, futuram:DrivetrainMeanStrategy for the drivetrain axis). The strategy IRI IS the axis identity — there is no per-axis predicate." ;
+    rdfs:range futuram:AggregationStrategy .
+
+fq:sliceOf a owl:ObjectProperty ;
+    rdfs:label "slice of" ;
+    rdfs:comment "Links a served slice class to its aggregation PARENT along one axis (year, drivetrain, …). Generic over every axis: the axis itself is named by fq:sliceAxis. A class may be fq:sliceOf more than one parent when it slices along more than one axis (e.g. a drivetrain variant of a year slice). Navigation aid: from a parent find its variants via ?slice fq:sliceOf <parent>, from a slice the parent directly." .
+
+fq:unit a owl:DatatypeProperty ;
+    rdfs:label "unit"@en ;
+    rdfs:comment "The unit of fq:amount / fq:amountLow / fq:amountHigh. Constant 'kg/kg' in this model (every statement is per 1 kg of the whole); made explicit so the LLM never has to infer it."@en ;
+    rdfs:domain fq:Amount ;
+    rdfs:range xsd:string .
+
+fq:value a owl:DatatypeProperty ;
+    rdfs:label "value"@en ;
+    rdfs:comment "The amount (kg/kg) at a percentile point."@en ;
+    rdfs:domain fq:Percentile ;
+    rdfs:range xsd:double .
+
+fq:whole a owl:ObjectProperty ;
+    rdfs:label "whole"@en ;
+    rdfs:comment "Back-link from an amount node to its subject class (denormalized, so element-first queries — 'which classes contain copper' — need no reverse traversal of fq:contains)."@en ;
+    rdfs:domain fq:Amount .
+
+fq:Empirical a owl:Class ;
+    rdfs:label "empirical distribution"@en ;
+    rdfs:comment "The Monte-Carlo summary 'distribution' of a served amount: percentile-based, NOT a parametric family. The served result is never claimed to be normal/triangular/etc. — it is the honest empirical ensemble of the aggregation, summarised by its percentiles (fq:amount = median, fq:amountLow/High = the 5th/95th)."@en .
+
+fq:Percentile a owl:Class ;
+    rdfs:label "percentile point"@en ;
+    rdfs:comment "One (probability, value) point of an empirical distribution curve — optional richness beyond the headline low/median/high. fq:p is the percentile (0..100), fq:value the amount at that percentile."@en .
+
+fq:Amount a owl:Class ;
+    rdfs:label "served amount"@en ;
+    rdfs:comment "A served amount node: how much of ONE element is in ONE class, as a flat reification carrying the best value, the Monte-Carlo interval, coverage and the unattributed residual. One fq:Amount per (whole class, element) — a STABLE, addressable IRI (fq:amount_<whole>_<constituent>), not a blank node, so an amount can be cited or linked and re-projecting the same pair is idempotent. Projected from a futuram:ClassCompositionStatement; reachable from the whole class via fq:contains."@en .
+

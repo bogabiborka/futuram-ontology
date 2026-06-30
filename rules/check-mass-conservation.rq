@@ -1,0 +1,48 @@
+# NEW-SHAPE hand-edit of check-mass-conservation.rq.
+# Only the reified read changes to the new hop. Bare fillers carry no hasQuantity
+# so they never entered this sum (old or new) — no dual-channel needed.
+PREFIX futuram: <https://www.purl.org/futuram#>
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+PREFIX qudt:    <http://qudt.org/schema/qudt/>
+PREFIX unit:    <http://qudt.org/vocab/unit/>
+PREFIX ceonq:   <http://w3id.org/CEON/ontology/quantity/>
+
+CONSTRUCT {
+    ?whole futuram:massConserved false .
+}
+WHERE {
+    {
+        SELECT ?whole (SUM(?partMinFrac) AS ?partsMin)
+        WHERE {
+            ?whole futuram:hasCompositionStatement ?pStmt .
+            ?pStmt a futuram:CompositionStatement ; futuram:hasPartRelation ?rel .
+            ?rel futuram:refersTo ?part ; futuram:hasQuantity ?pq .
+
+            ?whole a ?wRoot . ?part a ?pRoot .
+            VALUES ( ?wRoot ?wRank ) {
+                ( futuram:Product 0 ) ( futuram:Component 1 )
+                ( futuram:Material 2 ) ( futuram:Element 3 ) }
+            VALUES ( ?pRoot ?pRank ) {
+                ( futuram:Product 0 ) ( futuram:Component 1 )
+                ( futuram:Material 2 ) ( futuram:Element 3 ) }
+            FILTER ( ABS( ?pRank - ?wRank ) <= 1 )
+
+            ?pq futuram:hasBestValue ?pBest .
+            ?pBest qudt:numericValue ?pBestVal ; qudt:unit ?pBestUnit .
+            OPTIONAL {
+                ?pq ceonq:hasMinimalValueIncludedOfInterval ?pMin .
+                ?pMin qudt:numericValue ?pMinVal ; qudt:unit ?pMinUnit .
+            }
+            BIND( COALESCE(?pMinVal,  ?pBestVal)  AS ?pLo )
+            BIND( COALESCE(?pMinUnit, ?pBestUnit) AS ?pUnit )
+            BIND(
+                IF(?pUnit = unit:KiloGM-PER-KiloGM, ?pLo,
+                IF(?pUnit = unit:GM-PER-KiloGM,     ?pLo * 0.001,
+                   0.0)) AS ?partMinFrac )
+        }
+        GROUP BY ?whole
+    }
+    FILTER ( ?partsMin > 1.0 + 0.000000001 )
+}

@@ -1,0 +1,36 @@
+# EL-materialization: the component-granularity layers (top-down).
+#
+# Each layer is defined in the TBox as
+#   SubComponent      ≡ Component ⊓ ∃isDirectPartOf.MainComponent
+#   SubSubComponent   ≡ Component ⊓ ∃isDirectPartOf.SubComponent
+#   SubSubSubComponent≡ Component ⊓ ∃isDirectPartOf.SubSubComponent
+# These equivalentClass-over-an-inverse axioms are OUTSIDE EL (they need the
+# isDirectPartOf inverse, which ELK does not materialise — see
+# infer-direct-part-inverse.rq, which MUST run first). This CONSTRUCT precomputes
+# the typing one layer down from a seed, so the served graph carries the layer
+# memberships with no inverse / equivalentClass reasoning at query time.
+#
+# Run AFTER infer-direct-part-inverse.rq and REPEATEDLY to a fixpoint: each pass
+# types the next layer down (Main -> Sub -> SubSub -> SubSubSub), so a deeper data
+# tree fills additional layers. The equivalentClass axioms stay in the TBox as the
+# specification (HermiT / the test suite validate them); this rule materialises the
+# consequence. Disjointness of the layers is enforced by SHACL / checked by HermiT.
+PREFIX futuram: <https://www.purl.org/futuram#>
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+
+CONSTRUCT { ?part rdf:type ?childLayer . }
+WHERE {
+    ?part  futuram:isDirectPartOf ?whole .
+    # the layered nodes are punned CLASSES (a component class is subClassOf*
+    # futuram:Component, not rdf:type Component); match the taxonomy edge,
+    # transitively so a class nested under an intermediate group still counts.
+    ?part  rdfs:subClassOf* futuram:Component .
+    ?whole rdf:type ?parentLayer .
+    # the layer one step below the parent's layer
+    VALUES ( ?parentLayer ?childLayer ) {
+        ( futuram:MainComponent     futuram:SubComponent )
+        ( futuram:SubComponent      futuram:SubSubComponent )
+        ( futuram:SubSubComponent   futuram:SubSubSubComponent )
+    }
+}

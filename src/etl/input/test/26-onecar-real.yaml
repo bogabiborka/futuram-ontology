@@ -1,0 +1,2882 @@
+id: 26_onecar_real
+title: 'transformed from oneCarOnly.xlsx: 2 (product,year) instance(s), per-layer kg/kg'
+note: "Auto-generated from a FutuRaM composition dataset (kg/unit absolute mass, converted to per-layer kg/kg). Each (product, productionYear) is a separate instance.\n\nLevels from parameterCode: c-p (component-of-product), m-c (material-of-component), e-m (element-of-material). Each value is divided by its IMMEDIATE whole's mass to give the per-layer fraction; component structure is taken from m-c (c-p is a cross-check, since its inline material duplicates the m-c row).\n\nThe material->element layer is YEAR-INVARIANT (intrinsic chemistry, enforced within EM_YEAR_TOL): material/element nodes carry no year and each m->e statement appears once, shared by every production-year instance of its product.\n\n2 instance(s) across 1 product class(es):\n  V0301030105 / 2010: total mass 1489.4 kg\n  V0301030105 / 2011: total mass 1496.6 kg"
+class_labels:
+  V0301030105: battery-electric vehicle (BEV) — segment E (executive — large saloons)
+axis_values:
+  elvBEV: drivetrain-mean
+node_time:
+  V0301030105_2010:
+    year: 2010
+  elvGeneralComponents__V0301030105_2010:
+    year: 2010
+  elvEmbeddedElectronicsActuators__V0301030105_2010:
+    year: 2010
+  elvEmbeddedElectronicsCables__V0301030105_2010:
+    year: 2010
+  elvEmbeddedElectronicsControllers__V0301030105_2010:
+    year: 2010
+  elvEmbeddedElectronicsHeadlights__V0301030105_2010:
+    year: 2010
+  elvPowerElectronics__V0301030105_2010:
+    year: 2010
+  elvElectricMotor__V0301030105_2010:
+    year: 2010
+  V0301030105_2011:
+    year: 2011
+  elvGeneralComponents__V0301030105_2011:
+    year: 2011
+  elvEmbeddedElectronicsActuators__V0301030105_2011:
+    year: 2011
+  elvEmbeddedElectronicsCables__V0301030105_2011:
+    year: 2011
+  elvEmbeddedElectronicsControllers__V0301030105_2011:
+    year: 2011
+  elvEmbeddedElectronicsHeadlights__V0301030105_2011:
+    year: 2011
+  elvPowerElectronics__V0301030105_2011:
+    year: 2011
+  elvElectricMotor__V0301030105_2011:
+    year: 2011
+provenance:
+  source: Bundesamt Für Umwelt, Isabelle Baudin, Marmy, C., Capelli, M., Böni, H., Bartolome, N., & Marseiler, U. (2023). EVA II-S
+  agent: EMPA
+  production: use
+  validFrom: '2010-01-01'
+  validUntil: '2011-12-31'
+nodes:
+  V0301030105_2010:
+    level: Product
+    class: V0301030105
+    itemMass: 1489.43073
+  elvGeneralComponents__V0301030105_2010:
+    level: Component
+    class: elvGeneralComponents
+    itemMass: 1316.503087
+  elvEmbeddedElectronicsActuators__V0301030105_2010:
+    level: Component
+    class: elvEmbeddedElectronicsActuators
+    itemMass: 33.654853
+  elvEmbeddedElectronicsCables__V0301030105_2010:
+    level: Component
+    class: elvEmbeddedElectronicsCables
+    itemMass: 18.922415
+  elvEmbeddedElectronicsControllers__V0301030105_2010:
+    level: Component
+    class: elvEmbeddedElectronicsControllers
+    itemMass: 10.056359
+  elvEmbeddedElectronicsHeadlights__V0301030105_2010:
+    level: Component
+    class: elvEmbeddedElectronicsHeadlights
+    itemMass: 10.555499
+  elvPowerElectronics__V0301030105_2010:
+    level: Component
+    class: elvPowerElectronics
+    itemMass: 57.938516
+  elvElectricMotor__V0301030105_2010:
+    level: Component
+    class: elvElectricMotor
+    itemMass: 41.8
+  elvGeneralComponents_castAlAlloys__V0301030105:
+    level: Material
+    class: castAlAlloys
+  elvGeneralComponents_6xxxAlAlloy__V0301030105:
+    level: Material
+    class: 6xxxAlAlloy
+  elvGeneralComponents_2xxxAlAlloy__V0301030105:
+    level: Material
+    class: 2xxxAlAlloy
+  elvGeneralComponents_5xxxAlAlloy__V0301030105:
+    level: Material
+    class: 5xxxAlAlloy
+  elvGeneralComponents_castIron__V0301030105:
+    level: Material
+    class: castIron
+  elvGeneralComponents_mildSteel__V0301030105:
+    level: Material
+    class: mildSteel
+  elvGeneralComponents_HSS__V0301030105:
+    level: Material
+    class: HSS
+  elvGeneralComponents_AHSS__V0301030105:
+    level: Material
+    class: AHSS
+  elvGeneralComponents_UHSS__V0301030105:
+    level: Material
+    class: UHSS
+  elvEmbeddedElectronicsActuators_PCBelectronics__V0301030105:
+    level: Material
+    class: PCBelectronics_in_elvEmbeddedElectronicsActuators
+  elvEmbeddedElectronicsCables_pureCu__V0301030105:
+    level: Material
+    class: pureCu_in_elvEmbeddedElectronicsCables
+  elvEmbeddedElectronicsControllers_PCBelectronics__V0301030105:
+    level: Material
+    class: PCBelectronics_in_elvEmbeddedElectronicsControllers
+  elvEmbeddedElectronicsHeadlights_PCBelectronics__V0301030105:
+    level: Material
+    class: PCBelectronics_in_elvEmbeddedElectronicsHeadlights
+  elvPowerElectronics_powerElectronics__V0301030105:
+    level: Material
+    class: powerElectronics
+  elvElectricMotor_magnetAlloysNdFeB__V0301030105:
+    level: Material
+    class: magnetAlloysNdFeB
+  elvElectricMotor_pureCu__V0301030105:
+    level: Material
+    class: pureCu_in_elvElectricMotor
+  elvGeneralComponents_castAlAlloys_Fe__V0301030105:
+    level: Element
+    class: Iron
+  elvGeneralComponents_castAlAlloys_Si__V0301030105:
+    level: Element
+    class: Silicon
+  elvGeneralComponents_castAlAlloys_Mn__V0301030105:
+    level: Element
+    class: Manganese
+  elvGeneralComponents_castAlAlloys_Ni__V0301030105:
+    level: Element
+    class: Nickel
+  elvGeneralComponents_castAlAlloys_Cr__V0301030105:
+    level: Element
+    class: Chromium
+  elvGeneralComponents_castAlAlloys_Ti__V0301030105:
+    level: Element
+    class: Titanium
+  elvGeneralComponents_castAlAlloys_Cu__V0301030105:
+    level: Element
+    class: Copper
+  elvGeneralComponents_castAlAlloys_Mg__V0301030105:
+    level: Element
+    class: Magnesium
+  elvGeneralComponents_castAlAlloys_Zn__V0301030105:
+    level: Element
+    class: Zinc
+  elvGeneralComponents_castAlAlloys_Al__V0301030105:
+    level: Element
+    class: Aluminium
+  elvGeneralComponents_6xxxAlAlloy_Si__V0301030105:
+    level: Element
+    class: Silicon
+  elvGeneralComponents_6xxxAlAlloy_Fe__V0301030105:
+    level: Element
+    class: Iron
+  elvGeneralComponents_6xxxAlAlloy_Cu__V0301030105:
+    level: Element
+    class: Copper
+  elvGeneralComponents_6xxxAlAlloy_Mn__V0301030105:
+    level: Element
+    class: Manganese
+  elvGeneralComponents_6xxxAlAlloy_Mg__V0301030105:
+    level: Element
+    class: Magnesium
+  elvGeneralComponents_6xxxAlAlloy_Cr__V0301030105:
+    level: Element
+    class: Chromium
+  elvGeneralComponents_6xxxAlAlloy_Zn__V0301030105:
+    level: Element
+    class: Zinc
+  elvGeneralComponents_6xxxAlAlloy_Ti__V0301030105:
+    level: Element
+    class: Titanium
+  elvGeneralComponents_6xxxAlAlloy_V__V0301030105:
+    level: Element
+    class: Vanadium
+  elvGeneralComponents_6xxxAlAlloy_Al__V0301030105:
+    level: Element
+    class: Aluminium
+  elvGeneralComponents_2xxxAlAlloy_Si__V0301030105:
+    level: Element
+    class: Silicon
+  elvGeneralComponents_2xxxAlAlloy_Fe__V0301030105:
+    level: Element
+    class: Iron
+  elvGeneralComponents_2xxxAlAlloy_Cu__V0301030105:
+    level: Element
+    class: Copper
+  elvGeneralComponents_2xxxAlAlloy_Mn__V0301030105:
+    level: Element
+    class: Manganese
+  elvGeneralComponents_2xxxAlAlloy_Mg__V0301030105:
+    level: Element
+    class: Magnesium
+  elvGeneralComponents_2xxxAlAlloy_Cr__V0301030105:
+    level: Element
+    class: Chromium
+  elvGeneralComponents_2xxxAlAlloy_Ni__V0301030105:
+    level: Element
+    class: Nickel
+  elvGeneralComponents_2xxxAlAlloy_Zn__V0301030105:
+    level: Element
+    class: Zinc
+  elvGeneralComponents_2xxxAlAlloy_Ti__V0301030105:
+    level: Element
+    class: Titanium
+  elvGeneralComponents_2xxxAlAlloy_V__V0301030105:
+    level: Element
+    class: Vanadium
+  elvGeneralComponents_2xxxAlAlloy_Al__V0301030105:
+    level: Element
+    class: Aluminium
+  elvGeneralComponents_5xxxAlAlloy_Si__V0301030105:
+    level: Element
+    class: Silicon
+  elvGeneralComponents_5xxxAlAlloy_Fe__V0301030105:
+    level: Element
+    class: Iron
+  elvGeneralComponents_5xxxAlAlloy_Cu__V0301030105:
+    level: Element
+    class: Copper
+  elvGeneralComponents_5xxxAlAlloy_Mn__V0301030105:
+    level: Element
+    class: Manganese
+  elvGeneralComponents_5xxxAlAlloy_Mg__V0301030105:
+    level: Element
+    class: Magnesium
+  elvGeneralComponents_5xxxAlAlloy_Cr__V0301030105:
+    level: Element
+    class: Chromium
+  elvGeneralComponents_5xxxAlAlloy_Zn__V0301030105:
+    level: Element
+    class: Zinc
+  elvGeneralComponents_5xxxAlAlloy_Ti__V0301030105:
+    level: Element
+    class: Titanium
+  elvGeneralComponents_5xxxAlAlloy_Al__V0301030105:
+    level: Element
+    class: Aluminium
+  elvGeneralComponents_castIron_C__V0301030105:
+    level: Element
+    class: Carbon
+  elvGeneralComponents_castIron_Si__V0301030105:
+    level: Element
+    class: Silicon
+  elvGeneralComponents_castIron_Mn__V0301030105:
+    level: Element
+    class: Manganese
+  elvGeneralComponents_castIron_Cu__V0301030105:
+    level: Element
+    class: Copper
+  elvGeneralComponents_castIron_P__V0301030105:
+    level: Element
+    class: Phosphorus
+  elvGeneralComponents_castIron_S__V0301030105:
+    level: Element
+    class: Sulfur
+  elvGeneralComponents_castIron_Cr__V0301030105:
+    level: Element
+    class: Chromium
+  elvGeneralComponents_castIron_Fe__V0301030105:
+    level: Element
+    class: Iron
+  elvGeneralComponents_mildSteel_C__V0301030105:
+    level: Element
+    class: Carbon
+  elvGeneralComponents_mildSteel_Mn__V0301030105:
+    level: Element
+    class: Manganese
+  elvGeneralComponents_mildSteel_P__V0301030105:
+    level: Element
+    class: Phosphorus
+  elvGeneralComponents_mildSteel_S__V0301030105:
+    level: Element
+    class: Sulfur
+  elvGeneralComponents_mildSteel_N__V0301030105:
+    level: Element
+    class: Nitrogen
+  elvGeneralComponents_mildSteel_Cu__V0301030105:
+    level: Element
+    class: Copper
+  elvGeneralComponents_mildSteel_Fe__V0301030105:
+    level: Element
+    class: Iron
+  elvGeneralComponents_HSS_C__V0301030105:
+    level: Element
+    class: Carbon
+  elvGeneralComponents_HSS_Si__V0301030105:
+    level: Element
+    class: Silicon
+  elvGeneralComponents_HSS_Mn__V0301030105:
+    level: Element
+    class: Manganese
+  elvGeneralComponents_HSS_P__V0301030105:
+    level: Element
+    class: Phosphorus
+  elvGeneralComponents_HSS_S__V0301030105:
+    level: Element
+    class: Sulfur
+  elvGeneralComponents_HSS_Al__V0301030105:
+    level: Element
+    class: Aluminium
+  elvGeneralComponents_HSS_Cr_Mo__V0301030105:
+    level: Element
+    class: Chromium
+  elvGeneralComponents_HSS_Ti_Nb__V0301030105:
+    level: Element
+    class: Titanium
+  elvGeneralComponents_HSS_B__V0301030105:
+    level: Element
+    class: Boron
+  elvGeneralComponents_HSS_Cu__V0301030105:
+    level: Element
+    class: Copper
+  elvGeneralComponents_HSS_Ti__V0301030105:
+    level: Element
+    class: Titanium
+  elvGeneralComponents_HSS_Nb__V0301030105:
+    level: Element
+    class: Niobium
+  elvGeneralComponents_HSS_V__V0301030105:
+    level: Element
+    class: Vanadium
+  elvGeneralComponents_HSS_Cr__V0301030105:
+    level: Element
+    class: Chromium
+  elvGeneralComponents_HSS_Fe__V0301030105:
+    level: Element
+    class: Iron
+  elvGeneralComponents_AHSS_C__V0301030105:
+    level: Element
+    class: Carbon
+  elvGeneralComponents_AHSS_Si__V0301030105:
+    level: Element
+    class: Silicon
+  elvGeneralComponents_AHSS_Mn__V0301030105:
+    level: Element
+    class: Manganese
+  elvGeneralComponents_AHSS_P__V0301030105:
+    level: Element
+    class: Phosphorus
+  elvGeneralComponents_AHSS_S__V0301030105:
+    level: Element
+    class: Sulfur
+  elvGeneralComponents_AHSS_Al__V0301030105:
+    level: Element
+    class: Aluminium
+  elvGeneralComponents_AHSS_Cr_Mo__V0301030105:
+    level: Element
+    class: Chromium
+  elvGeneralComponents_AHSS_Ti_Nb__V0301030105:
+    level: Element
+    class: Titanium
+  elvGeneralComponents_AHSS_B__V0301030105:
+    level: Element
+    class: Boron
+  elvGeneralComponents_AHSS_Cu__V0301030105:
+    level: Element
+    class: Copper
+  elvGeneralComponents_AHSS_V__V0301030105:
+    level: Element
+    class: Vanadium
+  elvGeneralComponents_AHSS_Fe__V0301030105:
+    level: Element
+    class: Iron
+  elvGeneralComponents_UHSS_C__V0301030105:
+    level: Element
+    class: Carbon
+  elvGeneralComponents_UHSS_Si__V0301030105:
+    level: Element
+    class: Silicon
+  elvGeneralComponents_UHSS_Mn__V0301030105:
+    level: Element
+    class: Manganese
+  elvGeneralComponents_UHSS_P__V0301030105:
+    level: Element
+    class: Phosphorus
+  elvGeneralComponents_UHSS_S__V0301030105:
+    level: Element
+    class: Sulfur
+  elvGeneralComponents_UHSS_Al__V0301030105:
+    level: Element
+    class: Aluminium
+  elvGeneralComponents_UHSS_Cr_Mo__V0301030105:
+    level: Element
+    class: Chromium
+  elvGeneralComponents_UHSS_Ti_Nb__V0301030105:
+    level: Element
+    class: Titanium
+  elvGeneralComponents_UHSS_B__V0301030105:
+    level: Element
+    class: Boron
+  elvGeneralComponents_UHSS_Cu__V0301030105:
+    level: Element
+    class: Copper
+  elvGeneralComponents_UHSS_Cr__V0301030105:
+    level: Element
+    class: Chromium
+  elvGeneralComponents_UHSS_Fe__V0301030105:
+    level: Element
+    class: Iron
+  elvEmbeddedElectronicsActuators_PCBelectronics_Fe__V0301030105:
+    level: Element
+    class: Iron
+  elvEmbeddedElectronicsActuators_PCBelectronics_Al__V0301030105:
+    level: Element
+    class: Aluminium
+  elvEmbeddedElectronicsActuators_PCBelectronics_Cu__V0301030105:
+    level: Element
+    class: Copper
+  elvEmbeddedElectronicsActuators_PCBelectronics_Au__V0301030105:
+    level: Element
+    class: Gold
+  elvEmbeddedElectronicsActuators_PCBelectronics_Ag__V0301030105:
+    level: Element
+    class: Silver
+  elvEmbeddedElectronicsActuators_PCBelectronics_Pd__V0301030105:
+    level: Element
+    class: Palladium
+  elvEmbeddedElectronicsCables_pureCu_Cu__V0301030105:
+    level: Element
+    class: Copper
+  elvEmbeddedElectronicsControllers_PCBelectronics_Fe__V0301030105:
+    level: Element
+    class: Iron
+  elvEmbeddedElectronicsControllers_PCBelectronics_Al__V0301030105:
+    level: Element
+    class: Aluminium
+  elvEmbeddedElectronicsControllers_PCBelectronics_Cu__V0301030105:
+    level: Element
+    class: Copper
+  elvEmbeddedElectronicsControllers_PCBelectronics_Au__V0301030105:
+    level: Element
+    class: Gold
+  elvEmbeddedElectronicsControllers_PCBelectronics_Ag__V0301030105:
+    level: Element
+    class: Silver
+  elvEmbeddedElectronicsControllers_PCBelectronics_Pd__V0301030105:
+    level: Element
+    class: Palladium
+  elvEmbeddedElectronicsHeadlights_PCBelectronics_Fe__V0301030105:
+    level: Element
+    class: Iron
+  elvEmbeddedElectronicsHeadlights_PCBelectronics_Al__V0301030105:
+    level: Element
+    class: Aluminium
+  elvEmbeddedElectronicsHeadlights_PCBelectronics_Cu__V0301030105:
+    level: Element
+    class: Copper
+  elvEmbeddedElectronicsHeadlights_PCBelectronics_Au__V0301030105:
+    level: Element
+    class: Gold
+  elvEmbeddedElectronicsHeadlights_PCBelectronics_Ag__V0301030105:
+    level: Element
+    class: Silver
+  elvEmbeddedElectronicsHeadlights_PCBelectronics_Pd__V0301030105:
+    level: Element
+    class: Palladium
+  elvPowerElectronics_powerElectronics_Fe__V0301030105:
+    level: Element
+    class: Iron
+  elvPowerElectronics_powerElectronics_Al__V0301030105:
+    level: Element
+    class: Aluminium
+  elvPowerElectronics_powerElectronics_Cu__V0301030105:
+    level: Element
+    class: Copper
+  elvPowerElectronics_powerElectronics_Au__V0301030105:
+    level: Element
+    class: Gold
+  elvPowerElectronics_powerElectronics_Ag__V0301030105:
+    level: Element
+    class: Silver
+  elvPowerElectronics_powerElectronics_Pd__V0301030105:
+    level: Element
+    class: Palladium
+  elvElectricMotor_magnetAlloysNdFeB_Nd__V0301030105:
+    level: Element
+    class: Neodymium
+  elvElectricMotor_magnetAlloysNdFeB_Fe__V0301030105:
+    level: Element
+    class: Iron
+  elvElectricMotor_magnetAlloysNdFeB_B__V0301030105:
+    level: Element
+    class: Boron
+  elvElectricMotor_magnetAlloysNdFeB_Pr__V0301030105:
+    level: Element
+    class: Praseodymium
+  elvElectricMotor_magnetAlloysNdFeB_Ni__V0301030105:
+    level: Element
+    class: Nickel
+  elvElectricMotor_magnetAlloysNdFeB_Co__V0301030105:
+    level: Element
+    class: Cobalt
+  elvElectricMotor_magnetAlloysNdFeB_Dy__V0301030105:
+    level: Element
+    class: Dysprosium
+  elvElectricMotor_pureCu_Cu__V0301030105:
+    level: Element
+    class: Copper
+  V0301030105_2011:
+    level: Product
+    class: V0301030105
+    itemMass: 1496.635536
+  elvGeneralComponents__V0301030105_2011:
+    level: Component
+    class: elvGeneralComponents
+    itemMass: 1322.393838
+  elvEmbeddedElectronicsActuators__V0301030105_2011:
+    level: Component
+    class: elvEmbeddedElectronicsActuators
+    itemMass: 34.271745
+  elvEmbeddedElectronicsCables__V0301030105_2011:
+    level: Component
+    class: elvEmbeddedElectronicsCables
+    itemMass: 18.977516
+  elvEmbeddedElectronicsControllers__V0301030105_2011:
+    level: Component
+    class: elvEmbeddedElectronicsControllers
+    itemMass: 10.530219
+  elvEmbeddedElectronicsHeadlights__V0301030105_2011:
+    level: Component
+    class: elvEmbeddedElectronicsHeadlights
+    itemMass: 10.716243
+  elvPowerElectronics__V0301030105_2011:
+    level: Component
+    class: elvPowerElectronics
+    itemMass: 57.945976
+  elvElectricMotor__V0301030105_2011:
+    level: Component
+    class: elvElectricMotor
+    itemMass: 41.8
+statements:
+- whole: V0301030105_2010
+  part: elvGeneralComponents__V0301030105_2010
+  best: 0.88389682
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 2.0
+    Timeliness: 3.0
+    Completeness: 2.0
+- whole: V0301030105_2010
+  part: elvEmbeddedElectronicsActuators__V0301030105_2010
+  best: 0.02259578
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 2.0
+    Timeliness: 3.0
+    Completeness: 2.0
+- whole: V0301030105_2010
+  part: elvEmbeddedElectronicsCables__V0301030105_2010
+  best: 0.01270446
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 2.0
+    Timeliness: 3.0
+    Completeness: 2.0
+- whole: V0301030105_2010
+  part: elvEmbeddedElectronicsControllers__V0301030105_2010
+  best: 0.00675181
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 2.0
+    Timeliness: 3.0
+    Completeness: 2.0
+- whole: V0301030105_2010
+  part: elvEmbeddedElectronicsHeadlights__V0301030105_2010
+  best: 0.00708693
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 2.0
+    Timeliness: 3.0
+    Completeness: 2.0
+- whole: V0301030105_2010
+  part: elvPowerElectronics__V0301030105_2010
+  best: 0.03889977
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 2.0
+    Timeliness: 3.0
+    Completeness: 2.0
+- whole: V0301030105_2010
+  part: elvElectricMotor__V0301030105_2010
+  best: 0.02806441
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 2.0
+    Timeliness: 3.0
+    Completeness: 2.0
+- whole: elvGeneralComponents__V0301030105_2010
+  part: elvGeneralComponents_castAlAlloys__V0301030105
+  best: 0.153848831
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+- whole: elvGeneralComponents__V0301030105_2010
+  part: elvGeneralComponents_6xxxAlAlloy__V0301030105
+  best: 0.014925042
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+- whole: elvGeneralComponents__V0301030105_2010
+  part: elvGeneralComponents_2xxxAlAlloy__V0301030105
+  best: 0.003212406
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+- whole: elvGeneralComponents__V0301030105_2010
+  part: elvGeneralComponents_5xxxAlAlloy__V0301030105
+  best: 0.050972165
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+- whole: elvGeneralComponents__V0301030105_2010
+  part: elvGeneralComponents_castIron__V0301030105
+  best: 0.097577106
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 2.0
+    Timeliness: 3.0
+    Completeness: 2.0
+- whole: elvGeneralComponents__V0301030105_2010
+  part: elvGeneralComponents_mildSteel__V0301030105
+  best: 0.395653596
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+- whole: elvGeneralComponents__V0301030105_2010
+  part: elvGeneralComponents_HSS__V0301030105
+  best: 0.203899941
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+- whole: elvGeneralComponents__V0301030105_2010
+  part: elvGeneralComponents_AHSS__V0301030105
+  best: 0.060920966
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+- whole: elvGeneralComponents__V0301030105_2010
+  part: elvGeneralComponents_UHSS__V0301030105
+  best: 0.018989946
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+- whole: elvEmbeddedElectronicsActuators__V0301030105_2010
+  part: elvEmbeddedElectronicsActuators_PCBelectronics__V0301030105
+  best: 1.0
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+- whole: elvEmbeddedElectronicsCables__V0301030105_2010
+  part: elvEmbeddedElectronicsCables_pureCu__V0301030105
+  best: 1.0
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+- whole: elvEmbeddedElectronicsControllers__V0301030105_2010
+  part: elvEmbeddedElectronicsControllers_PCBelectronics__V0301030105
+  best: 1.0
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+- whole: elvEmbeddedElectronicsHeadlights__V0301030105_2010
+  part: elvEmbeddedElectronicsHeadlights_PCBelectronics__V0301030105
+  best: 1.0
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+- whole: elvPowerElectronics__V0301030105_2010
+  part: elvPowerElectronics_powerElectronics__V0301030105
+  best: 1.0
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+- whole: elvElectricMotor__V0301030105_2010
+  part: elvElectricMotor_magnetAlloysNdFeB__V0301030105
+  best: 0.078947368
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+- whole: elvElectricMotor__V0301030105_2010
+  part: elvElectricMotor_pureCu__V0301030105
+  best: 0.921052632
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+- whole: elvGeneralComponents_castAlAlloys__V0301030105
+  part: elvGeneralComponents_castAlAlloys_Fe__V0301030105
+  best: 0.00425
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.0
+  hi: 0.00925
+- whole: elvGeneralComponents_castAlAlloys__V0301030105
+  part: elvGeneralComponents_castAlAlloys_Si__V0301030105
+  best: 0.09
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.085
+  hi: 0.095
+- whole: elvGeneralComponents_castAlAlloys__V0301030105
+  part: elvGeneralComponents_castAlAlloys_Mn__V0301030105
+  best: 0.003
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.0
+  hi: 0.008
+- whole: elvGeneralComponents_castAlAlloys__V0301030105
+  part: elvGeneralComponents_castAlAlloys_Ni__V0301030105
+  best: 0.006125
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.001125
+  hi: 0.011125
+- whole: elvGeneralComponents_castAlAlloys__V0301030105
+  part: elvGeneralComponents_castAlAlloys_Cr__V0301030105
+  best: 0.000375
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.0
+  hi: 0.005375
+- whole: elvGeneralComponents_castAlAlloys__V0301030105
+  part: elvGeneralComponents_castAlAlloys_Ti__V0301030105
+  best: 0.00125
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.0
+  hi: 0.00625
+- whole: elvGeneralComponents_castAlAlloys__V0301030105
+  part: elvGeneralComponents_castAlAlloys_Cu__V0301030105
+  best: 0.02575
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.02075
+  hi: 0.03075
+- whole: elvGeneralComponents_castAlAlloys__V0301030105
+  part: elvGeneralComponents_castAlAlloys_Mg__V0301030105
+  best: 0.0065
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.0015
+  hi: 0.0115
+- whole: elvGeneralComponents_castAlAlloys__V0301030105
+  part: elvGeneralComponents_castAlAlloys_Zn__V0301030105
+  best: 0.00225
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.0
+  hi: 0.00725
+- whole: elvGeneralComponents_castAlAlloys__V0301030105
+  part: elvGeneralComponents_castAlAlloys_Al__V0301030105
+  best: 0.8605
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.8555
+  hi: 0.8655
+- whole: elvGeneralComponents_6xxxAlAlloy__V0301030105
+  part: elvGeneralComponents_6xxxAlAlloy_Si__V0301030105
+  best: 0.0068
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.0018
+  hi: 0.0118
+- whole: elvGeneralComponents_6xxxAlAlloy__V0301030105
+  part: elvGeneralComponents_6xxxAlAlloy_Fe__V0301030105
+  best: 0.00225
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.0
+  hi: 0.00725
+- whole: elvGeneralComponents_6xxxAlAlloy__V0301030105
+  part: elvGeneralComponents_6xxxAlAlloy_Cu__V0301030105
+  best: 0.00135
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.0
+  hi: 0.00635
+- whole: elvGeneralComponents_6xxxAlAlloy__V0301030105
+  part: elvGeneralComponents_6xxxAlAlloy_Mn__V0301030105
+  best: 0.00245
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.0
+  hi: 0.00745
+- whole: elvGeneralComponents_6xxxAlAlloy__V0301030105
+  part: elvGeneralComponents_6xxxAlAlloy_Mg__V0301030105
+  best: 0.00735
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.00235
+  hi: 0.01235
+- whole: elvGeneralComponents_6xxxAlAlloy__V0301030105
+  part: elvGeneralComponents_6xxxAlAlloy_Cr__V0301030105
+  best: 0.00134
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.0
+  hi: 0.00634
+- whole: elvGeneralComponents_6xxxAlAlloy__V0301030105
+  part: elvGeneralComponents_6xxxAlAlloy_Zn__V0301030105
+  best: 0.00095
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.0
+  hi: 0.00595
+- whole: elvGeneralComponents_6xxxAlAlloy__V0301030105
+  part: elvGeneralComponents_6xxxAlAlloy_Ti__V0301030105
+  best: 0.00055
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.0
+  hi: 0.00555
+- whole: elvGeneralComponents_6xxxAlAlloy__V0301030105
+  part: elvGeneralComponents_6xxxAlAlloy_V__V0301030105
+  best: 0.00025
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.0
+  hi: 0.00525
+- whole: elvGeneralComponents_6xxxAlAlloy__V0301030105
+  part: elvGeneralComponents_6xxxAlAlloy_Al__V0301030105
+  best: 0.97571
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.97071
+  hi: 0.98071
+- whole: elvGeneralComponents_2xxxAlAlloy__V0301030105
+  part: elvGeneralComponents_2xxxAlAlloy_Si__V0301030105
+  best: 0.00245
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.0
+  hi: 0.00745
+- whole: elvGeneralComponents_2xxxAlAlloy__V0301030105
+  part: elvGeneralComponents_2xxxAlAlloy_Fe__V0301030105
+  best: 0.0042
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.0
+  hi: 0.0092
+- whole: elvGeneralComponents_2xxxAlAlloy__V0301030105
+  part: elvGeneralComponents_2xxxAlAlloy_Cu__V0301030105
+  best: 0.0428
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.0378
+  hi: 0.0478
+- whole: elvGeneralComponents_2xxxAlAlloy__V0301030105
+  part: elvGeneralComponents_2xxxAlAlloy_Mn__V0301030105
+  best: 0.0037
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.0
+  hi: 0.0087
+- whole: elvGeneralComponents_2xxxAlAlloy__V0301030105
+  part: elvGeneralComponents_2xxxAlAlloy_Mg__V0301030105
+  best: 0.00806
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.00306
+  hi: 0.01306
+- whole: elvGeneralComponents_2xxxAlAlloy__V0301030105
+  part: elvGeneralComponents_2xxxAlAlloy_Cr__V0301030105
+  best: 0.00035
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.0
+  hi: 0.00535
+- whole: elvGeneralComponents_2xxxAlAlloy__V0301030105
+  part: elvGeneralComponents_2xxxAlAlloy_Ni__V0301030105
+  best: 0.0022
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.0
+  hi: 0.0072
+- whole: elvGeneralComponents_2xxxAlAlloy__V0301030105
+  part: elvGeneralComponents_2xxxAlAlloy_Zn__V0301030105
+  best: 0.000925
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.0
+  hi: 0.005925
+- whole: elvGeneralComponents_2xxxAlAlloy__V0301030105
+  part: elvGeneralComponents_2xxxAlAlloy_Ti__V0301030105
+  best: 0.000605
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.0
+  hi: 0.005605
+- whole: elvGeneralComponents_2xxxAlAlloy__V0301030105
+  part: elvGeneralComponents_2xxxAlAlloy_V__V0301030105
+  best: 0.0003
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.0
+  hi: 0.0053
+- whole: elvGeneralComponents_2xxxAlAlloy__V0301030105
+  part: elvGeneralComponents_2xxxAlAlloy_Al__V0301030105
+  best: 0.93341
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.92841
+  hi: 0.93841
+- whole: elvGeneralComponents_5xxxAlAlloy__V0301030105
+  part: elvGeneralComponents_5xxxAlAlloy_Si__V0301030105
+  best: 0.00155
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.0
+  hi: 0.00655
+- whole: elvGeneralComponents_5xxxAlAlloy__V0301030105
+  part: elvGeneralComponents_5xxxAlAlloy_Fe__V0301030105
+  best: 0.001925
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.0
+  hi: 0.006925
+- whole: elvGeneralComponents_5xxxAlAlloy__V0301030105
+  part: elvGeneralComponents_5xxxAlAlloy_Cu__V0301030105
+  best: 0.000575
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.0
+  hi: 0.005575
+- whole: elvGeneralComponents_5xxxAlAlloy__V0301030105
+  part: elvGeneralComponents_5xxxAlAlloy_Mn__V0301030105
+  best: 0.0033
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.0
+  hi: 0.0083
+- whole: elvGeneralComponents_5xxxAlAlloy__V0301030105
+  part: elvGeneralComponents_5xxxAlAlloy_Mg__V0301030105
+  best: 0.0367
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.0317
+  hi: 0.0417
+- whole: elvGeneralComponents_5xxxAlAlloy__V0301030105
+  part: elvGeneralComponents_5xxxAlAlloy_Cr__V0301030105
+  best: 0.0014
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.0
+  hi: 0.0064
+- whole: elvGeneralComponents_5xxxAlAlloy__V0301030105
+  part: elvGeneralComponents_5xxxAlAlloy_Zn__V0301030105
+  best: 0.001025
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.0
+  hi: 0.006025
+- whole: elvGeneralComponents_5xxxAlAlloy__V0301030105
+  part: elvGeneralComponents_5xxxAlAlloy_Ti__V0301030105
+  best: 0.000525
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.0
+  hi: 0.005525
+- whole: elvGeneralComponents_5xxxAlAlloy__V0301030105
+  part: elvGeneralComponents_5xxxAlAlloy_Al__V0301030105
+  best: 0.952
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.947
+  hi: 0.957
+- whole: elvGeneralComponents_castIron__V0301030105
+  part: elvGeneralComponents_castIron_C__V0301030105
+  best: 0.017464286
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 2.0
+    Timeliness: 3.0
+    Completeness: 2.0
+  lo: 0.012464286
+  hi: 0.022464286
+- whole: elvGeneralComponents_castIron__V0301030105
+  part: elvGeneralComponents_castIron_Si__V0301030105
+  best: 0.011778571
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 2.0
+    Timeliness: 3.0
+    Completeness: 2.0
+  lo: 0.006778571
+  hi: 0.016778571
+- whole: elvGeneralComponents_castIron__V0301030105
+  part: elvGeneralComponents_castIron_Mn__V0301030105
+  best: 0.002535714
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 2.0
+    Timeliness: 3.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.007535714
+- whole: elvGeneralComponents_castIron__V0301030105
+  part: elvGeneralComponents_castIron_Cu__V0301030105
+  best: 0.000357143
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 2.0
+    Timeliness: 3.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.005357143
+- whole: elvGeneralComponents_castIron__V0301030105
+  part: elvGeneralComponents_castIron_P__V0301030105
+  best: 0.000203616
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 2.0
+    Timeliness: 3.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.005203616
+- whole: elvGeneralComponents_castIron__V0301030105
+  part: elvGeneralComponents_castIron_S__V0301030105
+  best: 0.000200044
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 2.0
+    Timeliness: 3.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.005200044
+- whole: elvGeneralComponents_castIron__V0301030105
+  part: elvGeneralComponents_castIron_Cr__V0301030105
+  best: 0.000339286
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 2.0
+    Timeliness: 3.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.005339286
+- whole: elvGeneralComponents_castIron__V0301030105
+  part: elvGeneralComponents_castIron_Fe__V0301030105
+  best: 0.96712134
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 2.0
+    Timeliness: 3.0
+    Completeness: 2.0
+  lo: 0.96212134
+  hi: 0.97212134
+- whole: elvGeneralComponents_mildSteel__V0301030105
+  part: elvGeneralComponents_mildSteel_C__V0301030105
+  best: 0.001257143
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.006257143
+- whole: elvGeneralComponents_mildSteel__V0301030105
+  part: elvGeneralComponents_mildSteel_Mn__V0301030105
+  best: 0.005785714
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.000785714
+  hi: 0.010785714
+- whole: elvGeneralComponents_mildSteel__V0301030105
+  part: elvGeneralComponents_mildSteel_P__V0301030105
+  best: 0.000185714
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.005185714
+- whole: elvGeneralComponents_mildSteel__V0301030105
+  part: elvGeneralComponents_mildSteel_S__V0301030105
+  best: 0.000221429
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.005221429
+- whole: elvGeneralComponents_mildSteel__V0301030105
+  part: elvGeneralComponents_mildSteel_N__V0301030105
+  best: 1.7143e-05
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.005017143
+- whole: elvGeneralComponents_mildSteel__V0301030105
+  part: elvGeneralComponents_mildSteel_Cu__V0301030105
+  best: 0.000785714
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.005785714
+- whole: elvGeneralComponents_mildSteel__V0301030105
+  part: elvGeneralComponents_mildSteel_Fe__V0301030105
+  best: 0.991747143
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.986747143
+  hi: 0.996747143
+- whole: elvGeneralComponents_HSS__V0301030105
+  part: elvGeneralComponents_HSS_C__V0301030105
+  best: 0.0016625
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.0066625
+- whole: elvGeneralComponents_HSS__V0301030105
+  part: elvGeneralComponents_HSS_Si__V0301030105
+  best: 0.008625
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.003625
+  hi: 0.013625
+- whole: elvGeneralComponents_HSS__V0301030105
+  part: elvGeneralComponents_HSS_Mn__V0301030105
+  best: 0.023125
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.018125
+  hi: 0.028125
+- whole: elvGeneralComponents_HSS__V0301030105
+  part: elvGeneralComponents_HSS_P__V0301030105
+  best: 0.00038125
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.00538125
+- whole: elvGeneralComponents_HSS__V0301030105
+  part: elvGeneralComponents_HSS_S__V0301030105
+  best: 0.0001375
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.0051375
+- whole: elvGeneralComponents_HSS__V0301030105
+  part: elvGeneralComponents_HSS_Al__V0301030105
+  best: 0.003925
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.008925
+- whole: elvGeneralComponents_HSS__V0301030105
+  part: elvGeneralComponents_HSS_Cr_Mo__V0301030105
+  best: 0.0054375
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0004375
+  hi: 0.0104375
+- whole: elvGeneralComponents_HSS__V0301030105
+  part: elvGeneralComponents_HSS_Ti_Nb__V0301030105
+  best: 0.001375
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.006375
+- whole: elvGeneralComponents_HSS__V0301030105
+  part: elvGeneralComponents_HSS_B__V0301030105
+  best: 6.25e-05
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.0050625
+- whole: elvGeneralComponents_HSS__V0301030105
+  part: elvGeneralComponents_HSS_Cu__V0301030105
+  best: 0.00175
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.00675
+- whole: elvGeneralComponents_HSS__V0301030105
+  part: elvGeneralComponents_HSS_Ti__V0301030105
+  best: 0.001375
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.006375
+- whole: elvGeneralComponents_HSS__V0301030105
+  part: elvGeneralComponents_HSS_Nb__V0301030105
+  best: 0.0003625
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.0053625
+- whole: elvGeneralComponents_HSS__V0301030105
+  part: elvGeneralComponents_HSS_V__V0301030105
+  best: 0.00025
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.00525
+- whole: elvGeneralComponents_HSS__V0301030105
+  part: elvGeneralComponents_HSS_Cr__V0301030105
+  best: 0.0054375
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0004375
+  hi: 0.0104375
+- whole: elvGeneralComponents_HSS__V0301030105
+  part: elvGeneralComponents_HSS_Fe__V0301030105
+  best: 0.95290625
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.94790625
+  hi: 0.95790625
+- whole: elvGeneralComponents_AHSS__V0301030105
+  part: elvGeneralComponents_AHSS_C__V0301030105
+  best: 0.002666667
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.007666667
+- whole: elvGeneralComponents_AHSS__V0301030105
+  part: elvGeneralComponents_AHSS_Si__V0301030105
+  best: 0.006166667
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.001166667
+  hi: 0.011166667
+- whole: elvGeneralComponents_AHSS__V0301030105
+  part: elvGeneralComponents_AHSS_Mn__V0301030105
+  best: 0.02
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.015
+  hi: 0.025
+- whole: elvGeneralComponents_AHSS__V0301030105
+  part: elvGeneralComponents_AHSS_P__V0301030105
+  best: 0.00035
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.00535
+- whole: elvGeneralComponents_AHSS__V0301030105
+  part: elvGeneralComponents_AHSS_S__V0301030105
+  best: 0.00015
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.00515
+- whole: elvGeneralComponents_AHSS__V0301030105
+  part: elvGeneralComponents_AHSS_Al__V0301030105
+  best: 0.003383333
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.008383333
+- whole: elvGeneralComponents_AHSS__V0301030105
+  part: elvGeneralComponents_AHSS_Cr_Mo__V0301030105
+  best: 0.006666667
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.001666667
+  hi: 0.011666667
+- whole: elvGeneralComponents_AHSS__V0301030105
+  part: elvGeneralComponents_AHSS_Ti_Nb__V0301030105
+  best: 0.001
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.006
+- whole: elvGeneralComponents_AHSS__V0301030105
+  part: elvGeneralComponents_AHSS_B__V0301030105
+  best: 3.3333e-05
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.005033333
+- whole: elvGeneralComponents_AHSS__V0301030105
+  part: elvGeneralComponents_AHSS_Cu__V0301030105
+  best: 0.001333333
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.006333333
+- whole: elvGeneralComponents_AHSS__V0301030105
+  part: elvGeneralComponents_AHSS_V__V0301030105
+  best: 0.001333333
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.006333333
+- whole: elvGeneralComponents_AHSS__V0301030105
+  part: elvGeneralComponents_AHSS_Fe__V0301030105
+  best: 0.956916667
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.951916667
+  hi: 0.961916667
+- whole: elvGeneralComponents_UHSS__V0301030105
+  part: elvGeneralComponents_UHSS_C__V0301030105
+  best: 0.002258333
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.007258333
+- whole: elvGeneralComponents_UHSS__V0301030105
+  part: elvGeneralComponents_UHSS_Si__V0301030105
+  best: 0.008166667
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.003166667
+  hi: 0.013166667
+- whole: elvGeneralComponents_UHSS__V0301030105
+  part: elvGeneralComponents_UHSS_Mn__V0301030105
+  best: 0.020291667
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.015291667
+  hi: 0.025291667
+- whole: elvGeneralComponents_UHSS__V0301030105
+  part: elvGeneralComponents_UHSS_P__V0301030105
+  best: 0.000366667
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.005366667
+- whole: elvGeneralComponents_UHSS__V0301030105
+  part: elvGeneralComponents_UHSS_S__V0301030105
+  best: 8.3333e-05
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.005083333
+- whole: elvGeneralComponents_UHSS__V0301030105
+  part: elvGeneralComponents_UHSS_Al__V0301030105
+  best: 0.004233333
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.009233333
+- whole: elvGeneralComponents_UHSS__V0301030105
+  part: elvGeneralComponents_UHSS_Cr_Mo__V0301030105
+  best: 0.006166667
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.001166667
+  hi: 0.011166667
+- whole: elvGeneralComponents_UHSS__V0301030105
+  part: elvGeneralComponents_UHSS_Ti_Nb__V0301030105
+  best: 0.000836667
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.005836667
+- whole: elvGeneralComponents_UHSS__V0301030105
+  part: elvGeneralComponents_UHSS_B__V0301030105
+  best: 6.6775e-05
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.005066775
+- whole: elvGeneralComponents_UHSS__V0301030105
+  part: elvGeneralComponents_UHSS_Cu__V0301030105
+  best: 0.001333333
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.006333333
+- whole: elvGeneralComponents_UHSS__V0301030105
+  part: elvGeneralComponents_UHSS_Cr__V0301030105
+  best: 0.006166667
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.001166667
+  hi: 0.011166667
+- whole: elvGeneralComponents_UHSS__V0301030105
+  part: elvGeneralComponents_UHSS_Fe__V0301030105
+  best: 0.956196558
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.951196558
+  hi: 0.961196558
+- whole: elvEmbeddedElectronicsActuators_PCBelectronics__V0301030105
+  part: elvEmbeddedElectronicsActuators_PCBelectronics_Fe__V0301030105
+  best: 0.000699
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.005699
+- whole: elvEmbeddedElectronicsActuators_PCBelectronics__V0301030105
+  part: elvEmbeddedElectronicsActuators_PCBelectronics_Al__V0301030105
+  best: 0.015037
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.010037
+  hi: 0.020037
+- whole: elvEmbeddedElectronicsActuators_PCBelectronics__V0301030105
+  part: elvEmbeddedElectronicsActuators_PCBelectronics_Cu__V0301030105
+  best: 0.025029
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.020029
+  hi: 0.030029
+- whole: elvEmbeddedElectronicsActuators_PCBelectronics__V0301030105
+  part: elvEmbeddedElectronicsActuators_PCBelectronics_Au__V0301030105
+  best: 5.7e-05
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.005057
+- whole: elvEmbeddedElectronicsActuators_PCBelectronics__V0301030105
+  part: elvEmbeddedElectronicsActuators_PCBelectronics_Ag__V0301030105
+  best: 0.000299
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.005299
+- whole: elvEmbeddedElectronicsActuators_PCBelectronics__V0301030105
+  part: elvEmbeddedElectronicsActuators_PCBelectronics_Pd__V0301030105
+  best: 8.0e-06
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.005008
+- whole: elvEmbeddedElectronicsCables_pureCu__V0301030105
+  part: elvEmbeddedElectronicsCables_pureCu_Cu__V0301030105
+  best: 0.85
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.845
+  hi: 0.855
+- whole: elvEmbeddedElectronicsControllers_PCBelectronics__V0301030105
+  part: elvEmbeddedElectronicsControllers_PCBelectronics_Fe__V0301030105
+  best: 0.001752
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.006752
+- whole: elvEmbeddedElectronicsControllers_PCBelectronics__V0301030105
+  part: elvEmbeddedElectronicsControllers_PCBelectronics_Al__V0301030105
+  best: 0.011361
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.006361
+  hi: 0.016361
+- whole: elvEmbeddedElectronicsControllers_PCBelectronics__V0301030105
+  part: elvEmbeddedElectronicsControllers_PCBelectronics_Cu__V0301030105
+  best: 0.073596
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.068596
+  hi: 0.078596
+- whole: elvEmbeddedElectronicsControllers_PCBelectronics__V0301030105
+  part: elvEmbeddedElectronicsControllers_PCBelectronics_Au__V0301030105
+  best: 0.000233
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.005233
+- whole: elvEmbeddedElectronicsControllers_PCBelectronics__V0301030105
+  part: elvEmbeddedElectronicsControllers_PCBelectronics_Ag__V0301030105
+  best: 0.000464
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.005464
+- whole: elvEmbeddedElectronicsControllers_PCBelectronics__V0301030105
+  part: elvEmbeddedElectronicsControllers_PCBelectronics_Pd__V0301030105
+  best: 4.0e-05
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.00504
+- whole: elvEmbeddedElectronicsHeadlights_PCBelectronics__V0301030105
+  part: elvEmbeddedElectronicsHeadlights_PCBelectronics_Fe__V0301030105
+  best: 0.000408
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.005408
+- whole: elvEmbeddedElectronicsHeadlights_PCBelectronics__V0301030105
+  part: elvEmbeddedElectronicsHeadlights_PCBelectronics_Al__V0301030105
+  best: 0.022395
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.017395
+  hi: 0.027395
+- whole: elvEmbeddedElectronicsHeadlights_PCBelectronics__V0301030105
+  part: elvEmbeddedElectronicsHeadlights_PCBelectronics_Cu__V0301030105
+  best: 0.039671
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.034671
+  hi: 0.044671
+- whole: elvEmbeddedElectronicsHeadlights_PCBelectronics__V0301030105
+  part: elvEmbeddedElectronicsHeadlights_PCBelectronics_Au__V0301030105
+  best: 4.6e-05
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.005046
+- whole: elvEmbeddedElectronicsHeadlights_PCBelectronics__V0301030105
+  part: elvEmbeddedElectronicsHeadlights_PCBelectronics_Ag__V0301030105
+  best: 0.000294
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.005294
+- whole: elvEmbeddedElectronicsHeadlights_PCBelectronics__V0301030105
+  part: elvEmbeddedElectronicsHeadlights_PCBelectronics_Pd__V0301030105
+  best: 1.0e-05
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+  lo: 0.0
+  hi: 0.00501
+- whole: elvPowerElectronics_powerElectronics__V0301030105
+  part: elvPowerElectronics_powerElectronics_Fe__V0301030105
+  best: 0.001752
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.0
+  hi: 0.006752
+- whole: elvPowerElectronics_powerElectronics__V0301030105
+  part: elvPowerElectronics_powerElectronics_Al__V0301030105
+  best: 0.011361
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.006361
+  hi: 0.016361
+- whole: elvPowerElectronics_powerElectronics__V0301030105
+  part: elvPowerElectronics_powerElectronics_Cu__V0301030105
+  best: 0.073596
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.068596
+  hi: 0.078596
+- whole: elvPowerElectronics_powerElectronics__V0301030105
+  part: elvPowerElectronics_powerElectronics_Au__V0301030105
+  best: 0.000233
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.0
+  hi: 0.005233
+- whole: elvPowerElectronics_powerElectronics__V0301030105
+  part: elvPowerElectronics_powerElectronics_Ag__V0301030105
+  best: 0.000464
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.0
+  hi: 0.005464
+- whole: elvPowerElectronics_powerElectronics__V0301030105
+  part: elvPowerElectronics_powerElectronics_Pd__V0301030105
+  best: 4.0e-05
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.0
+  hi: 0.00504
+- whole: elvElectricMotor_magnetAlloysNdFeB__V0301030105
+  part: elvElectricMotor_magnetAlloysNdFeB_Nd__V0301030105
+  best: 0.26829
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.26329
+  hi: 0.27329
+- whole: elvElectricMotor_magnetAlloysNdFeB__V0301030105
+  part: elvElectricMotor_magnetAlloysNdFeB_Fe__V0301030105
+  best: 0.64416
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.63916
+  hi: 0.64916
+- whole: elvElectricMotor_magnetAlloysNdFeB__V0301030105
+  part: elvElectricMotor_magnetAlloysNdFeB_B__V0301030105
+  best: 0.009207
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.004207
+  hi: 0.014207
+- whole: elvElectricMotor_magnetAlloysNdFeB__V0301030105
+  part: elvElectricMotor_magnetAlloysNdFeB_Pr__V0301030105
+  best: 0.0215655
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.0165655
+  hi: 0.0265655
+- whole: elvElectricMotor_magnetAlloysNdFeB__V0301030105
+  part: elvElectricMotor_magnetAlloysNdFeB_Ni__V0301030105
+  best: 0.010593
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.005593
+  hi: 0.015593
+- whole: elvElectricMotor_magnetAlloysNdFeB__V0301030105
+  part: elvElectricMotor_magnetAlloysNdFeB_Co__V0301030105
+  best: 0.014421
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.009421
+  hi: 0.019421
+- whole: elvElectricMotor_magnetAlloysNdFeB__V0301030105
+  part: elvElectricMotor_magnetAlloysNdFeB_Dy__V0301030105
+  best: 0.0283305
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.0233305
+  hi: 0.0333305
+- whole: elvElectricMotor_pureCu__V0301030105
+  part: elvElectricMotor_pureCu_Cu__V0301030105
+  best: 0.99
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+  lo: 0.985
+  hi: 0.995
+- whole: V0301030105_2011
+  part: elvGeneralComponents__V0301030105_2011
+  best: 0.883577735
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 2.0
+    Timeliness: 3.0
+    Completeness: 2.0
+- whole: V0301030105_2011
+  part: elvEmbeddedElectronicsActuators__V0301030105_2011
+  best: 0.022899192
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 2.0
+    Timeliness: 3.0
+    Completeness: 2.0
+- whole: V0301030105_2011
+  part: elvEmbeddedElectronicsCables__V0301030105_2011
+  best: 0.012680119
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 2.0
+    Timeliness: 3.0
+    Completeness: 2.0
+- whole: V0301030105_2011
+  part: elvEmbeddedElectronicsControllers__V0301030105_2011
+  best: 0.007035927
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 2.0
+    Timeliness: 3.0
+    Completeness: 2.0
+- whole: V0301030105_2011
+  part: elvEmbeddedElectronicsHeadlights__V0301030105_2011
+  best: 0.007160222
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 2.0
+    Timeliness: 3.0
+    Completeness: 2.0
+- whole: V0301030105_2011
+  part: elvPowerElectronics__V0301030105_2011
+  best: 0.038717493
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 2.0
+    Timeliness: 3.0
+    Completeness: 2.0
+- whole: V0301030105_2011
+  part: elvElectricMotor__V0301030105_2011
+  best: 0.027929311
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 2.0
+    Timeliness: 3.0
+    Completeness: 2.0
+- whole: elvGeneralComponents__V0301030105_2011
+  part: elvGeneralComponents_castAlAlloys__V0301030105
+  best: 0.151705936
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+- whole: elvGeneralComponents__V0301030105_2011
+  part: elvGeneralComponents_6xxxAlAlloy__V0301030105
+  best: 0.017321155
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+- whole: elvGeneralComponents__V0301030105_2011
+  part: elvGeneralComponents_2xxxAlAlloy__V0301030105
+  best: 0.003517305
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+- whole: elvGeneralComponents__V0301030105_2011
+  part: elvGeneralComponents_5xxxAlAlloy__V0301030105
+  best: 0.053567254
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+- whole: elvGeneralComponents__V0301030105_2011
+  part: elvGeneralComponents_castIron__V0301030105
+  best: 0.097142438
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 2.0
+    Timeliness: 3.0
+    Completeness: 2.0
+- whole: elvGeneralComponents__V0301030105_2011
+  part: elvGeneralComponents_mildSteel__V0301030105
+  best: 0.380266373
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+- whole: elvGeneralComponents__V0301030105_2011
+  part: elvGeneralComponents_HSS__V0301030105
+  best: 0.206648082
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+- whole: elvGeneralComponents__V0301030105_2011
+  part: elvGeneralComponents_AHSS__V0301030105
+  best: 0.068789634
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+- whole: elvGeneralComponents__V0301030105_2011
+  part: elvGeneralComponents_UHSS__V0301030105
+  best: 0.021041822
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 1.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+- whole: elvEmbeddedElectronicsActuators__V0301030105_2011
+  part: elvEmbeddedElectronicsActuators_PCBelectronics__V0301030105
+  best: 1.0
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+- whole: elvEmbeddedElectronicsCables__V0301030105_2011
+  part: elvEmbeddedElectronicsCables_pureCu__V0301030105
+  best: 1.0
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+- whole: elvEmbeddedElectronicsControllers__V0301030105_2011
+  part: elvEmbeddedElectronicsControllers_PCBelectronics__V0301030105
+  best: 1.0
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+- whole: elvEmbeddedElectronicsHeadlights__V0301030105_2011
+  part: elvEmbeddedElectronicsHeadlights_PCBelectronics__V0301030105
+  best: 1.0
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 2.0
+    Integrity: 2.0
+    Timeliness: 1.0
+    Completeness: 2.0
+- whole: elvPowerElectronics__V0301030105_2011
+  part: elvPowerElectronics_powerElectronics__V0301030105
+  best: 1.0
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+- whole: elvElectricMotor__V0301030105_2011
+  part: elvElectricMotor_magnetAlloysNdFeB__V0301030105
+  best: 0.078947368
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+- whole: elvElectricMotor__V0301030105_2011
+  part: elvElectricMotor_pureCu__V0301030105
+  best: 0.921052632
+  unit: kgkg
+  dist: rectangular
+  quality:
+    Validity: 2.0
+    Accuracy: 2.0
+    Consistency: 3.0
+    Integrity: 3.0
+    Timeliness: 2.0
+    Completeness: 3.0
+subclass_of:
+  PCBelectronics_in_elvEmbeddedElectronicsActuators:
+  - PCBelectronics
+  pureCu_in_elvEmbeddedElectronicsCables:
+  - pureCu
+  PCBelectronics_in_elvEmbeddedElectronicsControllers:
+  - PCBelectronics
+  PCBelectronics_in_elvEmbeddedElectronicsHeadlights:
+  - PCBelectronics
+  pureCu_in_elvElectricMotor:
+  - pureCu

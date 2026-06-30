@@ -1,0 +1,76 @@
+id: "05_mixed_units"
+title: "mixed kg/kg and g/kg under one whole (fans out)"
+note: "the car has two components — battery (kg/kg) and harness (g/kg) — so the g/kg part must scale x0.001 before the conservation sum. Each component fans out to >=2 materials, each material to >=2 elements."
+
+provenance:
+  source: "FutuRaM composition datasheet (test)"
+  agent: "FutuRaM test organisation"
+  production: "forming"
+  validFrom: "2020-01-01"
+  validUntil: "2026-12-31"
+
+nodes:
+  car: {level: Product, class: V0301030105_Y2020, itemMass: 1000.0}
+  battery: {level: Component, class: elvEVbattery_Y2020, itemMass: 50.0}
+  harness: {level: Component, class: wiringHarness_Y2020, itemMass: 50.0}
+  busbar: {level: Material, class: CuAndCuAlloys}
+  casing: {level: Material, class: AlAndAlAlloys}
+  cuwire: {level: Material, class: pureCu}
+  sheath: {level: Material, class: thermoplastics}
+  cu: {level: Element, class: Copper}
+  ni: {level: Element, class: Nickel}
+  al: {level: Element, class: Aluminium}
+  fe: {level: Element, class: Iron}
+  c: {level: Element, class: Carbon}
+
+statements:
+  # car -> 2 components, mixed units
+- {whole: car, part: battery, best: 0.23, lo: 0.21, hi: 0.25, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}             # 0.23 kg/kg
+- {whole: car, part: harness, best: 2.05, lo: 1.9, hi: 2.2, unit: gkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}                # ~0.002 kg/kg after scaling
+  # battery -> 2 materials
+- {whole: battery, part: busbar, best: 0.08, lo: 0.07, hi: 0.09, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: battery, part: casing, best: 0.2, lo: 0.18, hi: 0.22, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+  # harness -> 2 materials
+- {whole: harness, part: cuwire, best: 0.6, lo: 0.58, hi: 0.62, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: harness, part: sheath, best: 0.38, lo: 0.36, hi: 0.40, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+  # materials -> 2 elements each
+- {whole: busbar, part: cu, best: 0.965, lo: 0.95, hi: 0.98, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: busbar, part: ni, best: 0.035, lo: 0.02, hi: 0.05, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: casing, part: al, best: 0.98, lo: 0.97, hi: 0.99, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: casing, part: fe, best: 0.0075, lo: 0.005, hi: 0.01, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: cuwire, part: cu, best: 0.9875, lo: 0.98, hi: 0.995, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: cuwire, part: ni, best: 0.0125, lo: 0.005, hi: 0.02, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: sheath, part: c, best: 0.675, lo: 0.60, hi: 0.75, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+- {whole: sheath, part: cu, best: 0.003, lo: 0.001, hi: 0.005, unit: kgkg, dist: triangular, quality: {Accuracy: 2.0, Completeness: 3.0}}
+subclass_of:
+  V0301030105_Y2020:
+  - V0301030105
+  - elvBEV_Y2020
+  elvEVbattery_Y2020:
+  - elvEVbattery
+  wiringHarness_Y2020:
+  - wiringHarness
+  elvBEV_Y2020:
+  - elvBEV
+class_time:
+  V0301030105_Y2020:
+    year: 2020
+    slices:
+    - parent: V0301030105
+      axis: year-slice-mean
+  elvEVbattery_Y2020:
+    year: 2020
+    slices:
+    - parent: elvEVbattery
+      axis: year-slice-mean
+  wiringHarness_Y2020:
+    year: 2020
+    slices:
+    - parent: wiringHarness
+      axis: year-slice-mean
+  elvBEV_Y2020:
+    year: 2020
+    strategy: equal-subclass-mean
+    slices:
+    - parent: elvBEV
+      axis: year-slice-mean
